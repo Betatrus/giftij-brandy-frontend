@@ -61,7 +61,7 @@
   @media (max-width: 768px) {
     .hero-video {
       object-fit: cover;
-      transform: scale(0.95);
+      transform: scale(1.08);
       transform-origin: center;
     }
   }
@@ -443,13 +443,14 @@ a, button { -webkit-tap-highlight-color: transparent; }
   /* Hamburger menu button at top */
   .gb-menu-fab {
     position: fixed; top: 24px; left: 24px; z-index: 2000;
-    width: 44px; height: 44px; border-radius: 6px;
-    background: #F0EAE0; border: none;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-    cursor: pointer; transition: background 0.2s;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s;
   }
-  .gb-menu-fab:hover { background: #E8D5A3; }
-  .gb-menu-fab span { width: 20px; height: 2px; background: #1A1A1A; display: block; }
+  .gb-menu-fab:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
+  .gb-menu-fab span { width: 22px; height: 2px; background: #fff; display: block; }
 
   /* Fullscreen overlay + left drawer */
   .gb-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(16,12,6,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.32s ease; }
