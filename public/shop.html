@@ -242,9 +242,9 @@ a, button { -webkit-tap-highlight-color: transparent; }
   body > nav, .mobile-menu { display: none !important; }
   .page-header, .shop-header { margin-top: 0 !important; padding-top: 0 !important; }
   .top-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 72px; background: #FDFAF5; border-bottom: 0.5px solid rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
-  .gb-menu-fab { width: 44px; height: 44px; border-radius: 6px; background: #F0EAE0; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: background 0.2s; }
-  .gb-menu-fab:hover { background: #E8D5A3; }
-  .gb-menu-fab span { width: 20px; height: 2px; background: #1A1A1A; display: block; }
+  .gb-menu-fab { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+  .gb-menu-fab:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
+  .gb-menu-fab span { width: 22px; height: 2px; background: #fff; display: block; }
   .top-bag-text { font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; color: #1A1A1A; text-decoration: none; cursor: pointer; transition: color 0.2s; }
   .top-bag-text:hover { color: #C9A84C; }
   .gb-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(16,12,6,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.32s ease; }
