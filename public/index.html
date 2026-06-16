@@ -18,23 +18,27 @@
 
   /* === NAV === */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 60px; height: 72px;
-    background: rgba(253,250,245,0.96); backdrop-filter: blur(14px);
-    border-bottom: 0.5px solid rgba(201,168,76,0.25);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 150;
+    height: 72px;
+    background: #FDFAF5;
+    border-bottom: 0.5px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
   }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; letter-spacing: 0.1em; color: #1A1A1A; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; letter-spacing: 0.1em; color: #1A1A1A; }
   .nav-logo-text span { color: #C9A84C; }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links { display: none; gap: 36px; list-style: none; }
   .nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #2D2D2D; text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: #C9A84C; }
-  .nav-actions { display: flex; align-items: center; gap: 16px; }
-  .nav-cart-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: #1A1A1A; color: #fff; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; text-decoration: none; transition: background 0.25s; }
+  .nav-actions { display: none; align-items: center; gap: 16px; }
+  .nav-cart-btn { display: none; align-items: center; gap: 8px; padding: 10px 20px; background: #1A1A1A; color: #fff; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; text-decoration: none; transition: background 0.25s; }
   .nav-cart-btn:hover { background: #C9A84C; }
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: #1A1A1A; }
+  .nav-hamburger { display: flex; flex-direction: column; gap: 6px; background: #F0EAE0; border: none; cursor: pointer; padding: 8px; border-radius: 6px; width: 44px; height: 44px; align-items: center; justify-content: center; }
+  .nav-hamburger span { display: block; width: 20px; height: 2px; background: #1A1A1A; }
+  .nav-hamburger:hover { background: #E8D5A3; }
   .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: #FDFAF5; border-top: 0.5px solid rgba(201,168,76,0.2); z-index: 99; padding: 24px; flex-direction: column; }
   .mobile-menu.open { display: flex; }
   .mobile-menu a { display: block; padding: 16px 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #1A1A1A; text-decoration: none; border-bottom: 0.5px solid rgba(201,168,76,0.15); transition: color 0.2s; }
@@ -431,22 +435,21 @@ a, button { -webkit-tap-highlight-color: transparent; }
 </head>
 <body>
 
-<!-- ═══════════ CLEAN OVERLAY NAV (3-dot menu) ═══════════ -->
+<!-- ═══════════ CLEAN OVERLAY NAV (Hamburger menu) ═══════════ -->
 <style>
   /* Remove old top nav bar + old menus across the page */
   body > nav, .mobile-menu, .hero-menu-btn { display: none !important; }
 
-  /* 3-dot floating menu button over the hero/video */
+  /* Hamburger menu button at top */
   .gb-menu-fab {
     position: fixed; top: 24px; left: 24px; z-index: 2000;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: rgba(255,255,255,0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.30);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-    cursor: pointer; transition: background 0.2s, transform 0.2s;
+    width: 44px; height: 44px; border-radius: 6px;
+    background: #F0EAE0; border: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    cursor: pointer; transition: background 0.2s;
   }
-  .gb-menu-fab:hover { background: rgba(255,255,255,0.26); transform: scale(1.04); }
-  .gb-menu-fab span { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; }
+  .gb-menu-fab:hover { background: #E8D5A3; }
+  .gb-menu-fab span { width: 20px; height: 2px; background: #1A1A1A; display: block; }
 
   /* Fullscreen overlay + left drawer */
   .gb-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(16,12,6,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.32s ease; }
@@ -470,7 +473,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .gb-contact { margin-top: 28px; }
   .gb-contact-label { margin-bottom: 6px; }
   .gb-contact a { font-size: 15px; color: #C9A84C; text-decoration: none; font-weight: 600; }
-  @media (max-width: 540px) { .gb-link { font-size: 16px; padding: 16px 0; } .gb-menu-fab { top: 16px; left: 16px; width: 50px; height: 50px; } }
+  @media (max-width: 540px) { .gb-link { font-size: 16px; padding: 16px 0; } .gb-menu-fab { top: 18px; left: 18px; width: 40px; height: 40px; } .gb-menu-fab span { width: 18px; height: 1.5px; } }
 
   /* ── Bigger / bolder homepage typography ── */
   .hero-logo-mark { width: 124px !important; height: 124px !important; filter: drop-shadow(0 6px 28px rgba(0,0,0,0.45)) !important; }
@@ -937,17 +940,6 @@ a, button { -webkit-tap-highlight-color: transparent; }
       <li class="lifestyle-feature"><span class="feature-num">III</span><div><p class="feature-title">Timeless, Not Trendy</p><p class="feature-desc">Styles that remain iconic across seasons, boardrooms, and Sunday brunches alike.</p></div></li>
     </ul>
     <a href="story.html" class="btn-dark">Discover Our Story</a>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <p class="section-label">Ready for Yours?</p>
-  <h2 class="section-title reveal">Your Signature Piece<br>Is Waiting.</h2>
-  <p class="section-sub reveal">From the boardroom to the streets — shop the collection and carry beauty like you were born to.</p>
-  <div class="cta-actions reveal">
-    <a href="shop.html" class="btn-gold">Shop The Collection <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    <a href="contact.html" class="btn-outline-dark">Get Styling Advice</a>
   </div>
 </section>
 
