@@ -23,9 +23,9 @@ body { font-family:"Jost",sans-serif; background:#FDFAF5; color:#1A1A1A; min-hei
 .co-back-btn:hover { color:#C9A84C; }
 .co-nav-left { display:flex; align-items:center; gap:20px; }
 .co-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-.co-logo img { width:40px; height:40px; object-fit:contain; mix-blend-mode:multiply; }
-.co-logo-text { font-family:"Playfair Display",serif; font-size:17px; font-weight:500; letter-spacing:0.1em; color:#1A1A1A; }
-.co-logo-text span { color:#C9A84C; }
+.co-logo img { width:40px; height:40px; object-fit:contain; }
+.co-logo-text { font-family:"Playfair Display",serif; font-size:18px; font-weight:600; letter-spacing:0.1em; color:#1A1A1A; }
+.co-logo-text span { color:#C9A84C; font-weight:700; }
 .co-secure { display:flex; align-items:center; gap:6px; font-size:12px; color:#9A9490; }
 @media (max-width: 600px) { .co-nav { padding:0 20px; } .co-logo-text { font-size:14px; } .co-back-btn { font-size:11px; } }
 
@@ -497,56 +497,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
         <div class="fs-icon-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         </div>
-        <h2 class="fs-title gold">Choose Payment</h2>
-      </div>
-
-      <!-- or pay another way divider -->
-      <div class="pay-divider"><span>Pay securely below</span></div>
-
-      <!-- Card Payment -->
-      <label class="pay-opt" id="payOptCard">
-        <input type="radio" name="paymethod" value="card" checked onchange="selectPayMethod(this)">
-        <div class="pay-opt-radio"></div>
-        <div class="pay-opt-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        </div>
-        <div class="pay-opt-info">
-          <p class="pay-opt-title">Card Payment</p>
-          <p class="pay-opt-desc">Visa &middot; Mastercard &middot; Verve</p>
-        </div>
-        <span class="pay-badge">Paystack</span>
-      </label>
-
-      <!-- Card payment preview (shown when Card Payment selected) -->
-      <div class="card-details-panel show" id="cardDetailsPanel">
-        <div class="cdp-header">
-          <div class="cdp-icons-row">
-            <svg width="38" height="24" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#1A1F71"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B" opacity="0.9"/></svg>
-            <svg width="38" height="24" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#fff" stroke="#E8E0D8"/><text x="19" y="16" font-size="11" font-weight="800" fill="#1A1F71" font-family="Arial" text-anchor="middle">VISA</text></svg>
-            <svg width="38" height="24" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#003359"/><text x="19" y="16" font-size="9" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">VERVE</text></svg>
-          </div>
-          <span class="cdp-secure-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Encrypted
-          </span>
-        </div>
-        <p class="cdp-desc">
-          Tap <strong>Pay Now</strong> to open Paystack's secure payment window, where you'll enter your card number, expiry date, CVV, and PIN/OTP if required.
-        </p>
-        <div class="cdp-steps">
-          <div class="cdp-step"><span class="cdp-step-num">1</span><span>Enter card details on Paystack's encrypted page</span></div>
-          <div class="cdp-step"><span class="cdp-step-num">2</span><span>Authorize with OTP or your bank app if prompted</span></div>
-          <div class="cdp-step"><span class="cdp-step-num">3</span><span>Get instant confirmation &amp; order details on WhatsApp</span></div>
-        </div>
-      </div>
-
-      <!-- Info box (changes based on selected method) -->
-      <div class="pay-info-box" id="payInfoBox">
-        <p id="payInfoText">After tapping <strong>Pay Now</strong>, you'll be securely redirected to Paystack to complete your card payment. Your details are never stored on our servers.</p>
-        <div class="pay-confirm-pill" id="payConfirmPill" style="display:none;">
-          <span style="font-size:16px;">⏱️</span>
-          <span>Confirms within <strong>5–10 minutes</strong></span>
-        </div>
+        <h2 class="fs-title gold">Payment</h2>
       </div>
 
       <button class="pay-btn" onclick="initiatePaystack()">
