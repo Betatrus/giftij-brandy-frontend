@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Help & Support — Giftij Brandy</title>
+<title>Our Story — Giftij Brandy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -16,7 +16,6 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'Jost', sans-serif; background: var(--milk-white); color: var(--near-black); overflow-x: hidden; }
 
-  /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 60px; height: 72px; background: rgba(253,250,245,0.96); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(201,168,76,0.2); }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; letter-spacing: 0.12em; color: var(--near-black); text-decoration: none; }
   .nav-logo span { color: var(--gold); }
@@ -28,84 +27,132 @@
   .nav-icon:hover { color: var(--gold); }
   .nav-cart-btn { display: flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--near-black); color: var(--white); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.25s; text-decoration: none; }
   .nav-cart-btn:hover { background: var(--gold); }
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--near-black); transition: all 0.3s; }
 
-  /* PAGE HEADER */
-  .page-header { margin-top: 72px; padding: 70px 60px 50px; background: var(--near-black); }
-  .page-header-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 12px; }
-  .page-header-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
-  .page-header-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); }
+  /* HERO */
+  .story-hero {
+    margin-top: 72px;
+    height: 70vh;
+    min-height: 550px;
+    background: var(--near-black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+  .story-hero-left {
+    padding: 80px 80px 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .story-hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 20px; }
+  .story-hero-title { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 500; color: var(--white); line-height: 1.1; margin-bottom: 28px; }
+  .story-hero-title em { font-style: italic; color: var(--gold-light); }
+  .story-hero-subtitle { font-size: 16px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.65); max-width: 420px; }
+  .story-hero-right {
+    position: relative;
+    background: #2D2410;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .story-hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,168,76,0.15) 0%, transparent 70%);
+  }
+  .story-hero-img-placeholder {
+    position: relative; z-index: 1;
+  }
 
-  /* SEARCH BAR */
-  .support-search { padding: 40px 60px; background: var(--cream); border-bottom: 0.5px solid rgba(201,168,76,0.15); }
-  .search-wrap { max-width: 600px; margin: 0 auto; position: relative; }
-  .search-input { width: 100%; padding: 16px 56px 16px 20px; background: var(--white); border: 1px solid rgba(201,168,76,0.35); font-family: 'Jost', sans-serif; font-size: 15px; color: var(--near-black); outline: none; transition: border-color 0.2s; }
-  .search-input:focus { border-color: var(--gold); }
-  .search-input::placeholder { color: var(--muted); font-weight: 300; }
-  .search-btn { position: absolute; right: 0; top: 0; bottom: 0; width: 52px; background: var(--gold); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .search-btn:hover { background: var(--near-black); }
-  .search-btn svg { color: var(--near-black); }
-  .search-btn:hover svg { color: var(--gold); }
+  /* STORY SECTIONS */
+  .story-intro { padding: 100px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+  .story-img-box { position: relative; }
+  .story-img-box::before {
+    content: '';
+    position: absolute;
+    top: -16px; left: -16px;
+    width: 100%; height: 100%;
+    border: 1px solid rgba(201,168,76,0.3);
+    pointer-events: none;
+  }
+  .story-img-placeholder { width: 100%; aspect-ratio: 4/5; background: var(--cream); display: flex; align-items: center; justify-content: center; }
+  .story-pull-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .story-body-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 500; line-height: 1.2; margin-bottom: 24px; }
+  .story-body-text { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--charcoal); margin-bottom: 20px; }
+  .story-sig {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold);
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .story-sig span { font-family: 'Jost', sans-serif; font-style: normal; font-size: 12px; font-weight: 300; color: var(--muted); letter-spacing: 0.1em; }
 
-  /* TOPIC CARDS */
-  .topics-section { padding: 80px 60px; }
-  .section-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 12px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 500; margin-bottom: 48px; }
-  .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .topic-card { padding: 36px 32px; background: var(--milk); border: 0.5px solid rgba(201,168,76,0.15); cursor: pointer; transition: border-color 0.25s, background 0.25s; text-decoration: none; display: block; }
-  .topic-card:hover { border-color: var(--gold); background: var(--gold-pale); }
-  .topic-icon { width: 48px; height: 48px; border: 1px solid rgba(201,168,76,0.35); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: border-color 0.25s; }
-  .topic-card:hover .topic-icon { border-color: var(--gold); }
-  .topic-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--near-black); margin-bottom: 8px; }
-  .topic-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
-  .topic-link { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
-  .topic-arrow { width: 18px; height: 1px; background: var(--gold); position: relative; transition: width 0.25s; }
-  .topic-card:hover .topic-arrow { width: 26px; }
-  .topic-arrow::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-right: 1px solid var(--gold); border-top: 1px solid var(--gold); transform: rotate(45deg); }
+  /* VALUES STRIP */
+  .values-strip { background: var(--gold-pale); padding: 80px 60px; }
+  .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; margin-top: 52px; }
+  .value-item { text-align: center; }
+  .value-icon { width: 56px; height: 56px; border: 1px solid rgba(201,168,76,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .value-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--near-black); margin-bottom: 10px; }
+  .value-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; }
 
-  /* FAQ */
-  .faq-section { padding: 80px 60px; background: var(--milk); }
-  .faq-tabs { display: flex; gap: 0; margin-bottom: 40px; flex-wrap: wrap; }
-  .faq-tab { padding: 12px 28px; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: 0.5px solid rgba(201,168,76,0.25); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-  .faq-tab.active { background: var(--near-black); color: var(--white); border-color: var(--near-black); }
-  .faq-tab:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
-  .faq-list { display: flex; flex-direction: column; max-width: 760px; }
-  .faq-item { border-bottom: 0.5px solid rgba(201,168,76,0.2); }
-  .faq-question { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 22px 0; background: none; border: none; cursor: pointer; text-align: left; gap: 20px; }
-  .faq-q-text { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--near-black); line-height: 1.4; }
-  .faq-icon { flex-shrink: 0; width: 28px; height: 28px; border: 0.5px solid rgba(201,168,76,0.4); display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.3s; }
-  .faq-item.open .faq-icon { background: var(--gold); transform: rotate(45deg); }
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
-  .faq-answer-inner { padding: 0 0 22px; font-size: 14px; font-weight: 300; color: var(--charcoal); line-height: 1.85; }
+  /* TIMELINE */
+  .timeline-section { padding: 100px 60px; background: var(--near-black); }
+  .timeline-section .section-label { color: rgba(201,168,76,0.75); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .timeline-section .section-title { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 500; color: var(--white); margin-bottom: 64px; }
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(201,168,76,0.2); transform: translateX(-50%); }
+  .timeline-item { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: center; }
+  .timeline-item:nth-child(even) .timeline-content { order: 1; text-align: right; }
+  .timeline-item:nth-child(even) .timeline-visual { order: 2; }
+  .timeline-year { font-family: 'Playfair Display', serif; font-style: italic; font-size: 48px; font-weight: 400; color: rgba(201,168,76,0.25); margin-bottom: 12px; }
+  .timeline-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
+  .timeline-text { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .timeline-dot {
+    position: absolute; left: 50%; top: 12px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gold); transform: translateX(-50%);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.15);
+  }
+  .timeline-vis-box { height: 180px; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: center; }
+  .timeline-vis-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 64px; color: rgba(201,168,76,0.15); }
 
-  /* TRACK ORDER */
-  .track-section { padding: 80px 60px; background: var(--near-black); }
-  .track-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .track-content .section-label { color: rgba(201,168,76,0.75); }
-  .track-content .section-title { color: var(--white); margin-bottom: 16px; }
-  .track-content p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.8; }
-  .track-form { display: flex; flex-direction: column; gap: 14px; }
-  .track-input { padding: 14px 18px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(201,168,76,0.2); color: var(--white); font-family: 'Jost', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
-  .track-input::placeholder { color: rgba(255,255,255,0.3); }
-  .track-input:focus { border-color: var(--gold); }
-  .track-btn { padding: 14px; background: var(--gold); color: var(--near-black); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; }
-  .track-btn:hover { background: var(--gold-light); }
+  /* FOUNDER SECTION */
+  .founder-section { padding: 100px 60px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+  .founder-img { position: relative; }
+  .founder-img-box { width: 100%; aspect-ratio: 3/4; background: var(--cream); display: flex; align-items: center; justify-content: center; }
+  .founder-img-caption { margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--muted); text-align: center; }
+  .founder-content { padding-top: 20px; }
+  .founder-content .story-pull-quote { margin-bottom: 24px; }
+  .founder-content .story-body-title { font-size: 40px; margin-bottom: 28px; }
+  .founder-blockquote {
+    padding: 28px 32px;
+    border-left: 2px solid var(--gold);
+    background: var(--gold-pale);
+    margin: 32px 0;
+  }
+  .founder-blockquote p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; line-height: 1.6; color: var(--near-black); }
+  .founder-blockquote cite { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-top: 14px; }
 
-  /* CARE GUIDE */
-  .care-section { padding: 80px 60px; }
-  .care-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; }
-  .care-card { padding: 28px 24px; border: 0.5px solid rgba(201,168,76,0.2); background: var(--milk); }
-  .care-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 36px; color: var(--gold-light); margin-bottom: 14px; }
-  .care-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 500; margin-bottom: 10px; }
-  .care-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; }
-
-  /* CONTACT CTA */
-  .support-cta { padding: 80px 60px; background: var(--gold-pale); text-align: center; }
-  .support-cta h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 500; margin-bottom: 14px; }
-  .support-cta p { font-size: 15px; font-weight: 300; color: var(--muted); max-width: 420px; margin: 0 auto 36px; line-height: 1.75; }
-  .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; background: var(--near-black); color: var(--white); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.25s; }
-  .btn-primary:hover { background: var(--gold); color: var(--near-black); }
+  /* CTA */
+  .story-cta { padding: 100px 60px; background: var(--cream); text-align: center; }
+  .story-cta .section-title { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 500; max-width: 560px; margin: 0 auto 16px; }
+  .story-cta .section-sub { font-size: 15px; font-weight: 300; color: var(--muted); max-width: 440px; margin: 0 auto 44px; line-height: 1.75; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; background: var(--gold); color: var(--near-black); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.25s; }
+  .btn-primary:hover { background: var(--gold-light); }
 
   /* FOOTER */
   footer { background: var(--near-black); padding: 50px 60px 32px; }
@@ -117,35 +164,47 @@
   .footer-legal a { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
   .footer-legal a:hover { color: var(--white); }
 
-  /* ===== MOBILE RESPONSIVE ===== */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== MOBILE ===== */
   @media (max-width: 900px) {
     nav { padding: 0 24px; }
-    .nav-links, .nav-cart-btn { display: none; }
+    .nav-links { display: none; }
+    .nav-cart-btn { display: none; }
     .nav-hamburger { display: flex; }
-    .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--milk-white); border-top: 0.5px solid rgba(201,168,76,0.2); z-index: 99; padding: 24px; flex-direction: column; gap: 0; }
+    .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--milk-white); border-top: 0.5px solid rgba(201,168,76,0.2); z-index: 99; padding: 24px; flex-direction: column; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a { display: block; padding: 16px 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400; color: var(--near-black); text-decoration: none; border-bottom: 0.5px solid rgba(201,168,76,0.15); transition: color 0.2s; }
-    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu a { display: block; padding: 16px 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--near-black); text-decoration: none; border-bottom: 0.5px solid rgba(201,168,76,0.15); }
     .mobile-menu a.cart { margin-top: 20px; padding: 14px 24px; background: var(--near-black); color: var(--white); text-align: center; border-bottom: none; }
-    .page-header { padding: 50px 24px 36px; }
-    .page-header-title { font-size: 36px; }
-    .support-search { padding: 28px 24px; }
-    .topics-section { padding: 56px 24px; }
-    .topics-grid { grid-template-columns: 1fr; gap: 16px; }
-    .faq-section { padding: 56px 24px; }
-    .track-section { padding: 56px 24px; }
-    .track-inner { grid-template-columns: 1fr; gap: 40px; }
-    .care-section { padding: 56px 24px; }
-    .care-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-    .support-cta { padding: 60px 24px; }
+    .story-hero { grid-template-columns: 1fr; min-height: auto; }
+    .story-hero-right { display: none; }
+    .story-hero-left { padding: 50px 24px 40px; }
+    .story-hero-title { font-size: 36px; }
+    .story-intro { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px; }
+    .story-img-box::before { display: none; }
+    .values-strip { padding: 60px 24px; }
+    .values-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .timeline-section { padding: 60px 24px; }
+    .timeline::before { left: 20px; }
+    .timeline-item { grid-template-columns: 1fr; gap: 20px; }
+    .timeline-item:nth-child(even) .timeline-content { order: unset; text-align: left; }
+    .timeline-item:nth-child(even) .timeline-visual { order: unset; }
+    .timeline-visual { display: none; }
+    .timeline-dot { left: 20px; }
+    .founder-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+    .story-cta { padding: 60px 24px; }
+    .story-body-title { font-size: 28px; }
     footer { padding: 40px 24px 28px; }
-    .section-title { font-size: 28px; }
   }
   @media (max-width: 540px) {
-    .page-header-title { font-size: 30px; }
-    .care-grid { grid-template-columns: 1fr; }
-    .faq-tab { padding: 10px 16px; font-size: 11px; }
+    .story-hero-title { font-size: 30px; }
+    .values-grid { grid-template-columns: 1fr; }
   }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--near-black); }
+
 
   /* ═══ LOGO IMAGE — RESPONSIVE ═══ */
   .nav-logo-img {
@@ -296,14 +355,17 @@ a, button { -webkit-tap-highlight-color: transparent; }
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <div class="nav-actions">
+    <button class="nav-icon" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
     <a href="#" class="nav-cart-btn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       Bag (0)
     </a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+    <span></span><span></span><span></span>
+  </button>
+</div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
@@ -314,239 +376,192 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <a href="#" class="cart">Bag (0)</a>
 </div>
 
-<div class="page-header">
-  <p class="page-header-eyebrow">We're Here For You</p>
-  <h1 class="page-header-title">Help & Support</h1>
-  <p class="page-header-sub">Find answers, track orders, and get the care your bag deserves.</p>
-</div>
-
-<div class="support-search">
-  <div class="search-wrap">
-    <input type="text" class="search-input" placeholder="Search for answers — shipping, returns, care...">
-    <button class="search-btn" aria-label="Search">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2">
-        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-    </button>
+<!-- HERO -->
+<section class="story-hero">
+  <div class="story-hero-left">
+    <p class="story-hero-eyebrow">Est. 2020 · Lagos, Nigeria</p>
+    <h1 class="story-hero-title">Born From a<br>Love of <em>Beautiful</em><br>Things.</h1>
+    <p class="story-hero-subtitle">Every bag we make carries a piece of our founder's dream — that every Nigerian woman deserves to carry luxury that was made for her.</p>
   </div>
-</div>
+  <div class="story-hero-right">
+    <svg width="320" height="400" viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:1;opacity:0.6;">
+      <!-- Elegant bag illustration -->
+      <ellipse cx="160" cy="195" rx="90" ry="118" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+      <rect x="80" y="155" width="160" height="145" rx="18" fill="#C9A84C" opacity="0.3"/>
+      <rect x="95" y="168" width="130" height="118" rx="12" fill="#B8963C" opacity="0.15"/>
+      <path d="M105 155 Q105 110 130 100 Q160 93 190 100 Q215 110 215 155" stroke="#C9A84C" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <rect x="138" y="218" width="44" height="32" rx="6" fill="#F5EDD8" opacity="0.5"/>
+      <circle cx="160" cy="234" r="8" fill="#C9A84C" opacity="0.6"/>
+      <!-- Decorative lines -->
+      <line x1="80" y1="190" x2="240" y2="190" stroke="#E8D5A3" stroke-width="0.5" opacity="0.3"/>
+      <line x1="80" y1="280" x2="240" y2="280" stroke="#E8D5A3" stroke-width="0.5" opacity="0.3"/>
+    </svg>
+  </div>
+</section>
 
-<!-- TOPICS -->
-<section class="topics-section">
-  <p class="section-label">Browse Topics</p>
-  <h2 class="section-title">How Can We Help?</h2>
-  <div class="topics-grid">
-    <a href="#faq" class="topic-card">
-      <div class="topic-icon">
+<!-- INTRO -->
+<section class="story-intro">
+  <div class="story-img-box reveal">
+    <div class="story-img-placeholder">
+      <svg width="100%" height="100%" viewBox="0 0 380 475" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <rect width="380" height="475" fill="#EDE0CC"/>
+        <rect x="0" y="300" width="380" height="175" fill="#E3D3B8" opacity="0.6"/>
+        <!-- Founder silhouette suggestion -->
+        <ellipse cx="190" cy="145" rx="48" ry="55" fill="#2A1F0E" opacity="0.55"/>
+        <path d="M138 200 Q145 280 130 380" stroke="#2A1F0E" stroke-width="24" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <path d="M242 200 Q240 280 252 380" stroke="#2A1F0E" stroke-width="24" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <path d="M138 200 Q190 260 242 200" fill="#2A1F0E" opacity="0.55"/>
+        <!-- Bag she's holding -->
+        <rect x="245" y="255" width="80" height="62" rx="8" fill="#C9A84C" opacity="0.5"/>
+        <path d="M258 255 Q258 238 275 235 Q290 232 305 235 Q322 238 322 255" stroke="#C9A84C" stroke-width="5" fill="none" opacity="0.5"/>
+        <!-- Gold accent at bottom -->
+        <rect x="0" y="455" width="380" height="20" fill="#C9A84C" opacity="0.25"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.15s">
+    <p class="story-pull-quote">Our Beginning</p>
+    <h2 class="story-body-title">A Bag for Every Chapter of Her Life</h2>
+    <p class="story-body-text">It started with a simple frustration: luxury bags in Nigeria were either prohibitively expensive imports or low-quality imitations. Neither honoured the woman carrying them.</p>
+    <p class="story-body-text">Our founder — a woman who believed deeply in the power of beautiful, well-made things — decided to change that. She started with a single workshop, a vision, and an obsession with getting every stitch right.</p>
+    <p class="story-body-text">What began as a dream in Lagos quickly became the go-to name for women who refuse to settle. Women who carry their success, their grace, and their identity — all in one beautiful bag.</p>
+    <div class="story-sig">
+      With love,
+      <em>Chisom Adeyemi</em>
+      <span>— Founder & Creative Director</span>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-strip">
+  <div class="reveal">
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px;">What We Stand For</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:40px;font-weight:500;color:var(--near-black);">Our Pillars</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-item reveal">
+      <div class="value-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
       </div>
-      <h3 class="topic-title">Orders & Shipping</h3>
-      <p class="topic-desc">Delivery times, tracking info, shipping zones, and what happens after you click checkout.</p>
-      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
-    </a>
-    <a href="#faq" class="topic-card">
-      <div class="topic-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <h3 class="topic-title">Returns & Exchanges</h3>
-      <p class="topic-desc">Not quite right? We'll make it right. Learn about our 14-day return and exchange policy.</p>
-      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
-    </a>
-    <a href="#care" class="topic-card">
-      <div class="topic-icon">
+      <h3 class="value-title">Craftsmanship</h3>
+      <p class="value-desc">Every stitch is placed with intention. We take no shortcuts because your bag deserves none.</p>
+    </div>
+    <div class="value-item reveal" style="transition-delay:0.1s">
+      <div class="value-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
       </div>
-      <h3 class="topic-title">Bag Care Guide</h3>
-      <p class="topic-desc">Keep your investment looking flawless. Tips on leather care, storage, and maintenance.</p>
-      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
-    </a>
-    <a href="contact.html" class="topic-card">
-      <div class="topic-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-      </div>
-      <h3 class="topic-title">Contact Us</h3>
-      <p class="topic-desc">Can't find your answer? Our team is available via WhatsApp, email, and Instagram DM.</p>
-      <span class="topic-link">Get in touch <div class="topic-arrow"></div></span>
-    </a>
-    <a href="#track" class="topic-card">
-      <div class="topic-icon">
+      <h3 class="value-title">Made for Her</h3>
+      <p class="value-desc">Designed around the real life of real women — boardrooms, markets, weddings, and everything between.</p>
+    </div>
+    <div class="value-item reveal" style="transition-delay:0.2s">
+      <div class="value-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
           <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
         </svg>
       </div>
-      <h3 class="topic-title">Track My Order</h3>
-      <p class="topic-desc">Enter your order number to get real-time updates on your delivery status.</p>
-      <span class="topic-link">Track now <div class="topic-arrow"></div></span>
-    </a>
-    <a href="#faq" class="topic-card">
-      <div class="topic-icon">
+      <h3 class="value-title">Built to Last</h3>
+      <p class="value-desc">Premium leather that gets better with age. A bag from us is not a purchase — it's an heirloom.</p>
+    </div>
+    <div class="value-item reveal" style="transition-delay:0.3s">
+      <div class="value-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       </div>
-      <h3 class="topic-title">General FAQ</h3>
-      <p class="topic-desc">Payments, sizing, authenticity, gift wrapping, and more — answered.</p>
-      <span class="topic-link">See FAQs <div class="topic-arrow"></div></span>
-    </a>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq-section" id="faq">
-  <p class="section-label">Common Questions</p>
-  <h2 class="section-title">Frequently Asked</h2>
-  <div class="faq-tabs">
-    <button class="faq-tab active" data-tab="orders">Orders & Shipping</button>
-    <button class="faq-tab" data-tab="returns">Returns</button>
-    <button class="faq-tab" data-tab="product">Product</button>
-    <button class="faq-tab" data-tab="payment">Payment</button>
-  </div>
-  <div class="faq-list" id="faqList">
-    <div class="faq-item" data-tab="orders">
-      <button class="faq-question">
-        <span class="faq-q-text">How long does delivery take within Nigeria?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Lagos orders typically arrive within 1–2 business days. Orders to other Nigerian states take 2–5 business days depending on location. You'll receive a tracking link via WhatsApp and email as soon as your order is dispatched.</div></div>
-    </div>
-    <div class="faq-item" data-tab="orders">
-      <button class="faq-question">
-        <span class="faq-q-text">Do you ship internationally?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Yes! We ship to the UK, US, Canada, and select European countries. International shipping takes 7–14 business days. Customs fees and import duties are the responsibility of the customer and vary by country.</div></div>
-    </div>
-    <div class="faq-item" data-tab="orders">
-      <button class="faq-question">
-        <span class="faq-q-text">How do I track my order?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Once your order ships, you'll get a tracking number via WhatsApp and email. You can also use the Track My Order form on this page. If you haven't received your tracking details within 24 hours of purchase, contact us directly.</div></div>
-    </div>
-    <div class="faq-item" data-tab="returns">
-      <button class="faq-question">
-        <span class="faq-q-text">What is your return policy?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">We accept returns within 14 days of delivery for items in original, unused condition with all tags attached. Custom or personalised pieces are non-returnable. Contact us via WhatsApp to initiate a return and we'll guide you through the process.</div></div>
-    </div>
-    <div class="faq-item" data-tab="returns">
-      <button class="faq-question">
-        <span class="faq-q-text">How do exchanges work?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Want a different colour or style? We offer free exchanges within 14 days. Simply return your item and let us know what you'd like instead. If there's a price difference, we'll sort the balance via transfer or refund.</div></div>
-    </div>
-    <div class="faq-item" data-tab="product">
-      <button class="faq-question">
-        <span class="faq-q-text">Are your bags made from real leather?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Absolutely. All Giftij Brandy bags use full-grain or pebbled genuine leather. We list the exact leather type and origin on each product page. We never use bonded leather or PU — you're getting the real thing, every time.</div></div>
-    </div>
-    <div class="faq-item" data-tab="product">
-      <button class="faq-question">
-        <span class="faq-q-text">Do the bags come with a dust bag and authenticity card?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Yes! Every bag arrives in our signature gold-and-black gift box, with a branded dust bag, gold authenticity card, and care guide card. It's gift-ready right out of the box.</div></div>
-    </div>
-    <div class="faq-item" data-tab="payment">
-      <button class="faq-question">
-        <span class="faq-q-text">What payment methods do you accept?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">We accept card payments (Mastercard, Visa), bank transfers, and payments via Paystack. For international orders, we also accept PayPal. All transactions are secured with SSL encryption.</div></div>
-    </div>
-    <div class="faq-item" data-tab="payment">
-      <button class="faq-question">
-        <span class="faq-q-text">Can I pay in instalments?</span>
-        <span class="faq-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </span>
-      </button>
-      <div class="faq-answer"><div class="faq-answer-inner">Yes! We offer a layaway plan for orders above ₦100,000. Pay 50% upfront and the balance before dispatch. Contact us on WhatsApp to set this up — we'll hold your item for up to 14 days.</div></div>
+      <h3 class="value-title">Community First</h3>
+      <p class="value-desc">Our customers aren't just clients — they're a sisterhood. We grow together.</p>
     </div>
   </div>
 </section>
 
-<!-- TRACK -->
-<section class="track-section" id="track">
-  <div class="track-inner">
-    <div class="track-content">
-      <p class="section-label">Know Where It Is</p>
-      <h2 class="section-title">Track Your Order</h2>
-      <p>Enter your order number and email below to get a real-time update on your delivery. Orders are dispatched within 24 hours of payment confirmation.</p>
-    </div>
-    <div>
-      <div class="track-form">
-        <input type="text" class="track-input" placeholder="Order Number (e.g. LP-00281)">
-        <input type="email" class="track-input" placeholder="Email address used at checkout">
-        <button class="track-btn">Track My Order</button>
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <p class="section-label">Our Journey</p>
+  <h2 class="section-title">How We Got Here</h2>
+  <div class="timeline">
+    <div class="timeline-item" style="position:relative;">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <p class="timeline-year">2020</p>
+        <h3 class="timeline-title">The First Stitch</h3>
+        <p class="timeline-text">Founded in a small Lagos workshop with three artisans and a vision. The first collection — six bags — sold out in 48 hours through word of mouth alone.</p>
       </div>
+      <div class="timeline-visual"><div class="timeline-vis-box"><span class="timeline-vis-num">I</span></div></div>
+    </div>
+    <div class="timeline-item" style="position:relative;">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content" style="text-align:right;">
+        <p class="timeline-year">2021</p>
+        <h3 class="timeline-title">The Empress Tote is Born</h3>
+        <p class="timeline-text">Our signature piece launched. Within months it became the most-photographed bag at Lagos Fashion Week and across Nigerian social media.</p>
+      </div>
+      <div class="timeline-visual"><div class="timeline-vis-box"><span class="timeline-vis-num">II</span></div></div>
+    </div>
+    <div class="timeline-item" style="position:relative;">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <p class="timeline-year">2022</p>
+        <h3 class="timeline-title">The Workshop Grows</h3>
+        <p class="timeline-text">We moved to a full atelier. Now with 12 master artisans, all trained in-house on our exacting standards. Production triples. Quality never compromises.</p>
+      </div>
+      <div class="timeline-visual"><div class="timeline-vis-box"><span class="timeline-vis-num">III</span></div></div>
+    </div>
+    <div class="timeline-item" style="position:relative;">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content" style="text-align:right;">
+        <p class="timeline-year">2025</p>
+        <h3 class="timeline-title">The Digital Chapter</h3>
+        <p class="timeline-text">We launched our online store, bringing Giftij Brandy to women across Nigeria and the world. Over 5,000 bags carried by women who chose to carry differently.</p>
+      </div>
+      <div class="timeline-visual"><div class="timeline-vis-box"><span class="timeline-vis-num">IV</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- CARE GUIDE -->
-<section class="care-section" id="care">
-  <p class="section-label">Keep It Beautiful</p>
-  <h2 class="section-title">Bag Care Guide</h2>
-  <div class="care-grid">
-    <div class="care-card">
-      <p class="care-num">I</p>
-      <h3 class="care-title">Clean Gently</h3>
-      <p class="care-text">Use a soft, damp cloth for surface dirt. Never use harsh chemicals, alcohol wipes, or abrasive materials on the leather.</p>
+<!-- FOUNDER -->
+<section class="founder-section">
+  <div class="founder-img reveal">
+    <div class="founder-img-box">
+      <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="400" fill="#EDE5DA"/>
+        <ellipse cx="150" cy="115" rx="48" ry="54" fill="#2A1F0E" opacity="0.6"/>
+        <path d="M98 170 Q106 265 90 380" stroke="#2A1F0E" stroke-width="26" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M202 170 Q197 265 212 380" stroke="#2A1F0E" stroke-width="26" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M98 170 Q150 230 202 170" fill="#2A1F0E" opacity="0.6"/>
+        <rect x="205" y="220" width="75" height="58" rx="7" fill="#C9A84C" opacity="0.55"/>
+        <path d="M217 220 Q217 205 232 202 Q247 199 262 202 Q277 205 277 220" stroke="#C9A84C" stroke-width="4.5" fill="none" opacity="0.55"/>
+        <rect x="0" y="380" width="300" height="20" fill="#C9A84C" opacity="0.2"/>
+      </svg>
     </div>
-    <div class="care-card">
-      <p class="care-num">II</p>
-      <h3 class="care-title">Condition Regularly</h3>
-      <p class="care-text">Apply a leather conditioner every 3–6 months to keep the leather supple and prevent cracking. A little goes a long way.</p>
+    <p class="founder-img-caption">Chisom Adeyemi — Founder & Creative Director</p>
+  </div>
+  <div class="founder-content reveal" style="transition-delay:0.15s;">
+    <p class="story-pull-quote">A Word From Our Founder</p>
+    <h2 class="story-body-title">She Built This<br>For You.</h2>
+    <p class="story-body-text">I grew up watching my mother save for months to buy one beautiful thing. Something that made her stand a little taller when she walked into a room. That feeling — I wanted to give it to every Nigerian woman, without the impossible price tag.</p>
+    <p class="story-body-text">Giftij Brandy isn't just a bag brand. It's proof that African luxury belongs on the world stage — crafted here, carried everywhere, coveted by everyone.</p>
+    <div class="founder-blockquote">
+      <p>"A bag should tell the world who you are before you say a word. Ours say: she arrived."</p>
+      <cite>— Chisom Adeyemi</cite>
     </div>
-    <div class="care-card">
-      <p class="care-num">III</p>
-      <h3 class="care-title">Store Properly</h3>
-      <p class="care-text">Always store in the dust bag provided, stuffed lightly to maintain shape. Keep away from direct sunlight and humidity.</p>
-    </div>
-    <div class="care-card">
-      <p class="care-num">IV</p>
-      <h3 class="care-title">Protect From Rain</h3>
-      <p class="care-text">Use a leather protector spray before exposure to wet conditions. If caught in rain, blot dry with a soft cloth — never rub.</p>
-    </div>
+    <p class="story-body-text">Every piece we make is a love letter to the woman who carries it. That woman is you.</p>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="support-cta">
-  <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--gold);letter-spacing:0.1em;margin-bottom:12px;">Still Have Questions?</p>
-  <h2>We're Always Here.</h2>
-  <p>Our team typically responds within 2 hours on WhatsApp. For email, expect us within 24 hours on business days.</p>
-  <a href="contact.html" class="btn-primary">
-    Contact Us
+<section class="story-cta">
+  <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--gold);letter-spacing:0.1em;margin-bottom:12px;">Ready to Carry Your Story?</p>
+  <h2 class="section-title">Find Your<br>Signature Piece.</h2>
+  <p class="section-sub">Every bag in our collection was made for a woman who knows what she wants. Let us help you find the one that was made for you.</p>
+  <a href="shop.html" class="btn-primary">
+    Shop The Collection
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
 </section>
@@ -557,6 +572,16 @@ a, button { -webkit-tap-highlight-color: transparent; }
       <p class="footer-brand-name">GIFTIJ <span>BRANDY</span></p>
       <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
     </div>
+    <div style="display:flex;gap:40px;">
+      <div>
+        <p style="font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Navigate</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="index.html" style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.5);text-decoration:none;">Home</a>
+          <a href="shop.html" style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.5);text-decoration:none;">Shop</a>
+          <a href="contact.html" style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.5);text-decoration:none;">Contact</a>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="footer-bottom">
     <p class="footer-copy">© 2025 Giftij Brandy. All rights reserved.</p>
@@ -565,66 +590,16 @@ a, button { -webkit-tap-highlight-color: transparent; }
 </footer>
 
 <script>
-  // Drawer menu
-  const gbMenuFab = document.getElementById('gbMenuFab');
-  const gbOverlay = document.getElementById('gbOverlay');
-  const gbClose = document.getElementById('gbClose');
-  
-  gbMenuFab.addEventListener('click', () => {
-    gbOverlay.classList.toggle('open');
-    gbMenuFab.setAttribute('aria-expanded', gbOverlay.classList.contains('open'));
-  });
-  
-  gbClose.addEventListener('click', () => {
-    gbOverlay.classList.remove('open');
-    gbMenuFab.setAttribute('aria-expanded', 'false');
-  });
-  
-  // Close drawer when a link is clicked
-  document.querySelectorAll('.gb-link').forEach(link => {
-    link.addEventListener('click', () => {
-      gbOverlay.classList.remove('open');
-      gbMenuFab.setAttribute('aria-expanded', 'false');
-    });
-  });
-  
-  // Close drawer when clicking overlay
-  gbOverlay.addEventListener('click', (e) => {
-    if (e.target === gbOverlay) {
-      gbOverlay.classList.remove('open');
-      gbMenuFab.setAttribute('aria-expanded', 'false');
-    }
-  });
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
 
-  // FAQ accordion
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-answer').style.maxHeight = '0';
-      });
-      if (!wasOpen) {
-        item.classList.add('open');
-        item.querySelector('.faq-answer').style.maxHeight = item.querySelector('.faq-answer-inner').scrollHeight + 32 + 'px';
-      }
-    });
-  });
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
 
-  // FAQ tabs
-  document.querySelectorAll('.faq-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const active = tab.dataset.tab;
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.style.display = item.dataset.tab === active ? 'block' : 'none';
-        item.classList.remove('open');
-        item.querySelector('.faq-answer').style.maxHeight = '0';
-      });
-    });
-  });
 </script>
 </body>
 </html>
