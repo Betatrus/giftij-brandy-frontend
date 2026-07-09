@@ -565,35 +565,17 @@ a, button { -webkit-tap-highlight-color: transparent; }
 </footer>
 
 <script>
-  // Drawer menu
-  const gbMenuFab = document.getElementById('gbMenuFab');
-  const gbOverlay = document.getElementById('gbOverlay');
-  const gbClose = document.getElementById('gbClose');
-  
-  gbMenuFab.addEventListener('click', () => {
-    gbOverlay.classList.toggle('open');
-    gbMenuFab.setAttribute('aria-expanded', gbOverlay.classList.contains('open'));
-  });
-  
-  gbClose.addEventListener('click', () => {
-    gbOverlay.classList.remove('open');
-    gbMenuFab.setAttribute('aria-expanded', 'false');
-  });
-  
-  // Close drawer when a link is clicked
+  // Close drawer when a menu link is clicked
+  // (open/close/overlay behavior for the drawer is already handled
+  // by the script right after #gbOverlay above)
   document.querySelectorAll('.gb-link').forEach(link => {
     link.addEventListener('click', () => {
-      gbOverlay.classList.remove('open');
-      gbMenuFab.setAttribute('aria-expanded', 'false');
+      const ov = document.getElementById('gbOverlay');
+      const fab = document.getElementById('gbMenuFab');
+      ov.classList.remove('open');
+      fab.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
     });
-  });
-  
-  // Close drawer when clicking overlay
-  gbOverlay.addEventListener('click', (e) => {
-    if (e.target === gbOverlay) {
-      gbOverlay.classList.remove('open');
-      gbMenuFab.setAttribute('aria-expanded', 'false');
-    }
   });
 
   // FAQ accordion
