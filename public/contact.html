@@ -9,7 +9,7 @@
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --gold: #C9A84C; --gold-light: #E8D5A3; --gold-pale: #F5EDD8;
+    --gold: #C9A84C; --gold-light: #E8D5A3;  open--gold-pale: #F5EDD8;
     --milk: #F7F3EC; --milk-white: #FDFAF5; --cream: #F0EAE0;
     --near-black: #1A1A1A; --charcoal: #2D2D2D; --muted: #7A7268; --white: #FFFFFF;
   }
@@ -36,9 +36,12 @@
     background: var(--near-black);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 380px;
+    min-height: 300px;
   }
   .contact-hero-left { padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+  .contact-getintouch { padding: 60px 60px 40px; }
+  @media (max-width: 900px) { .contact-getintouch { padding: 44px 32px 28px; } }
+  @media (max-width: 540px) { .contact-getintouch { padding: 36px 24px 22px; } }
   .contact-hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 16px; }
   .contact-hero-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 500; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
   .contact-hero-title em { font-style: italic; color: var(--gold-light); }
@@ -115,11 +118,11 @@
   /* FOOTER */
   footer { background: var(--near-black); padding: 50px 60px 32px; }
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 32px; border-top: 0.5px solid rgba(255,255,255,0.08); }
-  .footer-copy { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); }
+  .footer-copy { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); }
   .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--white); letter-spacing: 0.1em; margin-bottom: 8px; }
   .footer-brand-name span { color: var(--gold); }
   .footer-legal { display: flex; gap: 24px; }
-  .footer-legal a { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
   .footer-legal a:hover { color: var(--white); }
 
   /* ===== MOBILE RESPONSIVE ===== */
@@ -205,9 +208,9 @@ a, button { -webkit-tap-highlight-color: transparent; }
   body > nav, .mobile-menu { display: none !important; }
   .page-header, .story-hero, .contact-hero { margin-top: 0 !important; }
   .page-header { padding-top: 96px !important; }
-  .gb-menu-fab { position: fixed; top: 24px; left: 24px; z-index: 2000; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.30); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background 0.2s, transform 0.2s; }
-  .gb-menu-fab:hover { background: rgba(255,255,255,0.26); transform: scale(1.04); }
-  .gb-menu-fab span { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; }
+  .gb-menu-fab { position: fixed; top: 24px; left: 24px; z-index: 2000; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+  .gb-menu-fab:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
+  .gb-menu-fab span { width: 22px; height: 2px; background: #fff; display: block; }
   .gb-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(16,12,6,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.32s ease; }
   .gb-overlay.open { opacity: 1; visibility: visible; }
   .gb-drawer { position: fixed; top: 0; left: 0; bottom: 0; z-index: 3001; width: min(460px, 88vw); background: linear-gradient(165deg,#221A0E 0%,#161108 58%,#1F1709 100%); box-shadow: 6px 0 48px rgba(0,0,0,0.45); transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; padding: 26px 36px 36px; overflow-y: auto; }
@@ -268,7 +271,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
     </div>
     <div class="gb-contact">
       <p class="gb-contact-label">Questions? Contact Us</p>
-      <a href="mailto:hello@giftijbrandy.com">hello@giftijbrandy.com</a>
+      <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
     </div>
   </div>
 </div>
@@ -316,57 +319,20 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <a href="#" class="cart">Bag (0)</a>
 </div>
 
-<!-- HERO -->
-<section class="contact-hero">
-  <div class="contact-hero-left">
-    <p class="contact-hero-eyebrow">We'd Love to Hear From You</p>
-    <h1 class="contact-hero-title">Get In <em>Touch</em><br>With Us.</h1>
-    <p class="contact-hero-sub">Whether you have a question, need styling advice, or want to place a custom order — we're just a message away.</p>
-  </div>
-  <div class="contact-hero-right">
-    <div class="contact-channels">
-      <a href="https://wa.me/2348000000000" class="channel-pill" target="_blank" rel="noopener">
-        <div class="channel-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 0C5.374 0 0 5.374 0 12.004c0 2.138.567 4.147 1.549 5.89L.057 23.998l6.256-1.643C8.02 23.407 9.97 24.008 12.004 24.008 18.63 24.008 24 18.634 24 12.004 24 5.374 18.63 0 12.004 0zm0 21.888c-1.942 0-3.755-.526-5.307-1.44l-.38-.226-3.938 1.033 1.05-3.836-.248-.394C2.15 15.666 1.63 13.88 1.63 12.004c0-5.724 4.652-10.374 10.374-10.374 5.724 0 10.374 4.65 10.374 10.374 0 5.724-4.65 10.374-10.374 10.374z"/></svg>
-        </div>
-        <div>
-          <p class="channel-label">WhatsApp</p>
-          <p class="channel-value">09023021320</p>
-        </div>
-        <span class="channel-note">Fastest · 2hr response</span>
-      </a>
-      <a href="mailto:hello@giftijbrandy.com" class="channel-pill">
-        <div class="channel-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </div>
-        <div>
-          <p class="channel-label">Email</p>
-          <p class="channel-value">hello@giftijbrandy.com</p>
-        </div>
-        <span class="channel-note">Within 24hrs</span>
-      </a>
-      <a href="https://instagram.com" class="channel-pill" target="_blank" rel="noopener">
-        <div class="channel-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="igGradContact" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igGradContact)"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="white"/></svg>
-        </div>
-        <div>
-          <p class="channel-label">Instagram</p>
-          <p class="channel-value">@giftijbrandy</p>
-        </div>
-        <span class="channel-note">DM us anytime</span>
-      </a>
+<!-- MAIN CONTACT - FULL WIDTH VERTICAL STACK -->
+<div class="contact-main" style="display:flex;flex-direction:column;gap:0;">
+  <!-- 1. GET IN TOUCH HEADER -->
+  <section class="contact-hero contact-getintouch" style="max-width:100%;">
+    <div style="max-width:600px;">
+      <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#E8B84B;margin-bottom:16px;">Get In Touch</p>
+      <h1 class="contact-hero-title" style="margin-bottom:16px;">Contact<br><em>Us</em></h1>
+      <p class="contact-hero-sub">Have a question or need assistance? We're here to help you look and feel your best.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- MAIN CONTACT -->
-<div class="contact-main">
-  <!-- FORM -->
-  <div class="contact-form-side">
-    <p class="form-eyebrow">Send a Message</p>
-    <h2 class="form-title">Tell Us What<br>You Need.</h2>
+  <!-- 2. FORM SECTION -->
+  <div class="contact-form-side" style="max-width:600px;margin:0 auto;width:100%;padding:0 48px 60px;">
+    <h2 class="form-title" style="margin-bottom:32px;">Tell Us What You Need.</h2>
 
     <div id="contactForm">
       <div class="form-grid">
@@ -420,73 +386,76 @@ a, button { -webkit-tap-highlight-color: transparent; }
     </div>
   </div>
 
-  <!-- INFO -->
-  <div class="contact-info-side">
-    <div>
-      <div class="info-block">
-        <p class="info-label">Our Location</p>
-        <p class="info-value">Lagos, Nigeria</p>
-        <p class="info-sub">Online-first brand · Nationwide delivery</p>
+  <!-- 3. CONTACT CHANNELS SECTION - HORIZONTAL WITH SOCIAL ICONS -->
+  <section style="width:100%;background:#F5F5F5;padding:48px;border-top:0.5px solid rgba(201,168,76,0.15);border-bottom:0.5px solid rgba(201,168,76,0.15);">
+    <div style="max-width:900px;margin:0 auto;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:32px;text-align:center;">Contact Us</h2>
+      <div style="display:flex;justify-content:center;gap:80px;flex-wrap:wrap;align-items:flex-start;padding:0 24px;">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/2349023021320" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
+          <div style="width:64px;height:64px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 0C5.374 0 0 5.374 0 12.004c0 2.138.567 4.147 1.549 5.89L.057 23.998l6.256-1.643C8.02 23.407 9.97 24.008 12.004 24.008 18.63 24.008 24 18.634 24 12.004 24 5.374 18.63 0 12.004 0zm0 21.888c-1.942 0-3.755-.526-5.307-1.44l-.38-.226-3.938 1.033 1.05-3.836-.248-.394C2.15 15.666 1.63 13.88 1.63 12.004c0-5.724 4.652-10.374 10.374-10.374 5.724 0 10.374 4.65 10.374 10.374 0 5.724-4.65 10.374-10.374 10.374z"/></svg>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">WhatsApp</p>
+            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">09023021320</p>
+            <p style="font-size:11px;font-weight:300;color:#888;">Fastest · 2hr</p>
+          </div>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:jacobsgift3@gmail.com" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
+          <div style="width:64px;height:64px;background:#1A1A1A;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">Email</p>
+            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;word-break:break-word;">jacobsgift3@gmail.com</p>
+            <p style="font-size:11px;font-weight:300;color:#888;">Within 24hrs</p>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/giftijbrandy" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
+          <div style="width:64px;height:64px;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+            <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.2" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="white"/><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">Instagram</p>
+            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">@giftijbrandy</p>
+            <p style="font-size:11px;font-weight:300;color:#888;">DM us anytime</p>
+          </div>
+        </a>
       </div>
-      <div class="info-divider"></div>
-      <div class="info-block">
-        <p class="info-label">Business Hours</p>
-        <div class="hours-list">
-          <div class="hours-item">
-            <span class="hours-day">Monday – Friday</span>
-            <span class="hours-time">9 AM – 6 PM</span>
-          </div>
-          <div class="hours-item">
-            <span class="hours-day">Saturday</span>
-            <span class="hours-time">10 AM – 4 PM</span>
-          </div>
-          <div class="hours-item">
-            <span class="hours-day">Sunday</span>
-            <span class="hours-time">Closed</span>
-          </div>
+    </div>
+  </section>
+
+  <!-- 4. LOCATION & BUSINESS HOURS SECTION -->
+  <section style="max-width:600px;margin:0 auto;width:100%;padding:60px 48px;border-top:0.5px solid rgba(201,168,76,0.15);">
+    <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:#1A1A1A;margin-bottom:32px;">Our Location & Business Hours</h2>
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <div>
+        <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Location</p>
+        <p style="font-size:16px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">Lagos, Nigeria</p>
+        <p style="font-size:14px;font-weight:300;color:#6A6460;">Online-first brand · Nationwide delivery</p>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">Business Hours</p>
+        <div style="font-size:14px;font-weight:300;color:#1A1A1A;line-height:1.8;">
+          <p style="margin-bottom:6px;"><strong style="font-weight:500;">Monday – Friday:</strong> 9 AM – 6 PM</p>
+          <p style="margin-bottom:6px;"><strong style="font-weight:500;">Saturday:</strong> 10 AM – 4 PM</p>
+          <p><strong style="font-weight:500;">Sunday:</strong> Closed</p>
         </div>
       </div>
-      <div class="info-divider"></div>
-      <div class="info-block">
-        <p class="info-label">Custom Orders</p>
-        <p style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.8;">We accept bespoke orders for custom colours, monogramming, and special occasion pieces. Lead time is typically 3–4 weeks. Contact us to discuss your vision.</p>
-      </div>
-
-      <a href="https://wa.me/2348000000000" class="whatsapp-cta" target="_blank" rel="noopener">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-          <path d="M12.004 0C5.374 0 0 5.374 0 12.004c0 2.138.567 4.147 1.549 5.89L.057 23.998l6.256-1.643C8.02 23.407 9.97 24.008 12.004 24.008 18.63 24.008 24 18.634 24 12.004 24 5.374 18.63 0 12.004 0zm0 21.888c-1.942 0-3.755-.526-5.307-1.44l-.38-.226-3.938 1.033 1.05-3.836-.248-.394C2.15 15.666 1.63 13.88 1.63 12.004c0-5.724 4.652-10.374 10.374-10.374 5.724 0 10.374 4.65 10.374 10.374 0 5.724-4.65 10.374-10.374 10.374z"/>
-        </svg>
-        <div>
-          <p class="whatsapp-label">Chat on WhatsApp</p>
-          <p class="whatsapp-text">Message us directly</p>
-          <p class="whatsapp-note">Fastest response — usually under 2 hours</p>
-        </div>
-      </a>
     </div>
-
-    <div class="social-row">
-      <a href="#" class="social-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="igGradcon0" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igGradcon0)"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="white"/></svg>
-        Instagram
-      </a>
-      <a href="#" class="social-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.63c.28 0 .54.04.79.1V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.69a6.34 6.34 0 0 0 12.67.39V8.69a8.18 8.18 0 0 0 4.76 1.52V6.76a4.84 4.84 0 0 1-1-.07z"/></svg>
-        TikTok
-      </a>
-      <a href="#" class="social-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#1A1A1A" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-        Twitter/X
-      </a>
-    </div>
-  </div>
+  </section>
 </div>
 
 <footer>
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;gap:24px;">
     <div>
       <p class="footer-brand-name">GIFTIJ <span>BRANDY</span></p>
-      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
+      <p style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
     </div>
   </div>
   <div class="footer-bottom">
