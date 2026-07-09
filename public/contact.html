@@ -36,9 +36,12 @@
     background: var(--near-black);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 380px;
+    min-height: 300px;
   }
   .contact-hero-left { padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+  .contact-getintouch { padding: 60px 60px 40px; }
+  @media (max-width: 900px) { .contact-getintouch { padding: 44px 32px 28px; } }
+  @media (max-width: 540px) { .contact-getintouch { padding: 36px 24px 22px; } }
   .contact-hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 16px; }
   .contact-hero-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 500; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
   .contact-hero-title em { font-style: italic; color: var(--gold-light); }
@@ -115,11 +118,11 @@
   /* FOOTER */
   footer { background: var(--near-black); padding: 50px 60px 32px; }
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 32px; border-top: 0.5px solid rgba(255,255,255,0.08); }
-  .footer-copy { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); }
+  .footer-copy { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); }
   .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--white); letter-spacing: 0.1em; margin-bottom: 8px; }
   .footer-brand-name span { color: var(--gold); }
   .footer-legal { display: flex; gap: 24px; }
-  .footer-legal a { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
   .footer-legal a:hover { color: var(--white); }
 
   /* ===== MOBILE RESPONSIVE ===== */
@@ -268,7 +271,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
     </div>
     <div class="gb-contact">
       <p class="gb-contact-label">Questions? Contact Us</p>
-      <a href="mailto:hello@giftijbrandy.com">hello@giftijbrandy.com</a>
+      <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
     </div>
   </div>
 </div>
@@ -319,10 +322,11 @@ a, button { -webkit-tap-highlight-color: transparent; }
 <!-- MAIN CONTACT - FULL WIDTH VERTICAL STACK -->
 <div class="contact-main" style="display:flex;flex-direction:column;gap:0;">
   <!-- 1. GET IN TOUCH HEADER -->
-  <section class="contact-hero" style="max-width:100%;padding:32px 48px;">
-    <div style="max-width:600px;margin:0 auto;text-align:center;">
-      <h1 class="contact-hero-title" style="margin-bottom:8px;font-size:36px;font-weight:600;">Get In Touch With Us</h1>
-      <p class="contact-hero-sub" style="font-size:14px;color:rgba(26,26,26,0.6);line-height:1.5;">We'd love to hear from you. Whether you have a question, need styling advice, or want to place a custom order — we're just a message away.</p>
+  <section class="contact-hero contact-getintouch" style="max-width:100%;">
+    <div style="max-width:600px;">
+      <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#E8B84B;margin-bottom:16px;">Get In Touch</p>
+      <h1 class="contact-hero-title" style="margin-bottom:16px;">Contact<br><em>Us</em></h1>
+      <p class="contact-hero-sub">Have a question or need assistance? We're here to help you look and feel your best.</p>
     </div>
   </section>
 
@@ -400,13 +404,13 @@ a, button { -webkit-tap-highlight-color: transparent; }
         </a>
 
         <!-- Email -->
-        <a href="mailto:hello@giftijbrandy.com" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
+        <a href="mailto:jacobsgift3@gmail.com" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
           <div style="width:64px;height:64px;background:#1A1A1A;border-radius:50%;display:flex;align-items:center;justify-content:center;">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </div>
           <div style="text-align:center;">
             <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">Email</p>
-            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;word-break:break-word;">hello@giftijbrandy.com</p>
+            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;word-break:break-word;">jacobsgift3@gmail.com</p>
             <p style="font-size:11px;font-weight:300;color:#888;">Within 24hrs</p>
           </div>
         </a>
@@ -451,7 +455,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;gap:24px;">
     <div>
       <p class="footer-brand-name">GIFTIJ <span>BRANDY</span></p>
-      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
+      <p style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
     </div>
   </div>
   <div class="footer-bottom">
