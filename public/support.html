@@ -565,6 +565,22 @@ a, button { -webkit-tap-highlight-color: transparent; }
 </footer>
 
 <script>
+  // Nav hamburger menu (mobile)
+  const navMenuBtn = document.getElementById('menuBtn');
+  const navMobileMenu = document.getElementById('mobileMenu');
+
+  navMenuBtn.addEventListener('click', () => {
+    const isOpen = navMobileMenu.classList.toggle('open');
+    navMenuBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  document.querySelectorAll('#mobileMenu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMobileMenu.classList.remove('open');
+      navMenuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   // Drawer menu
   const gbMenuFab = document.getElementById('gbMenuFab');
   const gbOverlay = document.getElementById('gbOverlay');
