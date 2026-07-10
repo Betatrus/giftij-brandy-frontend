@@ -548,7 +548,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
       <a href="story.html" class="gb-link">Our Story <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M1 1l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
       <a href="support.html" class="gb-link">Help &amp; Support <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M1 1l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
       <a href="contact.html" class="gb-link">Contact <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M1 1l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-      <a href="javascript:void(0)" onclick="openCart()" class="gb-link">Your Bag <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M1 1l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+      <a href="checkout.html" class="gb-link">Your Bag <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M1 1l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     </div>
     <div class="gb-follow">
       <p class="gb-follow-label">Follow Us</p>
@@ -1038,89 +1038,28 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
 <!-- STICKY CHECKOUT BAR (desktop + mobile) -->
 <div class="hp-sticky-bar" id="stickyBar">
-  <button class="hp-sticky-btn" id="checkoutBtn">
+  <a href="checkout.html" class="hp-sticky-btn">
     <span>Checkout</span>
     <span class="hp-sticky-dot"></span>
     <span id="stickyItems">0 items</span>
     <span class="hp-sticky-dot"></span>
     <span id="stickyTotal">₦0</span>
-  </button>
-  <button class="hp-sticky-bag" id="bagBtn" aria-label="Your bag">
+  </a>
+  <a href="checkout.html" class="hp-sticky-bag" aria-label="Your bag">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span class="hp-sticky-badge" id="stickyBadge">0</span>
-  </button>
-</div>
-
-<!-- CART MODAL -->
-<style>
-  .cart-modal-overlay { display: none; position: fixed; inset: 0; z-index: 4000; background: rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.3s ease; }
-  .cart-modal-overlay.open { display: flex; opacity: 1; align-items: flex-end; }
-  .cart-modal { display: flex; flex-direction: column; width: 100%; max-height: 90vh; max-width: 600px; margin-left: auto; margin-right: auto; background: #fff; border-radius: 24px 24px 0 0; overflow-y: auto; animation: slideUp 0.3s ease; }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  @media (min-width: 900px) { .cart-modal-overlay.open { align-items: center; } .cart-modal { margin: 0; border-radius: 16px; max-height: 80vh; max-width: 520px; } }
-  .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px; border-bottom: 1px solid #E8D5A3; }
-  .cart-header-left { display: flex; align-items: center; gap: 12px; }
-  .cart-header-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: #C9A84C; }
-  .cart-header-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #1A1A1A; }
-  .cart-close { width: 44px; height: 44px; border-radius: 50%; background: none; border: none; color: #1A1A1A; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .cart-close:hover { background: #F0EAE0; }
-  .cart-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; }
-  .cart-empty-icon { width: 120px; height: 120px; border-radius: 50%; background: #F5EDD8; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
-  .cart-empty-icon svg { width: 64px; height: 64px; color: #C9A84C; }
-  .cart-empty-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #1A1A1A; margin-bottom: 12px; }
-  .cart-empty-desc { font-size: 16px; color: #999; margin-bottom: 32px; }
-  .cart-empty-btn { padding: 16px 40px; background: #C9A84C; color: #1A1A1A; border: none; border-radius: 44px; font-family: 'Jost',sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-  .cart-empty-btn:hover { background: #B89438; }
-  .cart-items { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-  .cart-item { display: flex; gap: 16px; padding: 16px; background: #F5EDD8; border-radius: 12px; }
-  .cart-item-info { flex: 1; }
-  .cart-item-name { font-weight: 600; color: #1A1A1A; font-size: 15px; margin-bottom: 4px; }
-  .cart-item-variant { font-size: 12px; color: #999; margin-bottom: 8px; }
-  .cart-item-price { font-weight: 700; color: #1A1A1A; font-size: 14px; }
-  .cart-item-qty { display: flex; align-items: center; gap: 8px; }
-  .cart-item-qty-btn { width: 28px; height: 28px; border-radius: 4px; background: #fff; border: 1px solid #E8D5A3; color: #1A1A1A; cursor: pointer; font-family: 'Jost',sans-serif; font-size: 14px; font-weight: 600; transition: background 0.2s; }
-  .cart-item-qty-btn:hover { background: #E8D5A3; }
-  .cart-item-remove { width: 28px; height: 28px; background: none; border: none; color: #c0392b; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
-  .cart-item-remove:hover { transform: scale(1.15); }
-  .cart-footer { padding: 20px 24px; border-top: 1px solid #E8D5A3; display: flex; flex-direction: column; gap: 12px; }
-  .cart-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; color: #1A1A1A; }
-  .cart-checkout-btn { padding: 16px; background: #1A1A1A; color: #fff; border: none; border-radius: 8px; font-family: 'Jost',sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-  .cart-checkout-btn:hover { background: #C9A84C; color: #1A1A1A; }
-  .cart-back-btn { padding: 12px; background: #F5EDD8; color: #1A1A1A; border: none; border-radius: 8px; font-family: 'Jost',sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-  .cart-back-btn:hover { background: #E8D5A3; }
-</style>
-
-<div class="cart-modal-overlay" id="cartOverlay">
-  <div class="cart-modal" id="cartModal">
-    <div class="cart-header">
-      <div class="cart-header-left">
-        <div class="cart-header-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2l-3 4v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/></svg>
-        </div>
-        <h2 class="cart-header-title">Your Cart</h2>
-      </div>
-      <button class="cart-close" id="cartCloseBtn">×</button>
-    </div>
-    <div class="cart-content" id="cartContent">
-      <div class="cart-empty-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2l-3 4v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      </div>
-      <h3 class="cart-empty-title">Your cart is empty</h3>
-      <p class="cart-empty-desc">Discover our premium hair collections and add your favorites</p>
-      <button class="cart-empty-btn" id="startShoppingBtn">Start Shopping</button>
-    </div>
-  </div>
+  </a>
 </div>
 
 <script>
-// ═══════════ BEST SELLERS CART + MODAL ═══════════
+// ═══════════ BEST SELLERS CART (ported from shop) ═══════════
 let cart = [];
 function fmt(n){ return "₦" + n.toLocaleString("en-NG"); }
 function totalItems(){ return cart.reduce((s,i)=>s+i.qty,0); }
 function totalAmt(){ return cart.reduce((s,i)=>s+i.price*i.qty,0); }
 function cartId(name,variant){ return name.replace(/\s+/g,"-")+"-"+variant; }
 
-function renderCart(){ updateStickyBar(); updateCartModal(); }
+function renderCart(){ updateStickyBar(); }
 
 function updateStickyBar(){
   const items=totalItems(), amt=totalAmt();
@@ -1128,68 +1067,6 @@ function updateStickyBar(){
   document.getElementById("stickyTotal").textContent=fmt(amt);
   document.getElementById("stickyBadge").textContent=items;
   document.getElementById("stickyBar").className="hp-sticky-bar"+(items>0?" show":"");
-}
-
-function updateCartModal(){
-  const content=document.getElementById("cartContent");
-  if(cart.length===0){
-    content.innerHTML=`
-      <div class="cart-empty-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2l-3 4v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      </div>
-      <h3 class="cart-empty-title">Your cart is empty</h3>
-      <p class="cart-empty-desc">Discover our premium hair collections and add your favorites</p>
-      <button class="cart-empty-btn" id="startShoppingBtn" onclick="closeCart(); scrollToSection('#bestsellers');">Start Shopping</button>
-    `;
-  } else {
-    let itemsHtml='<div class="cart-items">';
-    cart.forEach((item,idx)=>{
-      itemsHtml+=`
-        <div class="cart-item">
-          <div class="cart-item-info">
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-variant">${item.variant}</div>
-            <div class="cart-item-price">${fmt(item.price)} × ${item.qty} = <strong>${fmt(item.price*item.qty)}</strong></div>
-          </div>
-          <div class="cart-item-qty">
-            <button class="cart-item-qty-btn" onclick="modifyCartQty(${idx},-1)">−</button>
-            <span style="min-width:20px;text-align:center;font-weight:600;">${item.qty}</span>
-            <button class="cart-item-qty-btn" onclick="modifyCartQty(${idx},1)">+</button>
-            <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
-          </div>
-        </div>
-      `;
-    });
-    itemsHtml+='</div>';
-    const total=totalAmt();
-    content.innerHTML=itemsHtml+`
-      <div class="cart-footer">
-        <div class="cart-total"><span>Total:</span><span>${fmt(total)}</span></div>
-        <button class="cart-checkout-btn" onclick="goToCheckout()">PROCEED TO CHECKOUT</button>
-        <button class="cart-back-btn" onclick="closeCart()">CONTINUE SHOPPING</button>
-      </div>
-    `;
-  }
-}
-
-function modifyCartQty(idx,d){
-  cart[idx].qty+=d;
-  if(cart[idx].qty<=0){ cart.splice(idx,1); }
-  renderCart();
-}
-
-function removeFromCart(idx){
-  cart.splice(idx,1);
-  renderCart();
-}
-
-function goToCheckout(){
-  window.location.href="checkout.html";
-}
-
-function scrollToSection(selector){
-  const el=document.querySelector(selector);
-  if(el) el.scrollIntoView({behavior:'smooth'});
 }
 
 // Desktop hover add
@@ -1245,16 +1122,6 @@ function mobQty(btn,d){
   const item=cart.find(i=>i.name===name);
   if(item){ item.qty=qty; renderCart(); }
 }
-
-// Modal management
-function openCart(){ document.getElementById("cartOverlay").classList.add("open"); document.body.style.overflow="hidden"; }
-function closeCart(){ document.getElementById("cartOverlay").classList.remove("open"); document.body.style.overflow=""; }
-
-document.getElementById("bagBtn").addEventListener("click",openCart);
-document.getElementById("checkoutBtn").addEventListener("click",goToCheckout);
-document.getElementById("cartCloseBtn").addEventListener("click",closeCart);
-document.getElementById("cartOverlay").addEventListener("click",function(e){ if(e.target===this) closeCart(); });
-document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeCart(); });
 
 renderCart();
 </script>
