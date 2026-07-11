@@ -1121,14 +1121,21 @@ a, button { -webkit-tap-highlight-color: transparent; }
     }
   });
   
-  // Cart modal controls
-  document.getElementById('cartOverlay').addEventListener('click', (e) => {
-    if (e.target.id === 'cartOverlay') document.getElementById('cartOverlay').classList.remove('open');
-  });
+  // Cart modal controls - only if elements exist on this page
+  const cartOverlay = document.getElementById('cartOverlay');
+  const bagBtn = document.getElementById('bagBtn');
   
-  document.getElementById('bagBtn').addEventListener('click', () => {
-    document.getElementById('cartOverlay').classList.add('open');
-  });
+  if (cartOverlay) {
+    cartOverlay.addEventListener('click', (e) => {
+      if (e.target.id === 'cartOverlay') cartOverlay.classList.remove('open');
+    });
+  }
+  
+  if (bagBtn) {
+    bagBtn.addEventListener('click', () => {
+      if (cartOverlay) cartOverlay.classList.add('open');
+    });
+  }
 
   // Update UI on page load
   window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items: cartState.items, total: cartState.total } }));
