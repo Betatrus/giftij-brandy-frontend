@@ -1105,10 +1105,14 @@ a, button { -webkit-tap-highlight-color: transparent; }
     const { items, total } = e.detail;
     const itemCount = items.reduce((sum, i) => sum + i.qty, 0);
     
-    // Update sticky bar
-    document.getElementById('stickyItems').textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''}`;
-    document.getElementById('stickyTotal').textContent = `₦${total.toLocaleString()}`;
-    document.getElementById('stickyBadge').textContent = itemCount;
+    // Update sticky bar - only if elements exist on this page
+    const stickyItems = document.getElementById('stickyItems');
+    const stickyTotal = document.getElementById('stickyTotal');
+    const stickyBadge = document.getElementById('stickyBadge');
+    
+    if (stickyItems) stickyItems.textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''}`;
+    if (stickyTotal) stickyTotal.textContent = `₦${total.toLocaleString()}`;
+    if (stickyBadge) stickyBadge.textContent = itemCount;
     
     // Update cart modal
     const cartModal = document.getElementById('cartModal');
