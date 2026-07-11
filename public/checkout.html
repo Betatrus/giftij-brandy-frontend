@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Checkout — Giftij Brandy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Paystack inline JS -->
+  <!-- Paystack loaded dynamically in JS -->
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Jost", sans-serif;
+      background: #FDFAF5;
+      color: #1A1A1A;
+      min-height: 100vh;
+    }
+
+    /* ═══ NAV ═══ */
+    .co-nav {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: #fff;
+      border-bottom: 0.5px solid rgba(201, 168, 76, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .co-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: "Jost", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      transition: color 0.2s;
+    }
+
+    .co-back-btn:hover {
+      color: #C9A84C;
+    }
+
+    .co-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .co-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .co-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .co-logo-text {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #1A1A1A;
+    }
+
+    .co-logo-text span {
+      color: #C9A84C;
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    .co-secure {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #9A9490;
+    }
+
+    @media (max-width: 600px) {
+      .co-nav {
+        padding: 0 20px;
+      }
+
+      .co-logo-text {
+        font-size: 14px;
+      }
+
+      .co-back-btn {
+        font-size: 11px;
+      }
+    }
+
+    /* ═══ PROGRESS ═══ */
+    .progress-bar {
+      background: #fff;
+      border-bottom: 0.5px solid #F0EAE0;
+      padding: 0 48px;
+    }
+
+    .progress-inner {
+      display: flex;
+      align-items: center;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 16px 0;
+      flex: 1;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 120px;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: #E8E0D8;
+      transform: translateY(-50%);
+    }
+
+    .step.done:not(:last-child)::after {
+      background: #C9A84C;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #F0EAE0;
+      border: 1.5px solid #D8CFC6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #9A9490;
+      flex-shrink: 0;
+    }
+
+    .step.active .step-num {
+      background: #1A1A1A;
+      border-color: #1A1A1A;
+      color: #fff;
+    }
+
+    .step.done .step-num {
+      background: #C9A84C;
+      border-color: #C9A84C;
+      color: #1A1A1A;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #C0B8B0;
+    }
+
+    .step.active .step-label {
+      color: #1A1A1A;
+    }
+
+    .step.done .step-label {
+      color: #C9A84C;
+    }
+
+    /* ═══ LAYOUT ═══ */
+    .co-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 44px 48px 80px;
+      gap: 44px;
+      align-items: start;
+    }
+
+    /* ═══ FORM ═══ */
+    .fs {
+      margin-bottom: 36px;
+    }
+
+    .fs-head {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 24px;
+    }
+
+    .fs-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #1A1A1A;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .fs-title {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .frow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin-bottom: 13px;
+    }
+
+    .frow.full {
+      grid-template-columns: 1fr;
+    }
+
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .flabel {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6A6460;
+    }
+
+    .finput,
+    .fselect,
+    .ftarea {
+      padding: 12px 15px;
+      background: #fff;
+      border: 1px solid #E8E0D8;
+      font-family: "Jost", sans-serif;
+      font-size: 14px;
+      color: #1A1A1A;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .finput:focus,
+    .fselect:focus,
+    .ftarea:focus {
+      border-color: #C9A84C;
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+    }
+
+    .finput::placeholder,
+    .ftarea::placeholder {
+      color: #C0B8B0;
+      font-weight: 300;
+    }
+
+    .finput.err {
+      border-color: #E05252;
+    }
+
+    .ferr {
+      font-size: 11px;
+      color: #E05252;
+      margin-top: 3px;
+      display: none;
+    }
+
+    .ferr.show {
+      display: block;
+    }
+
+    .fselect {
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%237A7268' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+    }
+
+    .ftarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+
+    /* Divider */
+    .fdiv {
+      height: 0.5px;
+      background: #F0EAE0;
+      margin: 28px 0;
+    }
+
+    /* Delivery options */
+    .del-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .del-opt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      border: 1px solid #E8E0D8;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .del-opt:hover {
+      border-color: #C9A84C;
+    }
+
+    .del-opt.sel {
+      border-color: #C9A84C;
+      background: rgba(201, 168, 76, 0.04);
+    }
+
+    .del-opt input {
+      width: 17px;
+      height: 17px;
+      accent-color: #C9A84C;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .del-info {
+      flex: 1;
+    }
+
+    .del-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 2px;
+    }
+
+    .del-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: #9A9490;
+    }
+
+    .del-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    /* (old paystack-box CSS removed) */
+
+    /* CTA */
+    .pay-btn {
+      width: 100%;
+      padding: 18px;
+      background: #C9A84C;
+      color: #1A1A1A;
+      font-family: "Jost", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.22s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pay-btn:hover {
+      background: #B8963C;
+      transform: translateY(-1px);
+    }
+
+    .pay-btn:active {
+      transform: translateY(0);
+    }
+
+    .pay-btn svg {
+      flex-shrink: 0;
+    }
+
+    .pay-note {
+      font-size: 12px;
+      color: #B0A8A0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    /* ═══ ORDER SUMMARY ═══ */
+    .o-summary {
+      position: sticky;
+      top: 80px;
+      background: #fff;
+      border: 0.5px solid rgba(201, 168, 76, 0.18);
+    }
+
+    .o-sum-head {
+      padding: 20px 22px 16px;
+      border-bottom: 0.5px solid #F0EAE0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .o-sum-title {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .o-sum-toggle {
+      font-size: 12px;
+      color: #C9A84C;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .o-sum-body {
+      padding: 0 22px;
+    }
+
+    .o-items {
+      padding: 14px 0;
+      border-bottom: 0.5px solid #F0EAE0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .o-item {
+      display: grid;
+      grid-template-columns: 62px 1fr auto;
+      gap: 11px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 0.5px solid #F8F4EE;
+    }
+
+    .o-item:last-child {
+      border-bottom: none;
+    }
+
+    .o-item-img {
+      width: 62px;
+      height: 76px;
+      background: #F0EAE0;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .o-item-img svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .o-item-badge {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: #1A1A1A;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .o-item-name {
+      font-family: "Playfair Display", serif;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .o-item-var {
+      font-size: 11px;
+      color: #9A9490;
+    }
+
+    .o-item-price {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Promo */
+    .promo-row {
+      padding: 14px 0;
+      border-bottom: 0.5px solid #F0EAE0;
+      display: flex;
+      gap: 8px;
+    }
+
+    .promo-in {
+      flex: 1;
+      padding: 10px 13px;
+      border: 1px solid #E8E0D8;
+      font-family: "Jost", sans-serif;
+      font-size: 13px;
+      color: #1A1A1A;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .promo-in:focus {
+      border-color: #C9A84C;
+    }
+
+    .promo-in::placeholder {
+      color: #C0B8B0;
+      font-weight: 300;
+    }
+
+    .promo-btn {
+      padding: 10px 16px;
+      background: #F0EAE0;
+      color: #1A1A1A;
+      font-family: "Jost", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .promo-btn:hover {
+      background: #C9A84C;
+    }
+
+    .promo-ok {
+      font-size: 11px;
+      color: #2D8A4E;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .promo-ok.show {
+      display: block;
+    }
+
+    /* Totals */
+    .o-totals {
+      padding: 14px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .o-trow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .o-tlabel {
+      font-size: 13px;
+      color: #6A6460;
+    }
+
+    .o-tval {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .o-trow.free .o-tval {
+      color: #2D8A4E;
+      font-weight: 600;
+    }
+
+    .o-trow.disc .o-tval {
+      color: #2D8A4E;
+      font-weight: 600;
+    }
+
+    .o-tdiv {
+      height: 0.5px;
+      background: #F0EAE0;
+      margin: 4px 0;
+    }
+
+    .o-trow.total .o-tlabel {
+      font-family: "Playfair Display", serif;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .o-trow.total .o-tval {
+      font-family: "Playfair Display", serif;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    /* Trust */
+    .o-trust {
+      padding: 14px 22px 20px;
+      border-top: 0.5px solid #F0EAE0;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .o-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #9A9490;
+    }
+
+    .o-badge svg {
+      color: #C9A84C;
+    }
+
+    /* ═══ SUCCESS ═══ */
+    .success-screen {
+      display: none;
+      min-height: 80vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .success-screen.show {
+      display: flex;
+    }
+
+    .success-ring {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 2px solid #C9A84C;
+      background: rgba(201, 168, 76, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    .success-title {
+      font-family: "Playfair Display", serif;
+      font-size: 34px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .success-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: #6A6460;
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: 6px;
+    }
+
+    .success-ref {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #C9A84C;
+      margin-bottom: 32px;
+    }
+
+    .success-acts {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-blk {
+      padding: 14px 32px;
+      background: #1A1A1A;
+      color: #fff;
+      font-family: "Jost", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-blk:hover {
+      background: #C9A84C;
+      color: #1A1A1A;
+    }
+
+    .btn-wht {
+      padding: 13px 32px;
+      background: transparent;
+      color: #1A1A1A;
+      font-family: "Jost", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid #1A1A1A;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-wht:hover {
+      background: #1A1A1A;
+      color: #fff;
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width:960px) {
+      .co-wrapper {
+        grid-template-columns: 1fr;
+        padding: 24px 20px 60px;
+        gap: 28px;
+      }
+
+      .o-summary {
+        position: static;
+        order: -1;
+      }
+
+      .o-sum-body {
+        display: none;
+      }
+
+      .o-sum-body.open {
+        display: block;
+      }
+
+      .co-nav {
+        padding: 0 20px;
+      }
+
+      .progress-bar {
+        padding: 0 20px;
+      }
+
+      .step:not(:last-child)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width:540px) {
+      .frow {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        padding: 14px 4px;
+      }
+
+      .step-label {
+        font-size: 9px;
+      }
+
+      .paystack-accepted {
+        gap: 5px;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+      }
+    }
+
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* ═══ ANDROID / CROSS-BROWSER FIXES ═══ */
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      -webkit-appearance: none;
+      font-size: 16px;
+      /* prevents iOS/Android zoom on focus */
+    }
+
+    @media (max-width: 900px) {
+
+      input,
+      select,
+      textarea {
+        font-size: 15px !important;
+      }
+    }
+
+    /* Prevent horizontal scroll from any overflow */
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* Tap highlight removal for Android */
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Minimum tap target size for Android accessibility (48x48dp) */
+    @media (max-width: 900px) {
+
+      .nav-hamburger,
+      .product-wishlist,
+      .mob-qty-btn,
+      .qty-btn,
+      .ci-qty-btn {
+        min-width: 40px;
+        min-height: 40px;
+      }
+    }
+
+
+    /* ═══ NEW PAYMENT UI (Paystack) ═══ */
+    .fs-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fs-title.gold {
+      color: #C9A84C;
+    }
+
+    .pay-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 4px 0 16px;
+    }
+
+    .pay-divider::before,
+    .pay-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E8E0D8;
+    }
+
+    .pay-divider span {
+      font-size: 12px;
+      font-weight: 500;
+      color: #B0A8A0;
+      white-space: nowrap;
+    }
+
+    .pay-opt {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      border: 1.5px solid #E8E0D8;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: #fff;
+      position: relative;
+    }
+
+    .pay-opt:hover {
+      border-color: #C9A84C;
+    }
+
+    .pay-opt input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .pay-opt.selected {
+      border-color: #C9A84C;
+      background: #FBF6EA;
+    }
+
+    .pay-opt-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #D8CFC6;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s;
+    }
+
+    .pay-opt.selected .pay-opt-radio {
+      border-color: #C9A84C;
+    }
+
+    .pay-opt.selected .pay-opt-radio::after {
+      content: '';
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #C9A84C;
+    }
+
+    .pay-opt-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .pay-opt-info {
+      flex: 1;
+    }
+
+    .pay-opt-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 3px;
+      font-family: "Jost", sans-serif;
+    }
+
+    .pay-opt-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: #9A9490;
+    }
+
+    .pay-badge {
+      padding: 7px 16px;
+      border-radius: 20px;
+      background: #FBF1D6;
+      color: #B8963C;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #EEDCAE;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .pay-info-box {
+      background: #F7F3EC;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 18px 0 16px;
+    }
+
+    .pay-info-box p {
+      font-size: 13px;
+      font-weight: 400;
+      color: #6A6460;
+      line-height: 1.75;
+    }
+
+    .pay-info-box strong {
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    .pay-confirm-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #1A1A1A;
+    }
+
+    .pay-confirm-pill strong {
+      font-weight: 700;
+    }
+
+    @media (max-width:540px) {
+      .pay-opt {
+        padding: 14px 14px;
+        gap: 12px;
+      }
+
+      .pay-opt-title {
+        font-size: 14px;
+      }
+
+      .pay-opt-desc {
+        font-size: 12px;
+      }
+
+      .pay-badge {
+        font-size: 11px;
+        padding: 6px 12px;
+      }
+
+      .fs-icon-box {
+        width: 34px;
+        height: 34px;
+      }
+    }
+
+
+    /* (old card details CSS removed) */
+
+
+    /* ═══ CARD PAYMENT PREVIEW (Paystack handles entry) ═══ */
+    .card-details-panel {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease, margin 0.35s ease;
+      margin-bottom: 0;
+    }
+
+    .card-details-panel.show {
+      max-height: 400px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-bottom: 12px;
+      padding: 18px 20px;
+      background: #FBF9F5;
+      border: 1px solid #EDE5DA;
+      border-radius: 10px;
+    }
+
+    .cdp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .cdp-icons-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .cdp-secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #2D8A4E;
+      background: rgba(45, 138, 78, 0.08);
+      border: 1px solid rgba(45, 138, 78, 0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    .cdp-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: #6A6460;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .cdp-desc strong {
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    .cdp-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cdp-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #4A4640;
+    }
+
+    .cdp-step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #C9A84C;
+      color: #1A1A1A;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    @media (max-width:540px) {
+      .cdp-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .cdp-icons-row svg {
+        width: 32px;
+        height: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="co-nav">
+    <div class="co-nav-left">
+      <button class="co-back-btn" onclick="window.history.back()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        BACK
+      </button>
+      <a href="index.html" class="co-logo">
+        <span class="co-logo-text">GIFTIJ <span>BRANDY</span></span>
+      </a>
+    </div>
+    <div class="co-secure">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+      Secure Checkout
+    </div>
+  </nav>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-inner">
+      <div class="step done">
+        <div class="step-num"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3">
+            <polyline points="20 6 9 17 4 12" />
+          </svg></div>
+        <span class="step-label">Cart</span>
+      </div>
+      <div class="step active">
+        <div class="step-num">2</div>
+        <span class="step-label">Information</span>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <span class="step-label">Shipping</span>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <span class="step-label">Payment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="co-wrapper" id="coWrapper">
+
+    <!-- LEFT FORM -->
+    <div>
+
+      <!-- 1. CONTACT -->
+      <div class="fs">
+        <div class="fs-head">
+          <div class="fs-num">1</div>
+          <h2 class="fs-title">Contact Information</h2>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">First Name</label><input type="text" class="finput" id="fn"
+              placeholder="Adaeze"><span class="ferr" id="fnE">Required</span></div>
+          <div class="fg"><label class="flabel">Last Name</label><input type="text" class="finput" id="ln"
+              placeholder="Okonkwo"><span class="ferr" id="lnE">Required</span></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Email Address</label><input type="email" class="finput" id="em"
+              placeholder="you@email.com"><span class="ferr" id="emE">Valid email required</span></div>
+          <div class="fg"><label class="flabel">WhatsApp / Phone</label><input type="tel" class="finput" id="ph"
+              placeholder="09023021320"><span class="ferr" id="phE">Required</span></div>
+        </div>
+      </div>
+
+      <div class="fdiv"></div>
+
+      <!-- 2. ADDRESS -->
+      <div class="fs">
+        <div class="fs-head">
+          <div class="fs-num">2</div>
+          <h2 class="fs-title">Delivery Address</h2>
+        </div>
+        <div class="frow full">
+          <div class="fg"><label class="flabel">Street Address</label><input type="text" class="finput" id="addr"
+              placeholder="12 Admiralty Way, Lekki Phase 1"><span class="ferr" id="addrE">Required</span></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">City</label><input type="text" class="finput" id="city"
+              placeholder="Lagos"></div>
+          <div class="fg"><label class="flabel">State</label>
+            <select class="fselect" id="state">
+              <option value="">Select State</option>
+              <option>Abia</option>
+              <option>Abuja (FCT)</option>
+              <option>Adamawa</option>
+              <option>Akwa Ibom</option>
+              <option>Anambra</option>
+              <option>Bauchi</option>
+              <option>Bayelsa</option>
+              <option>Benue</option>
+              <option>Borno</option>
+              <option>Cross River</option>
+              <option>Delta</option>
+              <option>Ebonyi</option>
+              <option>Edo</option>
+              <option>Ekiti</option>
+              <option>Enugu</option>
+              <option>Gombe</option>
+              <option>Imo</option>
+              <option>Jigawa</option>
+              <option>Kaduna</option>
+              <option>Kano</option>
+              <option>Katsina</option>
+              <option>Kebbi</option>
+              <option>Kogi</option>
+              <option>Kwara</option>
+              <option selected>Lagos</option>
+              <option>Nasarawa</option>
+              <option>Niger</option>
+              <option>Ogun</option>
+              <option>Ondo</option>
+              <option>Osun</option>
+              <option>Oyo</option>
+              <option>Plateau</option>
+              <option>Rivers</option>
+              <option>Sokoto</option>
+              <option>Taraba</option>
+              <option>Yobe</option>
+              <option>Zamfara</option>
+            </select>
+          </div>
+        </div>
+        <div class="frow full">
+          <div class="fg">
+            <label class="flabel">Delivery Notes <span
+                style="font-weight:300;text-transform:none;letter-spacing:0;color:#C0B8B0;">(optional)</span></label>
+            <textarea class="ftarea" placeholder="Special instructions for delivery..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="fdiv"></div>
+
+      <!-- 3. SHIPPING -->
+      <div class="fs">
+        <div class="fs-head">
+          <div class="fs-num">3</div>
+          <h2 class="fs-title">Shipping Method</h2>
+        </div>
+        <div class="del-opts">
+          <label class="del-opt sel" onclick="setShipping(this,'standard',3500)">
+            <input type="radio" name="ship" checked>
+            <div class="del-info">
+              <p class="del-name">Standard Delivery</p>
+              <p class="del-desc">Lagos: 1–2 days &nbsp;·&nbsp; Other states: 3–5 days</p>
+            </div>
+            <span class="del-price">₦3,500</span>
+          </label>
+          <label class="del-opt" onclick="setShipping(this,'express',6500)">
+            <input type="radio" name="ship">
+            <div class="del-info">
+              <p class="del-name">Express Delivery</p>
+              <p class="del-desc">Lagos same-day or next-day guaranteed</p>
+            </div>
+            <span class="del-price">₦6,500</span>
+          </label>
+          <label class="del-opt" onclick="setShipping(this,'pickup',0)">
+            <input type="radio" name="ship">
+            <div class="del-info">
+              <p class="del-name">Free Pickup</p>
+              <p class="del-desc">Arrange pickup via WhatsApp — 09023021320</p>
+            </div>
+            <span class="del-price" style="color:#2D8A4E;">Free</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="fdiv"></div>
+
+      <!-- 4. PAYMENT (Paystack) -->
+      <div class="fs">
+        <div class="fs-head">
+          <div class="fs-icon-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+          </div>
+          <h2 class="fs-title gold">Payment</h2>
+        </div>
+
+        <button class="pay-btn" onclick="initiatePaystack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Pay <span id="payBtnAmt">₦188,500</span> Now
+        </button>
+        <p class="pay-note">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Powered by Paystack &nbsp;&middot;&nbsp; 256-bit SSL encryption
+        </p>
+      </div>
+
+    </div><!-- /left -->
+
+    <!-- RIGHT: ORDER SUMMARY -->
+    <aside class="o-summary">
+      <div class="o-sum-head" onclick="toggleSummary()">
+        <span class="o-sum-title">Order Summary</span>
+        <span class="o-sum-toggle">
+          <span id="sumToggleTxt">Hide</span>
+          <svg id="sumChev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" style="transition:transform 0.25s">
+            <path d="M18 15l-6-6-6 6" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="o-sum-body open" id="sumBody">
+        <div class="o-items" id="oItems">
+          <!-- Demo item — replace with cart data -->
+          <div class="o-item">
+            <div class="o-item-img" style="position:relative;">
+              <svg viewBox="0 0 62 76" xmlns="http://www.w3.org/2000/svg">
+                <rect width="62" height="76" fill="#EDE0CC" />
+                <rect x="11" y="26" width="40" height="36" rx="6" fill="#C9A84C" opacity="0.65" />
+                <path d="M17 26 Q17 14 31 12 Q45 14 45 26" stroke="#C9A84C" stroke-width="3.5" fill="none"
+                  stroke-linecap="round" opacity="0.7" />
+                <rect x="25" y="41" width="12" height="8" rx="2" fill="#F5EDD8" opacity="0.9" />
+              </svg>
+              <div class="o-item-badge">1</div>
+            </div>
+            <div>
+              <p class="o-item-name">The Empress Tote</p>
+              <p class="o-item-var">Camel · Full-Grain</p>
+            </div>
+            <span class="o-item-price">₦185,000</span>
+          </div>
+        </div>
+
+        <!-- Promo -->
+        <div class="promo-row">
+          <input type="text" class="promo-in" id="promoIn" placeholder="Promo or gift code">
+          <button class="promo-btn" onclick="applyPromo()">Apply</button>
+        </div>
+        <p class="promo-ok" id="promoOk">✓ Code applied — 10% off!</p>
+
+        <!-- Totals -->
+        <div class="o-totals">
+          <div class="o-trow"><span class="o-tlabel">Subtotal</span><span class="o-tval" id="tSubtotal">₦185,000</span>
+          </div>
+          <div class="o-trow" id="shipRow"><span class="o-tlabel">Shipping</span><span class="o-tval"
+              id="tShipping">₦3,500</span></div>
+          <div class="o-trow disc" id="discRow" style="display:none;"><span class="o-tlabel">Promo Discount</span><span
+              class="o-tval" id="tDisc">−₦0</span></div>
+          <div class="o-tdiv"></div>
+          <div class="o-trow total"><span class="o-tlabel">Total</span><span class="o-tval" id="tTotal">₦188,500</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="o-trust">
+        <div class="o-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>Secure Payment</div>
+        <div class="o-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>Fast Delivery</div>
+        <div class="o-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>14-Day Returns</div>
+      </div>
+    </aside>
+
+  </div><!-- /co-wrapper -->
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-ring">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    </div>
+    <h2 class="success-title">Payment Successful!</h2>
+    <p class="success-sub">Thank you, <span id="succName">Beautiful</span>! Your payment was confirmed. You're being
+      redirected to WhatsApp with your order details...</p>
+    <div style="margin:16px 0;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#25D366;animation:pulse 1s infinite;"></div>
+      <span style="font-size:13px;font-weight:500;color:#25D366;">Opening WhatsApp...</span>
+    </div>
+    <p class="success-ref" id="succRef">Order #GB-00000</p>
+    <div class="success-acts">
+      <a href="index.html" class="btn-blk">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+        Continue Shopping
+      </a>
+      <a href="https://wa.me/2349023021320" target="_blank" class="btn-wht" id="waSuccessBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+          <path
+            d="M12.004 0C5.374 0 0 5.374 0 12.004c0 2.138.567 4.147 1.549 5.89L.057 23.998l6.256-1.643C8.02 23.407 9.97 24.008 12.004 24.008 18.63 24.008 24 18.634 24 12.004 24 5.374 18.63 0 12.004 0zm0 21.888c-1.942 0-3.755-.526-5.307-1.44l-.38-.226-3.938 1.033 1.05-3.836-.248-.394C2.15 15.666 1.63 13.88 1.63 12.004c0-5.724 4.652-10.374 10.374-10.374 5.724 0 10.374 4.65 10.374 10.374 0 5.724-4.65 10.374-10.374 10.374z" />
+        </svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // ── State ───────────────────────────────────────────��──────────────────────
+    let shipping = 3500;
+    let discount = 0;
+    const subtotal = 185000; // TODO: connect to real cart
+
+    function naira(n) { return '₦' + n.toLocaleString('en-NG'); }
+
+    function updateTotals() {
+      const total = subtotal + shipping - discount;
+      document.getElementById('tSubtotal').textContent = naira(subtotal);
+      document.getElementById('tShipping').textContent = shipping === 0 ? 'Free' : naira(shipping);
+      document.getElementById('tTotal').textContent = naira(total);
+      document.getElementById('payBtnAmt').textContent = naira(total);
+      if (discount > 0) {
+        document.getElementById('discRow').style.display = 'flex';
+        document.getElementById('tDisc').textContent = '−' + naira(discount);
+      }
+    }
+
+    // ── Shipping ───────────────────────────────────────────────────────────────
+    function setShipping(el, type, cost) {
+      document.querySelectorAll('.del-opt').forEach(o => o.classList.remove('sel'));
+      el.classList.add('sel');
+      shipping = cost;
+      updateTotals();
+    }
+
+    // ── Promo ──────────────────────────────────────────────────────────────────
+    function applyPromo() {
+      const code = document.getElementById('promoIn').value.trim().toUpperCase();
+      const okEl = document.getElementById('promoOk');
+      const inEl = document.getElementById('promoIn');
+      if (code === 'GIFTIJ10') {
+        discount = Math.round(subtotal * 0.1);
+        okEl.classList.add('show');
+        inEl.style.borderColor = '#2D8A4E';
+        updateTotals();
+      } else {
+        inEl.style.borderColor = '#E05252';
+        okEl.classList.remove('show');
+        setTimeout(() => { inEl.style.borderColor = ''; }, 2000);
+      }
+    }
+
+    // ── Summary toggle ─────────────────────────────────────────────────────────
+    function toggleSummary() {
+      const body = document.getElementById('sumBody');
+      const chev = document.getElementById('sumChev');
+      const txt = document.getElementById('sumToggleTxt');
+      const open = body.classList.toggle('open');
+      chev.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+      txt.textContent = open ? 'Hide' : 'Show';
+    }
+
+
+    // ── Payment method selection ────────────────────────────────────────────────
+    let selectedPayMethod = 'card';
+
+    function selectPayMethod(radio) {
+      document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('selected'));
+      radio.closest('.pay-opt').classList.add('selected');
+      selectedPayMethod = radio.value;
+
+      const infoText = document.getElementById('payInfoText');
+      const confirmPill = document.getElementById('payConfirmPill');
+      const cardPanel = document.getElementById('cardDetailsPanel');
+
+      if (selectedPayMethod === 'card') {
+        infoText.innerHTML = "After tapping <strong>Pay Now</strong>, you'll be securely redirected to Paystack to complete your card payment. Your details are never stored on our servers.";
+        confirmPill.style.display = 'none';
+        cardPanel.classList.add('show');
+      } else if (selectedPayMethod === 'transfer') {
+        infoText.innerHTML = "After tapping <strong>Pay Now</strong>, Paystack generates a unique account number for your transfer. Confirmation is automatic once funds are received.";
+        confirmPill.style.display = 'flex';
+        cardPanel.classList.remove('show');
+      } else if (selectedPayMethod === 'ussd') {
+        infoText.innerHTML = "After tapping <strong>Pay Now</strong>, you'll receive a USSD code to dial from your phone to complete payment instantly.";
+        confirmPill.style.display = 'none';
+        cardPanel.classList.remove('show');
+      }
+    }
+
+    // Initialize first option as selected
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstOpt = document.getElementById('payOptCard');
+      if (firstOpt) firstOpt.classList.add('selected');
+    });
+
+    // ── Validate form ──────────────────────────────────────────────────────────
+    function validateForm() {
+      let ok = true;
+      const fields = [['fn', 'fnE'], ['ln', 'lnE'], ['em', 'emE'], ['ph', 'phE'], ['addr', 'addrE']];
+      fields.forEach(([id, eid]) => {
+        const el = document.getElementById(id);
+        const err = document.getElementById(eid);
+        if (!el.value.trim()) {
+          el.classList.add('err'); err.classList.add('show'); ok = false;
+        } else {
+          el.classList.remove('err'); err.classList.remove('show');
+        }
+      });
+      // Email check
+      const em = document.getElementById('em');
+      if (em.value && !em.value.includes('@')) {
+        em.classList.add('err');
+        document.getElementById('emE').classList.add('show');
+        ok = false;
+      }
+      return ok;
+    }
+
+    // ── Paystack ───────────────────────────────────────────────────────────────
+    function loadPaystackScript(cb) {
+      if (window.PaystackPop) { cb(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://js.paystack.co/v1/inline.js';
+      s.onload = cb;
+      s.onerror = function () { alert('Could not load payment processor. Please check your internet connection and try again.'); };
+      document.head.appendChild(s);
+    }
+
+    function initiatePaystack() {
+      if (!validateForm()) {
+        document.getElementById('fn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Show loading state
+      const payBtn = document.querySelector('.pay-btn');
+      const origText = payBtn.innerHTML;
+      payBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0"/></svg> Loading payment...';
+      payBtn.disabled = true;
+
+      loadPaystackScript(function () {
+        payBtn.innerHTML = origText;
+        payBtn.disabled = false;
+
+        const email = document.getElementById('em').value.trim();
+        const firstName = document.getElementById('fn').value.trim();
+        const total = subtotal + shipping - discount;
+        const orderRef = 'GB-' + Date.now();
+
+        // ⚠️ REPLACE with your real Paystack PUBLIC key from paystack.com/dashboard
+        // Map our selection to Paystack channels
+        let channels = ['card'];
+        if (selectedPayMethod === 'transfer') channels = ['bank_transfer'];
+        else if (selectedPayMethod === 'ussd') channels = ['ussd'];
+        else channels = ['card', 'bank', 'bank_transfer', 'ussd'];
+
+        const handler = PaystackPop.setup({
+          key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          email: email,
+          amount: total * 100, // Paystack uses kobo (multiply by 100)
+          currency: 'NGN',
+          channels: channels,
+          ref: orderRef,
+          metadata: {
+            custom_fields: [
+              { display_name: 'Customer Name', variable_name: 'customer_name', value: firstName + ' ' + document.getElementById('ln').value },
+              { display_name: 'Phone', variable_name: 'phone', value: document.getElementById('ph').value },
+              { display_name: 'Address', variable_name: 'address', value: document.getElementById('addr').value },
+              { display_name: 'Shipping', variable_name: 'shipping', value: shipping === 0 ? 'Free Pickup' : shipping === 3500 ? 'Standard' : 'Express' }
+            ]
+          },
+          callback: function (response) {
+            // Build WhatsApp message with full order details
+            const name = firstName + ' ' + document.getElementById('ln').value;
+            const phone = document.getElementById('ph').value;
+            const address = document.getElementById('addr').value;
+            const city = document.getElementById('city').value;
+            const stateVal = document.getElementById('state').value;
+            const shippingType = shipping === 0 ? 'Free Pickup' : shipping === 3500 ? 'Standard Delivery (₦3,500)' : 'Express Delivery (₦6,500)';
+            const totalAmt = subtotal + shipping - discount;
+
+            const msg =
+              '🛍️ *NEW ORDER — Giftij Brandy*' + '\n' +
+              '━━━━━━━━━━━━━━━━━━━━━━' + '\n' +
+              '*Order Ref:* ' + response.reference + '\n' +
+              '*Payment:* ✅ Confirmed via Paystack' + '\n\n' +
+              '👤 *Customer Details*' + '\n' +
+              '*Name:* ' + name + '\n' +
+              '*Phone:* ' + phone + '\n' +
+              '*Email:* ' + document.getElementById('em').value + '\n\n' +
+              '📦 *Delivery Address*' + '\n' +
+              address + ', ' + city + ', ' + stateVal + '\n\n' +
+              '🚚 *Shipping:* ' + shippingType + '\n\n' +
+              '💰 *Order Total: ' + naira(totalAmt) + '*' + '\n' +
+              '━━━━━━━━━━━━━━━━━━━━━━' + '\n' +
+              'Thank you for shopping with Giftij Brandy! 🥂';
+
+            // Show success screen briefly, then open WhatsApp
+            showSuccess(firstName, response.reference);
+
+            // Redirect to WhatsApp after 1.5s
+            setTimeout(function () {
+              const waUrl = 'https://wa.me/2349023021320?text=' + encodeURIComponent(msg);
+              window.open(waUrl, '_blank');
+            }, 1500);
+          },
+          onClose: function () {
+            // User closed — do nothing
+          }
+        });
+        handler.openIframe();
+      }); // end loadPaystackScript
+    }
+
+    function showSuccess(name, ref) {
+      document.getElementById('coWrapper').style.display = 'none';
+      document.querySelector('.progress-bar').style.display = 'none';
+      document.getElementById('successScreen').classList.add('show');
+      document.getElementById('succName').textContent = name;
+      document.getElementById('succRef').textContent = 'Order #' + ref;
+      window.scrollTo(0, 0);
+    }
+
+    // Init
+    updateTotals();
+  </script>
+</body>
+
+</html>
