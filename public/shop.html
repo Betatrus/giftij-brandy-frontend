@@ -177,6 +177,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sticky-bag-icon{width:52px;height:52px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.28);position:relative;flex-shrink:0;text-decoration:none;color:#fff;}
 .sticky-bag-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#C9A84C;color:#1A1A1A;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:"Jost",sans-serif;}
 
+/* ═══ CART MODAL (mobile only — opened by sticky bag icon) ═══ */
+.cart-modal-overlay{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.3s ease;}
+.cart-modal-overlay.open{display:flex;opacity:1;align-items:flex-end;}
+.cart-modal{display:flex;flex-direction:column;width:100%;max-height:85vh;background:#fff;border-radius:24px 24px 0 0;overflow-y:auto;animation:cmSlideUp 0.3s ease;}
+@keyframes cmSlideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+@media(min-width:901px){.cart-modal-overlay{display:none!important;}}
+.cm-header{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 16px;border-bottom:0.5px solid rgba(201,168,76,0.2);flex-shrink:0;}
+.cm-header-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:600;color:#1A1A1A;}
+.cm-close{width:38px;height:38px;border-radius:50%;background:none;border:none;color:#1A1A1A;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.cm-close:hover{background:#F0EAE0;}
+.cm-content{flex:1;display:flex;flex-direction:column;}
+.cm-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;}
+.cm-empty-icon{width:100px;height:100px;border-radius:50%;background:#F5EDD8;display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:#C9A84C;}
+.cm-empty-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:600;color:#1A1A1A;margin-bottom:10px;}
+.cm-empty-desc{font-size:14px;color:#9A9490;margin-bottom:26px;}
+.cm-empty-btn{padding:14px 34px;background:#C9A84C;color:#1A1A1A;border:none;border-radius:44px;font-family:"Jost",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
+.cm-items{padding:20px;display:flex;flex-direction:column;gap:14px;}
+.cm-item{display:flex;gap:14px;padding:14px;background:#F5EDD8;border-radius:12px;}
+.cm-item-info{flex:1;}
+.cm-item-name{font-weight:600;color:#1A1A1A;font-size:14px;margin-bottom:3px;}
+.cm-item-variant{font-size:12px;color:#9A9490;margin-bottom:7px;}
+.cm-item-price{font-weight:700;color:#1A1A1A;font-size:13px;}
+.cm-item-qty{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.cm-item-qty-btn{width:26px;height:26px;border-radius:5px;background:#fff;border:1px solid #E8D5A3;color:#1A1A1A;cursor:pointer;font-size:14px;font-weight:600;}
+.cm-item-remove{width:26px;height:26px;background:none;border:none;color:#c0392b;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.cm-footer{padding:18px 22px 24px;border-top:0.5px solid rgba(201,168,76,0.2);}
+.cm-total{display:flex;justify-content:space-between;font-weight:700;font-size:16px;color:#1A1A1A;margin-bottom:14px;}
+.cm-checkout-btn{display:block;width:100%;padding:16px;background:#1A1A1A;color:#fff;text-align:center;text-decoration:none;border-radius:8px;font-family:"Jost",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.cm-checkout-btn:hover{background:#C9A84C;color:#1A1A1A;}
+.cm-back-btn{display:block;width:100%;padding:12px;background:#F5EDD8;color:#1A1A1A;border:none;border-radius:8px;font-family:"Jost",sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
+.cm-back-btn:hover{background:#E8D5A3;}
+
 /* Pagination */
 .pagination{display:flex;justify-content:center;gap:6px;padding:48px 0 16px;}
 .page-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:transparent;border:0.5px solid rgba(201,168,76,0.3);font-family:"Jost",sans-serif;font-size:13px;color:#7A7268;cursor:pointer;transition:all 0.2s;}
@@ -313,7 +345,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
     </div>
     <div class="gb-contact">
       <p class="gb-contact-label">Questions? Contact Us</p>
-      <a href="mailto:hello@giftijbrandy.com">hello@giftijbrandy.com</a>
+      <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
     </div>
   </div>
 </div>
@@ -654,10 +686,21 @@ a, button { -webkit-tap-highlight-color: transparent; }
     <span class="sticky-dot"></span>
     <span id="stickyTotal">₦0</span>
   </a>
-  <a href="checkout.html" class="sticky-bag-icon">
+  <button type="button" class="sticky-bag-icon" id="bagBtn" aria-label="Your bag">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span class="sticky-bag-badge" id="stickyBadge">0</span>
-  </a>
+  </button>
+</div>
+
+<!-- CART MODAL (mobile only, opened by bag icon) -->
+<div class="cart-modal-overlay" id="cartModalOverlay">
+  <div class="cart-modal" id="cartModal">
+    <div class="cm-header">
+      <span class="cm-header-title">Your Cart</span>
+      <button type="button" class="cm-close" id="cmCloseBtn" aria-label="Close">×</button>
+    </div>
+    <div class="cm-content" id="cmContent"></div>
+  </div>
 </div>
 
 <footer>
@@ -678,10 +721,17 @@ function totalItems(){ return cart.reduce((s,i)=>s+i.qty,0); }
 function totalAmt(){ return cart.reduce((s,i)=>s+i.price*i.qty,0); }
 function cartId(name,variant){ return name.replace(/\s+/g,"-")+"-"+variant; }
 
+// Persist cart so other pages (e.g. checkout.html) can read it
+function saveCart(){
+  localStorage.setItem("cartItems", JSON.stringify(cart));
+  localStorage.setItem("cartTotal", String(totalAmt()));
+}
+
 // ════════════════════════════════
 // RENDER CART PANEL
 // ════════════════════════════════
 function renderCart(){
+  saveCart();
   const items = totalItems(), amt = totalAmt();
   // Nav badge
   const bc = document.getElementById("bagCount");
@@ -693,7 +743,7 @@ function renderCart(){
   document.querySelectorAll(".cart-item").forEach(r=>r.remove());
   const empty = document.getElementById("cartEmpty");
   const footer = document.getElementById("cartFooter");
-  if(cart.length===0){ empty.style.display="flex"; footer.style.display="none"; updateStickyBar(); return; }
+  if(cart.length===0){ empty.style.display="flex"; footer.style.display="none"; renderCartModal(); updateStickyBar(); return; }
   empty.style.display="none"; footer.style.display="block";
   const container = document.getElementById("cartItems");
   cart.forEach(item=>{
@@ -722,6 +772,7 @@ function renderCart(){
   // Pulse panel
   const panel = document.getElementById("cartPanel");
   if(panel){ panel.style.boxShadow="0 0 0 2px #C9A84C inset"; setTimeout(()=>panel.style.boxShadow="",500); }
+  renderCartModal();
   updateStickyBar();
 }
 
@@ -765,6 +816,96 @@ function resetCard(name){
     }
   });
 }
+
+// ════════════════════════════════
+// CART MODAL (mobile — bag icon)
+// ════════════════════════════════
+function renderCartModal(){
+  const content = document.getElementById("cmContent");
+  if(!content) return;
+  if(cart.length===0){
+    content.innerHTML = `
+      <div class="cm-empty">
+        <div class="cm-empty-icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <p class="cm-empty-title">Your bag is empty</p>
+        <p class="cm-empty-desc">Add a piece and it will appear here.</p>
+        <button type="button" class="cm-empty-btn" onclick="closeCart()">Start Shopping</button>
+      </div>`;
+    return;
+  }
+  let itemsHtml = '<div class="cm-items">';
+  cart.forEach(item=>{
+    itemsHtml += `
+      <div class="cm-item">
+        <div class="cm-item-info">
+          <p class="cm-item-name">${item.name}</p>
+          <p class="cm-item-variant">${item.variant}</p>
+          <p class="cm-item-price">${fmt(item.price)} × ${item.qty} = <strong>${fmt(item.price*item.qty)}</strong></p>
+        </div>
+        <div class="cm-item-qty">
+          <button type="button" class="cm-item-qty-btn" onclick="cartQty('${item.id}',-1)">−</button>
+          <span style="min-width:18px;text-align:center;font-weight:600;font-size:13px;">${item.qty}</span>
+          <button type="button" class="cm-item-qty-btn" onclick="cartQty('${item.id}',1)">+</button>
+          <button type="button" class="cm-item-remove" onclick="cartRemove('${item.id}')">✕</button>
+        </div>
+      </div>`;
+  });
+  itemsHtml += '</div>';
+  content.innerHTML = itemsHtml + `
+    <div class="cm-footer">
+      <div class="cm-total"><span>Total:</span><span>${fmt(totalAmt())}</span></div>
+      <a href="checkout.html" class="cm-checkout-btn">Proceed to Checkout</a>
+      <button type="button" class="cm-back-btn" onclick="closeCart()">Continue Shopping</button>
+    </div>`;
+}
+
+function openCart(){
+  document.getElementById("cartModalOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeCart(){
+  document.getElementById("cartModalOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+const bagBtn = document.getElementById("bagBtn");
+if(bagBtn) bagBtn.addEventListener("click", openCart);
+const cmCloseBtn = document.getElementById("cmCloseBtn");
+if(cmCloseBtn) cmCloseBtn.addEventListener("click", closeCart);
+const cartModalOverlay = document.getElementById("cartModalOverlay");
+if(cartModalOverlay) cartModalOverlay.addEventListener("click", (e)=>{ if(e.target===cartModalOverlay) closeCart(); });
+document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeCart(); });
+
+// Cross-tab instant sync: if the cart changes in another tab (e.g. Homepage
+// or Checkout open at the same time), reflect it here immediately.
+window.addEventListener("storage", (e)=>{
+  if(e.key === "cartItems"){
+    try { cart = JSON.parse(e.newValue) || []; } catch(err){ cart = []; }
+    // Re-sync every product card's Add-to-Cart / qty-stepper UI state
+    document.querySelectorAll(".product-card").forEach(card=>{
+      const name = card.querySelector(".product-name")?.textContent;
+      const inCart = cart.find(i=>i.name===name);
+      const addArea = card.querySelector(".product-add-area");
+      const qc = addArea?.querySelector(".qty-controls");
+      const qb = addArea?.querySelector(".quick-add-btn");
+      const mobWrap = card.querySelector(".mob-add-wrap");
+      const mb = mobWrap?.querySelector(".mob-add-btn");
+      const mr = mobWrap?.querySelector(".mob-qty-row");
+      if(inCart){
+        if(qc){ qc.classList.add("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=inCart.qty; }
+        if(qb) qb.style.display="none";
+        if(mr){ mr.classList.add("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=inCart.qty; }
+        if(mb) mb.style.display="none";
+      } else {
+        if(qc){ qc.classList.remove("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=1; }
+        if(qb) qb.style.display="";
+        if(mr){ mr.classList.remove("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=1; }
+        if(mb) mb.style.display="";
+      }
+    });
+    renderCart();
+  }
+});
 
 // ════════════════════════════════
 // DESKTOP HOVER ADD
@@ -914,6 +1055,33 @@ document.querySelectorAll(".page-btn").forEach(btn=>btn.addEventListener("click"
 
 // Init: show rough body by default
 filterCat("rough-body",null,"roughDrop","roughTab");
+
+// Restore cart from localStorage (e.g. after visiting checkout.html)
+try {
+  const saved = JSON.parse(localStorage.getItem("cartItems"));
+  if (Array.isArray(saved) && saved.length) {
+    cart = saved;
+    cart.forEach(item => {
+      // Sync desktop cards
+      document.querySelectorAll(".product-card").forEach(card => {
+        if (card.querySelector(".product-name")?.textContent === item.name) {
+          const addArea = card.querySelector(".product-add-area");
+          const qb = addArea?.querySelector(".quick-add-btn");
+          const qc = addArea?.querySelector(".qty-controls");
+          if (qb) qb.style.display = "none";
+          if (qc) { qc.classList.add("visible"); const qn = qc.querySelector(".qty-num"); if (qn) qn.textContent = item.qty; }
+          // Sync mobile controls
+          const mobWrap = card.querySelector(".mob-add-wrap");
+          const mb = mobWrap?.querySelector(".mob-add-btn");
+          const mr = mobWrap?.querySelector(".mob-qty-row");
+          if (mb) mb.style.display = "none";
+          if (mr) { mr.classList.add("show"); const mn = mr.querySelector(".mob-qty-num"); if (mn) mn.textContent = item.qty; }
+        }
+      });
+    });
+  }
+} catch (e) { /* ignore malformed localStorage data */ }
+
 renderCart();
 </script>
 </body>

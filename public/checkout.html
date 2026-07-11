@@ -1521,19 +1521,47 @@
   </div>
 
   <script>
-    // ── State ───────────────────────────────────────────��──────────────────────
+    // ── Global Cart State (shared with homepage/shop) ───────────────────────────────
+    const cartState = {
+      items: JSON.parse(localStorage.getItem('cartItems')) || [],
+      total: parseFloat(localStorage.getItem('cartTotal')) || 0
+    };
+
+    // ── State ─────────────────────────────────────────────────────────────────────
     let shipping = 3500;
     let discount = 0;
-    const subtotal = 185000; // TODO: connect to real cart
+    const subtotal = cartState.items.reduce((sum, i) => sum + (i.price * i.qty), 0) || 0;
 
     function naira(n) { return '₦' + n.toLocaleString('en-NG'); }
+
+    function renderCartItems() {
+      const oItems = document.getElementById('oItems');
+      if (cartState.items.length === 0) {
+        oItems.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">Your cart is empty</p>';
+        return;
+      }
+      
+      oItems.innerHTML = cartState.items.map(item => `
+        <div class="o-item">
+          <div class="o-item-img" style="background:#F0EAE0;">
+            <img src="${item.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2262%22 height=%2276%22%3E%3Crect width=%2262%22 height=%2276%22 fill=%22%23EDE0CC%22/%3E%3C/svg%3E'}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div>
+            <p class="o-item-name">${item.name}</p>
+            <p class="o-item-var">${item.variant || 'Standard'} · Qty: ${item.qty}</p>
+          </div>
+          <span class="o-item-price">${naira(item.price * item.qty)}</span>
+        </div>
+      `).join('');
+    }
 
     function updateTotals() {
       const total = subtotal + shipping - discount;
       document.getElementById('tSubtotal').textContent = naira(subtotal);
       document.getElementById('tShipping').textContent = shipping === 0 ? 'Free' : naira(shipping);
       document.getElementById('tTotal').textContent = naira(total);
-      document.getElementById('payBtnAmt').textContent = naira(total);
+      const payBtnAmt = document.getElementById('payBtnAmt');
+      if (payBtnAmt) payBtnAmt.textContent = naira(total);
       if (discount > 0) {
         document.getElementById('discRow').style.display = 'flex';
         document.getElementById('tDisc').textContent = '−' + naira(discount);
@@ -1738,6 +1766,7 @@
     }
 
     // Init
+    renderCartItems();
     updateTotals();
   </script>
 </body>
