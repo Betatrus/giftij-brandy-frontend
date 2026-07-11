@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Contact — Giftij Brandy</title>
+<title>Help & Support — Giftij Brandy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --gold: #C9A84C; --gold-light: #E8D5A3;  open--gold-pale: #F5EDD8;
+    --gold: #C9A84C; --gold-light: #E8D5A3; --gold-pale: #F5EDD8;
     --milk: #F7F3EC; --milk-white: #FDFAF5; --cream: #F0EAE0;
     --near-black: #1A1A1A; --charcoal: #2D2D2D; --muted: #7A7268; --white: #FFFFFF;
   }
   html { scroll-behavior: smooth; }
   body { font-family: 'Jost', sans-serif; background: var(--milk-white); color: var(--near-black); overflow-x: hidden; }
 
+  /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 60px; height: 72px; background: rgba(253,250,245,0.96); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(201,168,76,0.2); }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; letter-spacing: 0.12em; color: var(--near-black); text-decoration: none; }
   .nav-logo span { color: var(--gold); }
@@ -28,101 +29,92 @@
   .nav-cart-btn { display: flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--near-black); color: var(--white); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.25s; text-decoration: none; }
   .nav-cart-btn:hover { background: var(--gold); }
   .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--near-black); }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--near-black); transition: all 0.3s; }
 
-  /* PAGE HERO */
-  .contact-hero {
-    margin-top: 72px;
-    background: var(--near-black);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 300px;
-  }
-  .contact-hero-left { padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
-  .contact-getintouch { padding: 60px 60px 40px; }
-  @media (max-width: 900px) { .contact-getintouch { padding: 44px 32px 28px; } }
-  @media (max-width: 540px) { .contact-getintouch { padding: 36px 24px 22px; } }
-  .contact-hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 16px; }
-  .contact-hero-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 500; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
-  .contact-hero-title em { font-style: italic; color: var(--gold-light); }
-  .contact-hero-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.75; }
-  .contact-hero-right { background: var(--gold-pale); display: flex; align-items: center; justify-content: center; padding: 60px; }
-  .contact-channels { display: flex; flex-direction: column; gap: 20px; width: 100%; }
-  .channel-pill {
-    display: flex; align-items: center; gap: 16px;
-    padding: 18px 22px; background: var(--white);
-    border: 0.5px solid rgba(201,168,76,0.3);
-    text-decoration: none; transition: border-color 0.2s, background 0.2s;
-  }
-  .channel-pill:hover { border-color: var(--gold); background: var(--gold-pale); }
-  .channel-icon { width: 40px; height: 40px; background: var(--near-black); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .channel-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-  .channel-value { font-size: 14px; font-weight: 500; color: var(--near-black); }
-  .channel-note { font-size: 11px; font-weight: 300; color: var(--muted); margin-left: auto; white-space: nowrap; }
+  /* PAGE HEADER */
+  .page-header { margin-top: 72px; padding: 70px 60px 50px; background: var(--near-black); }
+  .page-header-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(201,168,76,0.75); letter-spacing: 0.08em; margin-bottom: 12px; }
+  .page-header-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
+  .page-header-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); }
 
-  /* MAIN CONTACT */
-  .contact-main { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 600px; }
+  /* SEARCH BAR */
+  .support-search { padding: 40px 60px; background: var(--cream); border-bottom: 0.5px solid rgba(201,168,76,0.15); }
+  .search-wrap { max-width: 600px; margin: 0 auto; position: relative; }
+  .search-input { width: 100%; padding: 16px 56px 16px 20px; background: var(--white); border: 1px solid rgba(201,168,76,0.35); font-family: 'Jost', sans-serif; font-size: 15px; color: var(--near-black); outline: none; transition: border-color 0.2s; }
+  .search-input:focus { border-color: var(--gold); }
+  .search-input::placeholder { color: var(--muted); font-weight: 300; }
+  .search-btn { position: absolute; right: 0; top: 0; bottom: 0; width: 52px; background: var(--gold); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .search-btn:hover { background: var(--near-black); }
+  .search-btn svg { color: var(--near-black); }
+  .search-btn:hover svg { color: var(--gold); }
 
-  /* FORM SIDE */
-  .contact-form-side { padding: 80px 60px; }
-  .form-label-text { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
-  .form-eyebrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 10px; }
-  .form-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 500; color: var(--near-black); margin-bottom: 36px; line-height: 1.2; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-  .form-group.full { grid-column: 1 / -1; }
-  .form-input, .form-select, .form-textarea {
-    padding: 13px 16px;
-    background: var(--milk);
-    border: 0.5px solid rgba(201,168,76,0.25);
-    font-family: 'Jost', sans-serif; font-size: 14px;
-    color: var(--near-black); outline: none; transition: border-color 0.2s;
-    width: 100%;
-  }
-  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); background: var(--white); }
-  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); font-weight: 300; }
-  .form-select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A7268' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
-  .form-textarea { resize: vertical; min-height: 130px; line-height: 1.65; }
-  .form-submit { width: 100%; padding: 16px; background: var(--near-black); color: var(--white); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.25s; display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
-  .form-submit:hover { background: var(--gold); color: var(--near-black); }
-  .form-note { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 12px; text-align: center; }
+  /* TOPIC CARDS */
+  .topics-section { padding: 80px 60px; }
+  .section-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 12px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 500; margin-bottom: 48px; }
+  .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .topic-card { padding: 36px 32px; background: var(--milk); border: 0.5px solid rgba(201,168,76,0.15); cursor: pointer; transition: border-color 0.25s, background 0.25s; text-decoration: none; display: block; }
+  .topic-card:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .topic-icon { width: 48px; height: 48px; border: 1px solid rgba(201,168,76,0.35); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: border-color 0.25s; }
+  .topic-card:hover .topic-icon { border-color: var(--gold); }
+  .topic-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--near-black); margin-bottom: 8px; }
+  .topic-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .topic-link { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+  .topic-arrow { width: 18px; height: 1px; background: var(--gold); position: relative; transition: width 0.25s; }
+  .topic-card:hover .topic-arrow { width: 26px; }
+  .topic-arrow::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-right: 1px solid var(--gold); border-top: 1px solid var(--gold); transform: rotate(45deg); }
 
-  /* INFO SIDE */
-  .contact-info-side { background: var(--near-black); padding: 80px 60px; display: flex; flex-direction: column; justify-content: space-between; }
-  .info-block { margin-bottom: 48px; }
-  .info-label { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
-  .info-value { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: var(--white); margin-bottom: 4px; }
-  .info-sub { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.45); }
-  .info-divider { height: 0.5px; background: rgba(201,168,76,0.15); margin: 8px 0 48px; }
-  .hours-list { display: flex; flex-direction: column; gap: 10px; }
-  .hours-item { display: flex; justify-content: space-between; font-size: 13px; }
-  .hours-day { font-weight: 300; color: rgba(255,255,255,0.5); }
-  .hours-time { font-weight: 400; color: rgba(255,255,255,0.8); }
-  .social-row { display: flex; gap: 12px; margin-top: 48px; }
-  .social-btn { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 0.5px solid rgba(201,168,76,0.3); color: rgba(255,255,255,0.6); text-decoration: none; font-size: 12px; font-weight: 400; letter-spacing: 0.08em; transition: border-color 0.2s, color 0.2s; }
-  .social-btn:hover { border-color: var(--gold); color: var(--gold-light); }
-  .whatsapp-cta { margin-top: 40px; padding: 20px 24px; background: rgba(37,211,102,0.1); border: 0.5px solid rgba(37,211,102,0.25); display: flex; align-items: center; gap: 16px; text-decoration: none; transition: background 0.2s; }
-  .whatsapp-cta:hover { background: rgba(37,211,102,0.15); }
-  .whatsapp-cta svg { flex-shrink: 0; }
-  .whatsapp-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(37,211,102,0.8); margin-bottom: 3px; }
-  .whatsapp-text { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.85); }
-  .whatsapp-note { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.4); }
+  /* FAQ */
+  .faq-section { padding: 80px 60px; background: var(--milk); }
+  .faq-tabs { display: flex; gap: 0; margin-bottom: 40px; flex-wrap: wrap; }
+  .faq-tab { padding: 12px 28px; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: 0.5px solid rgba(201,168,76,0.25); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .faq-tab.active { background: var(--near-black); color: var(--white); border-color: var(--near-black); }
+  .faq-tab:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+  .faq-list { display: flex; flex-direction: column; max-width: 760px; }
+  .faq-item { border-bottom: 0.5px solid rgba(201,168,76,0.2); }
+  .faq-question { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 22px 0; background: none; border: none; cursor: pointer; text-align: left; gap: 20px; }
+  .faq-q-text { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--near-black); line-height: 1.4; }
+  .faq-icon { flex-shrink: 0; width: 28px; height: 28px; border: 0.5px solid rgba(201,168,76,0.4); display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.3s; }
+  .faq-item.open .faq-icon { background: var(--gold); transform: rotate(45deg); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .faq-answer-inner { padding: 0 0 22px; font-size: 14px; font-weight: 300; color: var(--charcoal); line-height: 1.85; }
 
-  /* SUCCESS STATE */
-  .form-success { display: none; text-align: center; padding: 48px 24px; }
-  .form-success.show { display: block; }
-  .success-icon { width: 64px; height: 64px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
-  .success-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 500; margin-bottom: 12px; }
-  .success-sub { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.75; }
+  /* TRACK ORDER */
+  .track-section { padding: 80px 60px; background: var(--near-black); }
+  .track-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .track-content .section-label { color: rgba(201,168,76,0.75); }
+  .track-content .section-title { color: var(--white); margin-bottom: 16px; }
+  .track-content p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.8; }
+  .track-form { display: flex; flex-direction: column; gap: 14px; }
+  .track-input { padding: 14px 18px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(201,168,76,0.2); color: var(--white); font-family: 'Jost', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+  .track-input::placeholder { color: rgba(255,255,255,0.3); }
+  .track-input:focus { border-color: var(--gold); }
+  .track-btn { padding: 14px; background: var(--gold); color: var(--near-black); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; }
+  .track-btn:hover { background: var(--gold-light); }
+
+  /* CARE GUIDE */
+  .care-section { padding: 80px 60px; }
+  .care-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; }
+  .care-card { padding: 28px 24px; border: 0.5px solid rgba(201,168,76,0.2); background: var(--milk); }
+  .care-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 36px; color: var(--gold-light); margin-bottom: 14px; }
+  .care-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 500; margin-bottom: 10px; }
+  .care-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; }
+
+  /* CONTACT CTA */
+  .support-cta { padding: 80px 60px; background: var(--gold-pale); text-align: center; }
+  .support-cta h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 500; margin-bottom: 14px; }
+  .support-cta p { font-size: 15px; font-weight: 300; color: var(--muted); max-width: 420px; margin: 0 auto 36px; line-height: 1.75; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; background: var(--near-black); color: var(--white); font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.25s; }
+  .btn-primary:hover { background: var(--gold); color: var(--near-black); }
 
   /* FOOTER */
   footer { background: var(--near-black); padding: 50px 60px 32px; }
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 32px; border-top: 0.5px solid rgba(255,255,255,0.08); }
-  .footer-copy { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); }
+  .footer-copy { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); }
   .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--white); letter-spacing: 0.1em; margin-bottom: 8px; }
   .footer-brand-name span { color: var(--gold); }
   .footer-legal { display: flex; gap: 24px; }
-  .footer-legal a { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
   .footer-legal a:hover { color: var(--white); }
 
   /* ===== MOBILE RESPONSIVE ===== */
@@ -135,21 +127,24 @@
     .mobile-menu a { display: block; padding: 16px 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400; color: var(--near-black); text-decoration: none; border-bottom: 0.5px solid rgba(201,168,76,0.15); transition: color 0.2s; }
     .mobile-menu a:hover { color: var(--gold); }
     .mobile-menu a.cart { margin-top: 20px; padding: 14px 24px; background: var(--near-black); color: var(--white); text-align: center; border-bottom: none; }
-    .contact-hero { grid-template-columns: 1fr; }
-    .contact-hero-left { padding: 50px 24px 40px; }
-    .contact-hero-title { font-size: 36px; }
-    .contact-hero-right { padding: 40px 24px; }
-    .channel-note { display: none; }
-    .contact-main { grid-template-columns: 1fr; }
-    .contact-form-side { padding: 56px 24px; }
-    .contact-info-side { padding: 56px 24px; }
-    .form-grid { grid-template-columns: 1fr; }
+    .page-header { padding: 50px 24px 36px; }
+    .page-header-title { font-size: 36px; }
+    .support-search { padding: 28px 24px; }
+    .topics-section { padding: 56px 24px; }
+    .topics-grid { grid-template-columns: 1fr; gap: 16px; }
+    .faq-section { padding: 56px 24px; }
+    .track-section { padding: 56px 24px; }
+    .track-inner { grid-template-columns: 1fr; gap: 40px; }
+    .care-section { padding: 56px 24px; }
+    .care-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .support-cta { padding: 60px 24px; }
     footer { padding: 40px 24px 28px; }
-    .social-row { flex-wrap: wrap; }
+    .section-title { font-size: 28px; }
   }
   @media (max-width: 540px) {
-    .contact-hero-title { font-size: 30px; }
-    .form-title { font-size: 28px; }
+    .page-header-title { font-size: 30px; }
+    .care-grid { grid-template-columns: 1fr; }
+    .faq-tab { padding: 10px 16px; font-size: 11px; }
   }
 
   /* ═══ LOGO IMAGE — RESPONSIVE ═══ */
@@ -274,11 +269,6 @@ a, button { -webkit-tap-highlight-color: transparent; }
       <p style="font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.42); margin: 6px 0;">Email:</p>
       <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
     </div>
-    </div>
-    <div class="gb-contact">
-      <p class="gb-contact-label">Questions? Contact Us</p>
-      <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
-    </div>
   </div>
 </div>
 
@@ -302,9 +292,9 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="shop.html">Shop</a></li>
-    <li><a href="story.html">Our Story</a></li>
+    <li><a href="story.html" class="active">Our Story</a></li>
     <li><a href="support.html">Help & Support</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
   <div class="nav-actions">
     <a href="#" class="nav-cart-btn">
@@ -325,143 +315,248 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <a href="#" class="cart">Bag (0)</a>
 </div>
 
-<!-- MAIN CONTACT - FULL WIDTH VERTICAL STACK -->
-<div class="contact-main" style="display:flex;flex-direction:column;gap:0;">
-  <!-- 1. GET IN TOUCH HEADER -->
-  <section class="contact-hero contact-getintouch" style="max-width:100%;">
-    <div style="max-width:600px;">
-      <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#E8B84B;margin-bottom:16px;">Get In Touch</p>
-      <h1 class="contact-hero-title" style="margin-bottom:16px;">Contact<br><em>Us</em></h1>
-      <p class="contact-hero-sub">Have a question or need assistance? We're here to help you look and feel your best.</p>
-    </div>
-  </section>
+<div class="page-header">
+  <p class="page-header-eyebrow">We're Here For You</p>
+  <h1 class="page-header-title">Help & Support</h1>
+  <p class="page-header-sub">Find answers, track orders, and get the care your bag deserves.</p>
+</div>
 
-  <!-- 2. FORM SECTION -->
-  <div class="contact-form-side" style="max-width:600px;margin:0 auto;width:100%;padding:0 48px 60px;">
-    <h2 class="form-title" style="margin-bottom:32px;">Tell Us What You Need.</h2>
+<div class="support-search">
+  <div class="search-wrap">
+    <input type="text" class="search-input" placeholder="Search for answers — shipping, returns, care...">
+    <button class="search-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+    </button>
+  </div>
+</div>
 
-    <div id="contactForm">
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label-text">First Name</label>
-          <input type="text" class="form-input" placeholder="Adaeze">
-        </div>
-        <div class="form-group">
-          <label class="form-label-text">Last Name</label>
-          <input type="text" class="form-input" placeholder="Okonkwo">
-        </div>
-        <div class="form-group">
-          <label class="form-label-text">Email Address</label>
-          <input type="email" class="form-input" placeholder="you@email.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label-text">Phone (WhatsApp)</label>
-          <input type="tel" class="form-input" placeholder="09023021320">
-        </div>
-        <div class="form-group full">
-          <label class="form-label-text">Subject</label>
-          <select class="form-select">
-            <option value="" disabled selected>Select a topic</option>
-            <option>Order Enquiry</option>
-            <option>Custom / Bespoke Order</option>
-            <option>Return or Exchange</option>
-            <option>Styling Advice</option>
-            <option>Wholesale / Partnership</option>
-            <option>General Question</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label class="form-label-text">Your Message</label>
-          <textarea class="form-textarea" placeholder="Tell us what's on your mind..."></textarea>
-        </div>
+<!-- TOPICS -->
+<section class="topics-section">
+  <p class="section-label">Browse Topics</p>
+  <h2 class="section-title">How Can We Help?</h2>
+  <div class="topics-grid">
+    <a href="#faq" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
       </div>
-      <button class="form-submit" id="submitBtn">
-        Send Message
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <h3 class="topic-title">Orders & Shipping</h3>
+      <p class="topic-desc">Delivery times, tracking info, shipping zones, and what happens after you click checkout.</p>
+      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
+    </a>
+    <a href="#faq" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <h3 class="topic-title">Returns & Exchanges</h3>
+      <p class="topic-desc">Not quite right? We'll make it right. Learn about our 14-day return and exchange policy.</p>
+      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
+    </a>
+    <a href="#care" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <h3 class="topic-title">Bag Care Guide</h3>
+      <p class="topic-desc">Keep your investment looking flawless. Tips on leather care, storage, and maintenance.</p>
+      <span class="topic-link">Learn more <div class="topic-arrow"></div></span>
+    </a>
+    <a href="contact.html" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h3 class="topic-title">Contact Us</h3>
+      <p class="topic-desc">Can't find your answer? Our team is available via WhatsApp, email, and Instagram DM.</p>
+      <span class="topic-link">Get in touch <div class="topic-arrow"></div></span>
+    </a>
+    <a href="#track" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+        </svg>
+      </div>
+      <h3 class="topic-title">Track My Order</h3>
+      <p class="topic-desc">Enter your order number to get real-time updates on your delivery status.</p>
+      <span class="topic-link">Track now <div class="topic-arrow"></div></span>
+    </a>
+    <a href="#faq" class="topic-card">
+      <div class="topic-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h3 class="topic-title">General FAQ</h3>
+      <p class="topic-desc">Payments, sizing, authenticity, gift wrapping, and more — answered.</p>
+      <span class="topic-link">See FAQs <div class="topic-arrow"></div></span>
+    </a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <p class="section-label">Common Questions</p>
+  <h2 class="section-title">Frequently Asked</h2>
+  <div class="faq-tabs">
+    <button class="faq-tab active" data-tab="orders">Orders & Shipping</button>
+    <button class="faq-tab" data-tab="returns">Returns</button>
+    <button class="faq-tab" data-tab="product">Product</button>
+    <button class="faq-tab" data-tab="payment">Payment</button>
+  </div>
+  <div class="faq-list" id="faqList">
+    <div class="faq-item" data-tab="orders">
+      <button class="faq-question">
+        <span class="faq-q-text">How long does delivery take within Nigeria?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
       </button>
-      <p class="form-note">We typically respond within 2 hours on WhatsApp, 24 hours via email.</p>
+      <div class="faq-answer"><div class="faq-answer-inner">Lagos orders typically arrive within 1–2 business days. Orders to other Nigerian states take 2–5 business days depending on location. You'll receive a tracking link via WhatsApp and email as soon as your order is dispatched.</div></div>
     </div>
-
-    <div class="form-success" id="formSuccess">
-      <div class="success-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h3 class="success-title">Message Received</h3>
-      <p class="success-sub">Thank you for reaching out. We'll be in touch within 2 hours via WhatsApp, or within 24 hours via email.</p>
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold);margin-top:24px;">With love, the Giftij Brandy team.</p>
+    <div class="faq-item" data-tab="orders">
+      <button class="faq-question">
+        <span class="faq-q-text">Do you ship internationally?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Yes! We ship to the UK, US, Canada, and select European countries. International shipping takes 7–14 business days. Customs fees and import duties are the responsibility of the customer and vary by country.</div></div>
+    </div>
+    <div class="faq-item" data-tab="orders">
+      <button class="faq-question">
+        <span class="faq-q-text">How do I track my order?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Once your order ships, you'll get a tracking number via WhatsApp and email. You can also use the Track My Order form on this page. If you haven't received your tracking details within 24 hours of purchase, contact us directly.</div></div>
+    </div>
+    <div class="faq-item" data-tab="returns">
+      <button class="faq-question">
+        <span class="faq-q-text">What is your return policy?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">We accept returns within 14 days of delivery for items in original, unused condition with all tags attached. Custom or personalised pieces are non-returnable. Contact us via WhatsApp to initiate a return and we'll guide you through the process.</div></div>
+    </div>
+    <div class="faq-item" data-tab="returns">
+      <button class="faq-question">
+        <span class="faq-q-text">How do exchanges work?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Want a different colour or style? We offer free exchanges within 14 days. Simply return your item and let us know what you'd like instead. If there's a price difference, we'll sort the balance via transfer or refund.</div></div>
+    </div>
+    <div class="faq-item" data-tab="product">
+      <button class="faq-question">
+        <span class="faq-q-text">Are your bags made from real leather?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Absolutely. All Giftij Brandy bags use full-grain or pebbled genuine leather. We list the exact leather type and origin on each product page. We never use bonded leather or PU — you're getting the real thing, every time.</div></div>
+    </div>
+    <div class="faq-item" data-tab="product">
+      <button class="faq-question">
+        <span class="faq-q-text">Do the bags come with a dust bag and authenticity card?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Yes! Every bag arrives in our signature gold-and-black gift box, with a branded dust bag, gold authenticity card, and care guide card. It's gift-ready right out of the box.</div></div>
+    </div>
+    <div class="faq-item" data-tab="payment">
+      <button class="faq-question">
+        <span class="faq-q-text">What payment methods do you accept?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">We accept card payments (Mastercard, Visa), bank transfers, and payments via Paystack. For international orders, we also accept PayPal. All transactions are secured with SSL encryption.</div></div>
+    </div>
+    <div class="faq-item" data-tab="payment">
+      <button class="faq-question">
+        <span class="faq-q-text">Can I pay in instalments?</span>
+        <span class="faq-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">Yes! We offer a layaway plan for orders above ₦100,000. Pay 50% upfront and the balance before dispatch. Contact us on WhatsApp to set this up — we'll hold your item for up to 14 days.</div></div>
     </div>
   </div>
+</section>
 
-  <!-- 3. CONTACT CHANNELS SECTION - HORIZONTAL WITH SOCIAL ICONS -->
-  <section style="width:100%;background:#F5F5F5;padding:48px;border-top:0.5px solid rgba(201,168,76,0.15);border-bottom:0.5px solid rgba(201,168,76,0.15);">
-    <div style="max-width:900px;margin:0 auto;">
-      <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:32px;text-align:center;">Contact Us</h2>
-      <div style="display:flex;justify-content:center;gap:80px;flex-wrap:wrap;align-items:flex-start;padding:0 24px;">
-        <!-- WhatsApp -->
-        <a href="https://wa.me/2349023021320" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
-          <div style="width:64px;height:64px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 0C5.374 0 0 5.374 0 12.004c0 2.138.567 4.147 1.549 5.89L.057 23.998l6.256-1.643C8.02 23.407 9.97 24.008 12.004 24.008 18.63 24.008 24 18.634 24 12.004 24 5.374 18.63 0 12.004 0zm0 21.888c-1.942 0-3.755-.526-5.307-1.44l-.38-.226-3.938 1.033 1.05-3.836-.248-.394C2.15 15.666 1.63 13.88 1.63 12.004c0-5.724 4.652-10.374 10.374-10.374 5.724 0 10.374 4.65 10.374 10.374 0 5.724-4.65 10.374-10.374 10.374z"/></svg>
-          </div>
-          <div style="text-align:center;">
-            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">WhatsApp</p>
-            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">09023021320</p>
-            <p style="font-size:11px;font-weight:300;color:#888;">Fastest · 2hr</p>
-          </div>
-        </a>
-
-        <!-- Email -->
-        <a href="mailto:jacobsgift3@gmail.com" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
-          <div style="width:64px;height:64px;background:#1A1A1A;border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div style="text-align:center;">
-            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">Email</p>
-            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;word-break:break-word;">jacobsgift3@gmail.com</p>
-            <p style="font-size:11px;font-weight:300;color:#888;">Within 24hrs</p>
-          </div>
-        </a>
-
-        <!-- Instagram -->
-        <a href="https://instagram.com/giftijbrandy" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 0.2s;">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-            <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.2" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="white"/><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="white" stroke-width="1.5"/></svg>
-          </div>
-          <div style="text-align:center;">
-            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;">Instagram</p>
-            <p style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">@giftijbrandy</p>
-            <p style="font-size:11px;font-weight:300;color:#888;">DM us anytime</p>
-          </div>
-        </a>
+<!-- TRACK -->
+<section class="track-section" id="track">
+  <div class="track-inner">
+    <div class="track-content">
+      <p class="section-label">Know Where It Is</p>
+      <h2 class="section-title">Track Your Order</h2>
+      <p>Enter your order number and email below to get a real-time update on your delivery. Orders are dispatched within 24 hours of payment confirmation.</p>
+    </div>
+    <div>
+      <div class="track-form">
+        <input type="text" class="track-input" placeholder="Order Number (e.g. LP-00281)">
+        <input type="email" class="track-input" placeholder="Email address used at checkout">
+        <button class="track-btn">Track My Order</button>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 4. LOCATION & BUSINESS HOURS SECTION -->
-  <section style="max-width:600px;margin:0 auto;width:100%;padding:60px 48px;border-top:0.5px solid rgba(201,168,76,0.15);">
-    <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:#1A1A1A;margin-bottom:32px;">Our Location & Business Hours</h2>
-    <div style="display:flex;flex-direction:column;gap:32px;">
-      <div>
-        <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Location</p>
-        <p style="font-size:16px;font-weight:600;color:#1A1A1A;margin-bottom:2px;">Lagos, Nigeria</p>
-        <p style="font-size:14px;font-weight:300;color:#6A6460;">Online-first brand · Nationwide delivery</p>
-      </div>
-      <div>
-        <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">Business Hours</p>
-        <div style="font-size:14px;font-weight:300;color:#1A1A1A;line-height:1.8;">
-          <p style="margin-bottom:6px;"><strong style="font-weight:500;">Monday – Friday:</strong> 9 AM – 6 PM</p>
-          <p style="margin-bottom:6px;"><strong style="font-weight:500;">Saturday:</strong> 10 AM – 4 PM</p>
-          <p><strong style="font-weight:500;">Sunday:</strong> Closed</p>
-        </div>
-      </div>
+<!-- CARE GUIDE -->
+<section class="care-section" id="care">
+  <p class="section-label">Keep It Beautiful</p>
+  <h2 class="section-title">Bag Care Guide</h2>
+  <div class="care-grid">
+    <div class="care-card">
+      <p class="care-num">I</p>
+      <h3 class="care-title">Clean Gently</h3>
+      <p class="care-text">Use a soft, damp cloth for surface dirt. Never use harsh chemicals, alcohol wipes, or abrasive materials on the leather.</p>
     </div>
-  </section>
-</div>
+    <div class="care-card">
+      <p class="care-num">II</p>
+      <h3 class="care-title">Condition Regularly</h3>
+      <p class="care-text">Apply a leather conditioner every 3–6 months to keep the leather supple and prevent cracking. A little goes a long way.</p>
+    </div>
+    <div class="care-card">
+      <p class="care-num">III</p>
+      <h3 class="care-title">Store Properly</h3>
+      <p class="care-text">Always store in the dust bag provided, stuffed lightly to maintain shape. Keep away from direct sunlight and humidity.</p>
+    </div>
+    <div class="care-card">
+      <p class="care-num">IV</p>
+      <h3 class="care-title">Protect From Rain</h3>
+      <p class="care-text">Use a leather protector spray before exposure to wet conditions. If caught in rain, blot dry with a soft cloth — never rub.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="support-cta">
+  <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--gold);letter-spacing:0.1em;margin-bottom:12px;">Still Have Questions?</p>
+  <h2>We're Always Here.</h2>
+  <p>Our team typically responds within 2 hours on WhatsApp. For email, expect us within 24 hours on business days.</p>
+  <a href="contact.html" class="btn-primary">
+    Contact Us
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</section>
 
 <footer>
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;gap:24px;">
     <div>
       <p class="footer-brand-name">GIFTIJ <span>BRANDY</span></p>
-      <p style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
+      <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;">Uniquely Maintain Your Style With Us.</p>
     </div>
   </div>
   <div class="footer-bottom">
@@ -471,15 +566,47 @@ a, button { -webkit-tap-highlight-color: transparent; }
 </footer>
 
 <script>
-  // Mobile menu
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  // Close drawer when a menu link is clicked
+  // (open/close/overlay behavior for the drawer is already handled
+  // by the script right after #gbOverlay above)
+  document.querySelectorAll('.gb-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const ov = document.getElementById('gbOverlay');
+      const fab = document.getElementById('gbMenuFab');
+      ov.classList.remove('open');
+      fab.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
 
-  // Form submit simulation
-  document.getElementById('submitBtn').addEventListener('click', () => {
-    document.getElementById('contactForm').style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        item.querySelector('.faq-answer').style.maxHeight = item.querySelector('.faq-answer-inner').scrollHeight + 32 + 'px';
+      }
+    });
+  });
+
+  // FAQ tabs
+  document.querySelectorAll('.faq-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const active = tab.dataset.tab;
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.style.display = item.dataset.tab === active ? 'block' : 'none';
+        item.classList.remove('open');
+        item.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+    });
   });
 </script>
 </body>
