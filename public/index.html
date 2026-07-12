@@ -237,11 +237,13 @@
   /* === LIFESTYLE === */
   .lifestyle-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 580px; }
   .lifestyle-video-side { position: relative; background: #120E06; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .lifestyle-video-bg-el { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s ease; }
+  .lifestyle-video-bg-el.loaded { opacity: 0.55; }
+  .lifestyle-video-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,14,6,0.35) 0%, rgba(18,14,6,0.25) 45%, rgba(18,14,6,0.85) 100%); }
   .lifestyle-video-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 70% at 40% 50%, rgba(201,168,76,0.12) 0%, transparent 70%); }
-  .lifestyle-play { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-  .play-circle { width: 76px; height: 76px; border-radius: 50%; border: 1.5px solid rgba(201,168,76,0.55); display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; }
-  .lifestyle-video-side:hover .play-circle { border-color: #C9A84C; background: rgba(201,168,76,0.1); }
-  .play-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: #E8D5A3; letter-spacing: 0.1em; }
+  .lifestyle-sound-toggle { position: absolute; top: 20px; right: 20px; z-index: 3; width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(18,14,6,0.45); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .lifestyle-sound-toggle:hover { border-color: #C9A84C; background: rgba(18,14,6,0.7); }
+  .lifestyle-video-side:hover .lifestyle-sound-toggle { border-color: #C9A84C; }
   .video-caption { position: absolute; bottom: 36px; left: 36px; right: 36px; }
   .video-caption-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #C9A84C; margin-bottom: 8px; }
   .video-caption-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 500; color: #FFFFFF; line-height: 1.3; }
@@ -382,6 +384,20 @@
   /* Card tag badges */
   .card-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; }
   .product-badge { font-weight: 700; }
+
+  /* ═══ BEHIND THE BRAND CANVAS — MOBILE DE-CLUTTER ═══ */
+  @media (max-width: 900px) {
+    .lifestyle-video-side { min-height: 420px; padding: 28px; }
+    .lifestyle-sound-toggle { top: 16px; right: 16px; width: 36px; height: 36px; }
+    .video-caption { left: 24px; right: 24px; bottom: 24px; }
+    .video-caption-tag { font-size: 9px; letter-spacing: 0.16em; margin-bottom: 6px; }
+    .video-caption-title { font-size: 20px !important; line-height: 1.3; }
+  }
+  @media (max-width: 480px) {
+    .lifestyle-video-side { min-height: 380px; padding: 22px; }
+    .video-caption { left: 20px; right: 20px; bottom: 20px; }
+    .video-caption-title { font-size: 18px !important; }
+  }
 
 
   /* ═══ LOGO IMAGE — RESPONSIVE ═══ */
@@ -910,23 +926,15 @@ a, button { -webkit-tap-highlight-color: transparent; }
 <!-- LIFESTYLE VIDEO -->
 <section class="lifestyle-section">
   <div class="lifestyle-video-side">
+    <video class="lifestyle-video-bg-el" id="lifestyleBgVideo" autoplay muted loop playsinline preload="metadata" onloadeddata="this.classList.add('loaded')">
+      <source src="Brand Story.mp4" type="video/mp4">
+    </video>
+    <div class="lifestyle-video-overlay"></div>
     <div class="lifestyle-video-bg"></div>
-    <!-- REPLACE WITH YOUR VIDEO -->
-    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.13;" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid slice">
-      <rect width="700" height="600" fill="#120E06"/>
-      <ellipse cx="350" cy="300" rx="200" ry="260" fill="#C9A84C" opacity="0.12"/>
-      <ellipse cx="300" cy="280" rx="52" ry="60" fill="#2A1F0E"/>
-      <path d="M248 350 Q256 420 242 530" stroke="#2A1F0E" stroke-width="25" fill="none" stroke-linecap="round"/>
-      <path d="M352 350 Q362 420 370 530" stroke="#2A1F0E" stroke-width="25" fill="none" stroke-linecap="round"/>
-      <path d="M248 350 Q300 418 352 350" fill="#2A1F0E"/>
-      <rect x="358" y="318" width="92" height="70" rx="6" fill="#C9A84C" opacity="0.48"/>
-    </svg>
-    <div class="lifestyle-play" onclick="openBrandStoryVideo()" style="cursor:pointer;">
-      <div class="play-circle">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#C9A84C"><polygon points="5,3 19,12 5,21"/></svg>
-      </div>
-      <span class="play-label">Watch the Story</span>
-    </div>
+    <button class="lifestyle-sound-toggle" id="lifestyleSoundToggle" onclick="toggleLifestyleSound()" aria-label="Toggle video sound">
+      <svg id="soundIconMuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      <svg id="soundIconOn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+    </button>
     <div class="video-caption">
       <p class="video-caption-tag">Behind the Brand</p>
       <p class="video-caption-title">She shops.<br>She shines.</p>
@@ -1047,10 +1055,28 @@ a, button { -webkit-tap-highlight-color: transparent; }
   });
 
   // Brand Story Video Modal
+  function toggleLifestyleSound() {
+    const vid = document.getElementById('lifestyleBgVideo');
+    const iconMuted = document.getElementById('soundIconMuted');
+    const iconOn = document.getElementById('soundIconOn');
+    if (!vid) return;
+    vid.muted = !vid.muted;
+    if (!vid.muted) {
+      vid.play().catch(()=>{ vid.muted = true; }); // if browser blocks unmuted playback, fall back to muted
+      iconMuted.style.display = vid.muted ? 'block' : 'none';
+      iconOn.style.display = vid.muted ? 'none' : 'block';
+    } else {
+      iconMuted.style.display = 'block';
+      iconOn.style.display = 'none';
+    }
+  }
+
   function openBrandStoryVideo() {
     const modal = document.getElementById('videoModal');
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    const bgVideo = document.getElementById('lifestyleBgVideo');
+    if (bgVideo) bgVideo.pause();
   }
   
   function closeBrandStoryVideo() {
@@ -1058,6 +1084,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
     modal.style.display = 'none';
     document.body.style.overflow = '';
     modal.querySelector('video').pause();
+    const bgVideo = document.getElementById('lifestyleBgVideo');
+    if (bgVideo) bgVideo.play().catch(()=>{});
   }
   
   // Close modal when clicking outside video
@@ -1216,14 +1244,18 @@ function updateCartModal(){
 }
 
 function modifyCartQty(idx,d){
+  const name=cart[idx].name;
   cart[idx].qty+=d;
   if(cart[idx].qty<=0){ cart.splice(idx,1); }
   renderCart();
+  syncProductCardUI(name, cart.find(i=>i.name===name));
 }
 
 function removeFromCart(idx){
+  const name=cart[idx].name;
   cart.splice(idx,1);
   renderCart();
+  syncProductCardUI(name, cart.find(i=>i.name===name));
 }
 
 function goToCheckout(){
