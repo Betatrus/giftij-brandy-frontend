@@ -83,8 +83,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
 .product-card{cursor:pointer;}
 .product-img-wrap{position:relative;overflow:hidden;background:#F0EAE0;margin-bottom:15px;aspect-ratio:3/4;}
-.product-img-wrap svg{width:100%;height:100%;display:block;transition:transform 0.5s ease;}
-.product-card:hover .product-img-wrap svg{transform:scale(1.05);}
+.product-img-frame{width:100%;height:100%;}
+.product-img-frame svg{width:100%;height:100%;display:block;transition:transform 0.5s ease, opacity 0.2s ease;}
+.product-card:hover .product-img-frame svg{transform:scale(1.05);}
 .product-badge{position:absolute;top:12px;left:12px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;z-index:1;}
 .badge-new{background:#1A1A1A;color:#fff;}
 .badge-best{background:#C9A84C;color:#1A1A1A;}
@@ -113,9 +114,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .product-price-row{display:flex;align-items:center;gap:10px;}
 .product-price{font-size:15px;font-weight:700;color:#1A1A1A;}
 .product-price-old{font-size:13px;font-weight:300;color:#9A9490;text-decoration:line-through;}
-.color-dots{display:flex;gap:6px;margin-top:8px;}
-.color-dot{width:12px;height:12px;border-radius:50%;cursor:pointer;border:1.5px solid transparent;transition:border-color 0.2s;}
-.color-dot.active{border-color:#C9A84C;}
+/* Spec-image dots: only rendered when a product has more than one photo.
+   Signals to the customer that there's more to see — tap or swipe. */
+.spec-dots{display:flex;gap:6px;margin-top:8px;}
+.spec-dot{width:6px;height:6px;border-radius:50%;cursor:pointer;background:#D8CFC6;transition:background 0.2s,width 0.2s;}
+.spec-dot.active{background:#C9A84C;width:16px;border-radius:3px;}
 
 /* ═══ MOBILE ADD TO BAG (below price, shown only on mobile) ═══ */
 .mob-add-wrap{display:none;margin-top:12px;flex-direction:column;gap:0;}
@@ -176,38 +179,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sticky-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);}
 .sticky-bag-icon{width:52px;height:52px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.28);position:relative;flex-shrink:0;text-decoration:none;color:#fff;}
 .sticky-bag-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#C9A84C;color:#1A1A1A;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:"Jost",sans-serif;}
-
-/* ═══ CART MODAL (mobile only — opened by sticky bag icon) ═══ */
-.cart-modal-overlay{display:none;position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.3s ease;}
-.cart-modal-overlay.open{display:flex;opacity:1;align-items:flex-end;}
-.cart-modal{display:flex;flex-direction:column;width:100%;max-height:85vh;background:#fff;border-radius:24px 24px 0 0;overflow-y:auto;animation:cmSlideUp 0.3s ease;}
-@keyframes cmSlideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-@media(min-width:901px){.cart-modal-overlay{display:none!important;}}
-.cm-header{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 16px;border-bottom:0.5px solid rgba(201,168,76,0.2);flex-shrink:0;}
-.cm-header-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:600;color:#1A1A1A;}
-.cm-close{width:38px;height:38px;border-radius:50%;background:none;border:none;color:#1A1A1A;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-.cm-close:hover{background:#F0EAE0;}
-.cm-content{flex:1;display:flex;flex-direction:column;}
-.cm-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;}
-.cm-empty-icon{width:100px;height:100px;border-radius:50%;background:#F5EDD8;display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:#C9A84C;}
-.cm-empty-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:600;color:#1A1A1A;margin-bottom:10px;}
-.cm-empty-desc{font-size:14px;color:#9A9490;margin-bottom:26px;}
-.cm-empty-btn{padding:14px 34px;background:#C9A84C;color:#1A1A1A;border:none;border-radius:44px;font-family:"Jost",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
-.cm-items{padding:20px;display:flex;flex-direction:column;gap:14px;}
-.cm-item{display:flex;gap:14px;padding:14px;background:#F5EDD8;border-radius:12px;}
-.cm-item-info{flex:1;}
-.cm-item-name{font-weight:600;color:#1A1A1A;font-size:14px;margin-bottom:3px;}
-.cm-item-variant{font-size:12px;color:#9A9490;margin-bottom:7px;}
-.cm-item-price{font-weight:700;color:#1A1A1A;font-size:13px;}
-.cm-item-qty{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.cm-item-qty-btn{width:26px;height:26px;border-radius:5px;background:#fff;border:1px solid #E8D5A3;color:#1A1A1A;cursor:pointer;font-size:14px;font-weight:600;}
-.cm-item-remove{width:26px;height:26px;background:none;border:none;color:#c0392b;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
-.cm-footer{padding:18px 22px 24px;border-top:0.5px solid rgba(201,168,76,0.2);}
-.cm-total{display:flex;justify-content:space-between;font-weight:700;font-size:16px;color:#1A1A1A;margin-bottom:14px;}
-.cm-checkout-btn{display:block;width:100%;padding:16px;background:#1A1A1A;color:#fff;text-align:center;text-decoration:none;border-radius:8px;font-family:"Jost",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
-.cm-checkout-btn:hover{background:#C9A84C;color:#1A1A1A;}
-.cm-back-btn{display:block;width:100%;padding:12px;background:#F5EDD8;color:#1A1A1A;border:none;border-radius:8px;font-family:"Jost",sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
-.cm-back-btn:hover{background:#E8D5A3;}
 
 /* Pagination */
 .pagination{display:flex;justify-content:center;gap:6px;padding:48px 0 16px;}
@@ -338,14 +309,14 @@ a, button { -webkit-tap-highlight-color: transparent; }
         <a href="https://www.tiktok.com/@giftijbrandy" target="_blank" rel="noopener" aria-label="TikTok">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.63c.28 0 .54.04.79.1V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.69a6.34 6.34 0 0 0 12.67.39V8.69a8.18 8.18 0 0 0 4.76 1.52V6.76a4.84 4.84 0 0 1-1-.07z"/></svg>
         </a>
-        <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+        <a href="https://www.facebook.com/giftijbrandy" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </a>
       </div>
     </div>
     <div class="gb-contact">
       <p class="gb-contact-label">Questions? Contact Us</p>
-      <a href="mailto:jacobsgift3@gmail.com">jacobsgift3@gmail.com</a>
+      <a href="mailto:hello@giftijbrandy.com">hello@giftijbrandy.com</a>
     </div>
   </div>
 </div>
@@ -468,185 +439,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
       </select>
     </div>
     <div class="product-grid" id="productGrid">
-
-      <!-- Each card has: desktop hover overlay + mobile add wrap below price -->
-
-      <div class="product-card" data-cat="rough-body" data-price="185000">
-        <div class="product-img-wrap">
-          <span class="product-badge badge-best">Best Seller</span>
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/><rect x="45" y="110" width="150" height="130" rx="10" fill="#C9A84C" opacity="0.65"/><path d="M75 110 Q75 80 95 72 Q120 65 145 72 Q165 80 165 110" stroke="#C9A84C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.7"/><rect x="107" y="162" width="26" height="20" rx="4" fill="#F5EDD8" opacity="0.9"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'The Empress Tote',185000,'Camel')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">The Empress Tote</p>
-        <p class="product-material">Full-Grain Leather · Camel</p>
-        <div class="product-price-row"><span class="product-price">₦185,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div><div class="color-dot" style="background:#1A1A1A" onclick="pickColor(this)"></div><div class="color-dot" style="background:#8B6355" onclick="pickColor(this)"></div></div>
-        <!-- MOBILE: Add to Bag button below price -->
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'The Empress Tote',185000,'Camel')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="rough-body" data-price="145000">
-        <div class="product-img-wrap">
-          <span class="product-badge badge-new">New</span>
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/><rect x="50" y="90" width="140" height="155" rx="14" fill="#2D2410"/><path d="M80 90 Q80 60 100 55 Q120 50 140 55 Q160 60 160 90" stroke="#C9A84C" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/><rect x="104" y="158" width="32" height="22" rx="5" fill="#C9A84C" opacity="0.7"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'Midnight Satchel',145000,'Noir')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">Midnight Satchel</p>
-        <p class="product-material">Pebbled Leather · Noir</p>
-        <div class="product-price-row"><span class="product-price">₦145,000</span><span class="product-price-old">₦170,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div><div class="color-dot" style="background:#C9A84C" onclick="pickColor(this)"></div></div>
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'Midnight Satchel',145000,'Noir')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="rough-body" data-price="120000">
-        <div class="product-img-wrap">
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F5EEDE"/><path d="M55 105 L40 240 L200 240 L185 105 Z" fill="#C9A84C" opacity="0.55"/><path d="M55 105 Q55 80 120 78 Q185 80 185 105" stroke="#C9A84C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/><circle cx="120" cy="175" r="18" fill="#F5EDD8" opacity="0.7"/><circle cx="120" cy="175" r="10" fill="#C9A84C" opacity="0.6"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'The Boujee Bucket',120000,'Champagne')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">The Boujee Bucket</p>
-        <p class="product-material">Italian Leather · Champagne</p>
-        <div class="product-price-row"><span class="product-price">₦120,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#E8D5A3" onclick="pickColor(this)"></div><div class="color-dot" style="background:#C9A84C" onclick="pickColor(this)"></div></div>
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'The Boujee Bucket',120000,'Champagne')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="coach" data-price="95000">
-        <div class="product-img-wrap">
-          <span class="product-badge badge-best">Fan Fave</span>
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/><rect x="55" y="115" width="130" height="105" rx="20" fill="#C9A84C" opacity="0.6"/><path d="M82 115 Q82 88 100 83 Q120 78 140 83 Q158 88 158 115" stroke="#C9A84C" stroke-width="7" fill="none" opacity="0.6"/><circle cx="120" cy="166" r="9" fill="#F5EDD8" opacity="0.9"/><path d="M185 130 Q220 130 220 160" stroke="#C9A84C" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.45"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'La Petite Crossbody',95000,'Honey')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">La Petite Crossbody</p>
-        <p class="product-material">Smooth Leather · Honey</p>
-        <div class="product-price-row"><span class="product-price">₦95,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div><div class="color-dot" style="background:#8B6355" onclick="pickColor(this)"></div></div>
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'La Petite Crossbody',95000,'Honey')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="coach" data-price="58000">
-        <div class="product-img-wrap">
-          <span class="product-badge badge-sale">Sale</span>
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/><rect x="40" y="95" width="160" height="115" rx="28" fill="#1A1A1A" opacity="0.78"/><rect x="56" y="110" width="128" height="88" rx="20" fill="#C9A84C" opacity="0.22"/><rect x="100" y="146" width="40" height="18" rx="9" fill="#C9A84C" opacity="0.88"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'The Soirée Clutch',58000,'Noir')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">The Soirée Clutch</p>
-        <p class="product-material">Satin Leather · Noir</p>
-        <div class="product-price-row"><span class="product-price">₦58,000</span><span class="product-price-old">₦75,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div><div class="color-dot" style="background:#C9A84C" onclick="pickColor(this)"></div></div>
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'The Soirée Clutch',58000,'Noir')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="coach" data-price="135000">
-        <div class="product-img-wrap">
-          <span class="product-badge badge-new">New</span>
-          <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/><path d="M50 130 Q45 230 120 240 Q195 230 190 130 Q160 100 120 98 Q80 100 50 130Z" fill="#C9A84C" opacity="0.5"/><path d="M90 130 Q90 100 120 95 Q150 100 150 130" stroke="#8B6355" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/><ellipse cx="120" cy="183" rx="14" ry="16" fill="#F5EDD8" opacity="0.6"/><ellipse cx="120" cy="183" rx="7" ry="8" fill="#C9A84C" opacity="0.7"/></svg>
-          <button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-          <div class="product-add-area">
-            <button class="quick-add-btn" onclick="addToCart(this,'Saddle Luxe',135000,'Cognac')">QUICK ADD TO BAG</button>
-            <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-          </div>
-        </div>
-        <p class="product-name">Saddle Luxe</p>
-        <p class="product-material">Vegetable-Tanned · Cognac</p>
-        <div class="product-price-row"><span class="product-price">₦135,000</span></div>
-        <div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div><div class="color-dot" style="background:#C9A84C" onclick="pickColor(this)"></div></div>
-        <div class="mob-add-wrap">
-          <button class="mob-add-btn" onclick="mobAdd(this,'Saddle Luxe',135000,'Cognac')">Add to Bag</button>
-          <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="rough-body" data-price="175000"><div class="product-img-wrap"><span class="product-badge badge-best">Best Seller</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/><rect x="45" y="110" width="150" height="130" rx="10" fill="#C9A84C" opacity="0.65"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Urban Elegant Tote',175000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Urban Elegant Tote</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦175,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div><div class="color-dot" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Urban Elegant Tote',175000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="165000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Premium Coach Bag',165000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Premium Coach Bag</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦165,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Premium Coach Bag',165000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="155000"><div class="product-img-wrap"><span class="product-badge badge-new">New</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Modern Black Satchel',155000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Modern Black Satchel</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦155,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Modern Black Satchel',155000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="125000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F5EEDE"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Cream Coach Special',125000,'Champagne')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Cream Coach Special</p><p class="product-material">Italian Leather · Champagne</p><div class="product-price-row"><span class="product-price">₦125,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#E8D5A3" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Cream Coach Special',125000,'Champagne')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="145000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Classic Camel Bag',145000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Classic Camel Bag</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦145,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Classic Camel Bag',145000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="105000"><div class="product-img-wrap"><span class="product-badge badge-sale">Sale</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Sale Crossbody',105000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Sale Crossbody</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦105,000</span><span class="product-price-old">₦130,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Sale Crossbody',105000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="130000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Elegant Dark Bag',130000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Elegant Dark Bag</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦130,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Elegant Dark Bag',130000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="140000"><div class="product-img-wrap"><span class="product-badge badge-new">New</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'New Coach Premium',140000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">New Coach Premium</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦140,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'New Coach Premium',140000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="160000"><div class="product-img-wrap"><span class="product-badge badge-best">Best Seller</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Best Sellers Bag',160000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Best Sellers Bag</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦160,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Best Sellers Bag',160000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="115000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F5EEDE"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Coach Style Lite',115000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Coach Style Lite</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦115,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Coach Style Lite',115000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="170000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Luxury Dark Tote',170000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Luxury Dark Tote</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦170,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Luxury Dark Tote',170000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="150000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Cognac Coach Elite',150000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Cognac Coach Elite</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦150,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Cognac Coach Elite',150000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="180000"><div class="product-img-wrap"><span class="product-badge badge-new">New</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'New Camel Chic',180000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">New Camel Chic</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦180,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'New Camel Chic',180000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="110000"><div class="product-img-wrap"><span class="product-badge badge-best">Fan Fave</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Fan Fave Coach',110000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Fan Fave Coach</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦110,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Fan Fave Coach',110000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="135000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Noir Statement Bag',135000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Noir Statement Bag</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦135,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Noir Statement Bag',135000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="145000"><div class="product-img-wrap"><span class="product-badge badge-sale">Sale</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Sale Cognac Bag',145000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Sale Cognac Bag</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦145,000</span><span class="product-price-old">₦170,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Sale Cognac Bag',145000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="195000"><div class="product-img-wrap"><span class="product-badge badge-best">Best Seller</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Premium Tote Collection',195000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Premium Tote Collection</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦195,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Premium Tote Collection',195000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="155000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Honey Shade Coach',155000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Honey Shade Coach</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦155,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Honey Shade Coach',155000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="125000"><div class="product-img-wrap"><span class="product-badge badge-new">New</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'New Black Clutch',125000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">New Black Clutch</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦125,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'New Black Clutch',125000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="120000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Elegant Coach Piece',120000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Elegant Coach Piece</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦120,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Elegant Coach Piece',120000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="150000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Timeless Camel Bag',150000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Timeless Camel Bag</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦150,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Timeless Camel Bag',150000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="130000"><div class="product-img-wrap"><span class="product-badge badge-best">Fan Fave</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Fan Fav Honey',130000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Fan Fav Honey</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦130,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Fan Fav Honey',130000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="140000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Bold Black Collection',140000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Bold Black Collection</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦140,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Bold Black Collection',140000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="100000"><div class="product-img-wrap"><span class="product-badge badge-sale">Sale</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Sale Cognac Coach',100000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Sale Cognac Coach</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦100,000</span><span class="product-price-old">₦125,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Sale Cognac Coach',100000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="185000"><div class="product-img-wrap"><span class="product-badge badge-new">New</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE0CC"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Elegant Camel Tote',185000,'Camel')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Elegant Camel Tote</p><p class="product-material">Full-Grain Leather · Camel</p><div class="product-price-row"><span class="product-price">₦185,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Elegant Camel Tote',185000,'Camel')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="160000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#F0E6D6"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Premium Cognac Bag',160000,'Cognac')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Premium Cognac Bag</p><p class="product-material">Vegetable-Tanned · Cognac</p><div class="product-price-row"><span class="product-price">₦160,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#8B6355" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Premium Cognac Bag',160000,'Cognac')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="rough-body" data-price="165000"><div class="product-img-wrap"><span class="product-badge badge-best">Best Seller</span><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#1A1208"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Best Seller Dark Bag',165000,'Noir')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Best Seller Dark Bag</p><p class="product-material">Pebbled Leather · Noir</p><div class="product-price-row"><span class="product-price">₦165,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#1A1A1A" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Best Seller Dark Bag',165000,'Noir')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
-      <div class="product-card" data-cat="coach" data-price="135000"><div class="product-img-wrap"><svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="320" fill="#EDE5DA"/></svg><button class="product-wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><div class="product-add-area"><button class="quick-add-btn" onclick="addToCart(this,'Sophisticated Honey Bag',135000,'Honey')">QUICK ADD TO BAG</button><div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div></div></div><p class="product-name">Sophisticated Honey Bag</p><p class="product-material">Smooth Leather · Honey</p><div class="product-price-row"><span class="product-price">₦135,000</span></div><div class="color-dots"><div class="color-dot active" style="background:#C9A84C" onclick="pickColor(this)"></div></div><div class="mob-add-wrap"><button class="mob-add-btn" onclick="mobAdd(this,'Sophisticated Honey Bag',135000,'Honey')">Add to Bag</button><div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div></div></div>
-
+      <!-- Rendered by gbRenderGrid() from products-data.js — see product-render.js -->
     </div>
     <div class="pagination">
       <button class="page-btn active">1</button>
@@ -686,31 +479,16 @@ a, button { -webkit-tap-highlight-color: transparent; }
     <span class="sticky-dot"></span>
     <span id="stickyTotal">₦0</span>
   </a>
-  <button type="button" class="sticky-bag-icon" id="bagBtn" aria-label="Your bag">
+  <a href="checkout.html" class="sticky-bag-icon">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span class="sticky-bag-badge" id="stickyBadge">0</span>
-  </button>
+  </a>
 </div>
 
-<!-- CART MODAL (mobile only, opened by bag icon) -->
-<div class="cart-modal-overlay" id="cartModalOverlay">
-  <div class="cart-modal" id="cartModal">
-    <div class="cm-header">
-      <span class="cm-header-title">Your Cart</span>
-      <button type="button" class="cm-close" id="cmCloseBtn" aria-label="Close">×</button>
-    </div>
-    <div class="cm-content" id="cmContent"></div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2025 Giftij Brandy. Uniquely Maintain Your Style With Us.</p>
-    <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
-  </div>
-</footer>
-
+<script src="products-data.js"></script>
+<script src="product-render.js"></script>
 <script>
+
 // ════════════════════════════════
 // CART STATE
 // ════════════════════════════════
@@ -721,17 +499,10 @@ function totalItems(){ return cart.reduce((s,i)=>s+i.qty,0); }
 function totalAmt(){ return cart.reduce((s,i)=>s+i.price*i.qty,0); }
 function cartId(name,variant){ return name.replace(/\s+/g,"-")+"-"+variant; }
 
-// Persist cart so other pages (e.g. checkout.html) can read it
-function saveCart(){
-  localStorage.setItem("cartItems", JSON.stringify(cart));
-  localStorage.setItem("cartTotal", String(totalAmt()));
-}
-
 // ════════════════════════════════
 // RENDER CART PANEL
 // ════════════════════════════════
 function renderCart(){
-  saveCart();
   const items = totalItems(), amt = totalAmt();
   // Nav badge
   const bc = document.getElementById("bagCount");
@@ -743,7 +514,7 @@ function renderCart(){
   document.querySelectorAll(".cart-item").forEach(r=>r.remove());
   const empty = document.getElementById("cartEmpty");
   const footer = document.getElementById("cartFooter");
-  if(cart.length===0){ empty.style.display="flex"; footer.style.display="none"; renderCartModal(); updateStickyBar(); return; }
+  if(cart.length===0){ empty.style.display="flex"; footer.style.display="none"; updateStickyBar(); return; }
   empty.style.display="none"; footer.style.display="block";
   const container = document.getElementById("cartItems");
   cart.forEach(item=>{
@@ -772,7 +543,6 @@ function renderCart(){
   // Pulse panel
   const panel = document.getElementById("cartPanel");
   if(panel){ panel.style.boxShadow="0 0 0 2px #C9A84C inset"; setTimeout(()=>panel.style.boxShadow="",500); }
-  renderCartModal();
   updateStickyBar();
 }
 
@@ -816,96 +586,6 @@ function resetCard(name){
     }
   });
 }
-
-// ════════════════════════════════
-// CART MODAL (mobile — bag icon)
-// ════════════════════════════════
-function renderCartModal(){
-  const content = document.getElementById("cmContent");
-  if(!content) return;
-  if(cart.length===0){
-    content.innerHTML = `
-      <div class="cm-empty">
-        <div class="cm-empty-icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
-        <p class="cm-empty-title">Your bag is empty</p>
-        <p class="cm-empty-desc">Add a piece and it will appear here.</p>
-        <button type="button" class="cm-empty-btn" onclick="closeCart()">Start Shopping</button>
-      </div>`;
-    return;
-  }
-  let itemsHtml = '<div class="cm-items">';
-  cart.forEach(item=>{
-    itemsHtml += `
-      <div class="cm-item">
-        <div class="cm-item-info">
-          <p class="cm-item-name">${item.name}</p>
-          <p class="cm-item-variant">${item.variant}</p>
-          <p class="cm-item-price">${fmt(item.price)} × ${item.qty} = <strong>${fmt(item.price*item.qty)}</strong></p>
-        </div>
-        <div class="cm-item-qty">
-          <button type="button" class="cm-item-qty-btn" onclick="cartQty('${item.id}',-1)">−</button>
-          <span style="min-width:18px;text-align:center;font-weight:600;font-size:13px;">${item.qty}</span>
-          <button type="button" class="cm-item-qty-btn" onclick="cartQty('${item.id}',1)">+</button>
-          <button type="button" class="cm-item-remove" onclick="cartRemove('${item.id}')">✕</button>
-        </div>
-      </div>`;
-  });
-  itemsHtml += '</div>';
-  content.innerHTML = itemsHtml + `
-    <div class="cm-footer">
-      <div class="cm-total"><span>Total:</span><span>${fmt(totalAmt())}</span></div>
-      <a href="checkout.html" class="cm-checkout-btn">Proceed to Checkout</a>
-      <button type="button" class="cm-back-btn" onclick="closeCart()">Continue Shopping</button>
-    </div>`;
-}
-
-function openCart(){
-  document.getElementById("cartModalOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeCart(){
-  document.getElementById("cartModalOverlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-const bagBtn = document.getElementById("bagBtn");
-if(bagBtn) bagBtn.addEventListener("click", openCart);
-const cmCloseBtn = document.getElementById("cmCloseBtn");
-if(cmCloseBtn) cmCloseBtn.addEventListener("click", closeCart);
-const cartModalOverlay = document.getElementById("cartModalOverlay");
-if(cartModalOverlay) cartModalOverlay.addEventListener("click", (e)=>{ if(e.target===cartModalOverlay) closeCart(); });
-document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeCart(); });
-
-// Cross-tab instant sync: if the cart changes in another tab (e.g. Homepage
-// or Checkout open at the same time), reflect it here immediately.
-window.addEventListener("storage", (e)=>{
-  if(e.key === "cartItems"){
-    try { cart = JSON.parse(e.newValue) || []; } catch(err){ cart = []; }
-    // Re-sync every product card's Add-to-Cart / qty-stepper UI state
-    document.querySelectorAll(".product-card").forEach(card=>{
-      const name = card.querySelector(".product-name")?.textContent;
-      const inCart = cart.find(i=>i.name===name);
-      const addArea = card.querySelector(".product-add-area");
-      const qc = addArea?.querySelector(".qty-controls");
-      const qb = addArea?.querySelector(".quick-add-btn");
-      const mobWrap = card.querySelector(".mob-add-wrap");
-      const mb = mobWrap?.querySelector(".mob-add-btn");
-      const mr = mobWrap?.querySelector(".mob-qty-row");
-      if(inCart){
-        if(qc){ qc.classList.add("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=inCart.qty; }
-        if(qb) qb.style.display="none";
-        if(mr){ mr.classList.add("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=inCart.qty; }
-        if(mb) mb.style.display="none";
-      } else {
-        if(qc){ qc.classList.remove("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=1; }
-        if(qb) qb.style.display="";
-        if(mr){ mr.classList.remove("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=1; }
-        if(mb) mb.style.display="";
-      }
-    });
-    renderCart();
-  }
-});
 
 // ════════════════════════════════
 // DESKTOP HOVER ADD
@@ -1038,8 +718,6 @@ function sortProducts(val){
   cards.forEach(c=>grid.appendChild(c));
 }
 
-function pickColor(dot){ dot.closest(".color-dots").querySelectorAll(".color-dot").forEach(d=>d.classList.remove("active")); dot.classList.add("active"); }
-
 // Mobile menu
 document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("mobileMenu").classList.toggle("open"));
 function toggleMobSub(){
@@ -1053,36 +731,11 @@ document.querySelectorAll(".page-btn").forEach(btn=>btn.addEventListener("click"
   document.querySelectorAll(".page-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
 }));
 
-// Init: show rough body by default
-filterCat("rough-body",null,"roughDrop","roughTab");
-
-// Restore cart from localStorage (e.g. after visiting checkout.html)
-try {
-  const saved = JSON.parse(localStorage.getItem("cartItems"));
-  if (Array.isArray(saved) && saved.length) {
-    cart = saved;
-    cart.forEach(item => {
-      // Sync desktop cards
-      document.querySelectorAll(".product-card").forEach(card => {
-        if (card.querySelector(".product-name")?.textContent === item.name) {
-          const addArea = card.querySelector(".product-add-area");
-          const qb = addArea?.querySelector(".quick-add-btn");
-          const qc = addArea?.querySelector(".qty-controls");
-          if (qb) qb.style.display = "none";
-          if (qc) { qc.classList.add("visible"); const qn = qc.querySelector(".qty-num"); if (qn) qn.textContent = item.qty; }
-          // Sync mobile controls
-          const mobWrap = card.querySelector(".mob-add-wrap");
-          const mb = mobWrap?.querySelector(".mob-add-btn");
-          const mr = mobWrap?.querySelector(".mob-qty-row");
-          if (mb) mb.style.display = "none";
-          if (mr) { mr.classList.add("show"); const mn = mr.querySelector(".mob-qty-num"); if (mn) mn.textContent = item.qty; }
-        }
-      });
-    });
-  }
-} catch (e) { /* ignore malformed localStorage data */ }
-
-renderCart();
+// Init: render products from shared data, then show rough body by default
+gbRenderGrid('productGrid', {featuredOnly:false, context:'shop'}).then(() => {
+  filterCat("rough-body",null,"roughDrop","roughTab");
+  renderCart();
+});
 </script>
 </body>
 </html>

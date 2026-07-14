@@ -201,8 +201,10 @@
   .bestsellers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
   .product-card { cursor: pointer; }
   .product-img-wrap { position: relative; overflow: hidden; background: #F0EAE0; margin-bottom: 16px; aspect-ratio: 3/4; }
+  .product-img-frame { width: 100%; height: 100%; }
   .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-  .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+  .product-img-frame svg { width: 100%; height: 100%; display: block; transition: transform 0.5s ease, opacity 0.2s ease; }
+  .product-card:hover .product-img-wrap img, .product-card:hover .product-img-frame svg { transform: scale(1.05); }
   .product-badge { position: absolute; top: 12px; left: 12px; padding: 4px 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; z-index: 1; }
   .badge-new { background: #1A1A1A; color: #fff; }
   .badge-best { background: #C9A84C; color: #1A1A1A; }
@@ -215,9 +217,9 @@
   .product-price-row { display: flex; align-items: center; gap: 10px; }
   .product-price { font-size: 15px; font-weight: 500; color: #1A1A1A; }
   .product-price-old { font-size: 13px; font-weight: 300; color: #9A9490; text-decoration: line-through; }
-  .color-dots { display: flex; gap: 6px; margin-top: 9px; }
-  .color-dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.2s; }
-  .color-dot.active { border-color: #C9A84C; }
+  .spec-dots { display: flex; gap: 6px; margin-top: 9px; }
+  .spec-dot { width: 6px; height: 6px; border-radius: 50%; cursor: pointer; background: #D8CFC6; transition: background 0.2s, width 0.2s; }
+  .spec-dot.active { background: #C9A84C; width: 16px; border-radius: 3px; }
 
   /* === REVIEWS === */
   .reviews-section { background: #1A1A1A; padding: 100px 60px; }
@@ -783,118 +785,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
     </div>
     <a href="shop.html" class="btn-outline-dark">See All</a>
   </div>
-  <div class="bestsellers-grid">
-    <div class="product-card reveal">
-      <div class="product-img-wrap">
-        <span class="product-badge badge-best">Best Seller</span>
-        <svg viewBox="0 0 240 320" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="320" fill="#EDE0CC"/>
-          <rect x="45" y="110" width="150" height="130" rx="10" fill="#C9A84C" opacity="0.65"/>
-          <path d="M75 110 Q75 80 95 72 Q120 65 145 72 Q165 80 165 110" stroke="#C9A84C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.7"/>
-          <rect x="107" y="162" width="26" height="20" rx="4" fill="#F5EDD8" opacity="0.9"/>
-        </svg>
-        <button class="product-wishlist" aria-label="Wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-        <div class="product-add-area">
-          <button class="quick-add-btn" onclick="addToCart(this,'The Empress Tote',185000,'Camel')">QUICK ADD TO BAG</button>
-          <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-        </div>
-      </div>
-      <p class="product-name">The Empress Tote</p>
-      <p class="product-material">Full-Grain Leather · Camel</p>
-      <div class="product-price-row"><span class="product-price">₦185,000</span></div>
-      <div class="color-dots">
-        <div class="color-dot active" style="background:#C9A84C"></div>
-        <div class="color-dot" style="background:#1A1A1A"></div>
-        <div class="color-dot" style="background:#8B6355"></div>
-      </div>
-      <div class="mob-add-wrap">
-        <button class="mob-add-btn" onclick="mobAdd(this,'The Empress Tote',185000,'Camel')">Add to Bag</button>
-        <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-      </div>
-    </div>
-    <div class="product-card reveal rd1">
-      <div class="product-img-wrap">
-        <span class="product-badge badge-new">New</span>
-        <svg viewBox="0 0 240 320" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="320" fill="#1A1208"/>
-          <rect x="50" y="90" width="140" height="155" rx="14" fill="#2D2410"/>
-          <path d="M80 90 Q80 60 100 55 Q120 50 140 55 Q160 60 160 90" stroke="#C9A84C" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
-          <rect x="104" y="158" width="32" height="22" rx="5" fill="#C9A84C" opacity="0.7"/>
-        </svg>
-        <button class="product-wishlist" aria-label="Wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-        <div class="product-add-area">
-          <button class="quick-add-btn" onclick="addToCart(this,'Midnight Satchel',145000,'Noir')">QUICK ADD TO BAG</button>
-          <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-        </div>
-      </div>
-      <p class="product-name">Midnight Satchel</p>
-      <p class="product-material">Pebbled Leather · Noir</p>
-      <div class="product-price-row"><span class="product-price">₦145,000</span><span class="product-price-old">₦170,000</span></div>
-      <div class="color-dots">
-        <div class="color-dot active" style="background:#1A1A1A"></div>
-        <div class="color-dot" style="background:#C9A84C"></div>
-      </div>
-      <div class="mob-add-wrap">
-        <button class="mob-add-btn" onclick="mobAdd(this,'Midnight Satchel',145000,'Noir')">Add to Bag</button>
-        <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-      </div>
-    </div>
-    <div class="product-card reveal rd2">
-      <div class="product-img-wrap">
-        <svg viewBox="0 0 240 320" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="320" fill="#F5EEDE"/>
-          <path d="M55 105 L40 240 L200 240 L185 105 Z" fill="#C9A84C" opacity="0.55"/>
-          <path d="M55 105 Q55 80 120 78 Q185 80 185 105" stroke="#C9A84C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
-          <circle cx="120" cy="175" r="18" fill="#F5EDD8" opacity="0.7"/>
-          <circle cx="120" cy="175" r="10" fill="#C9A84C" opacity="0.6"/>
-        </svg>
-        <button class="product-wishlist" aria-label="Wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-        <div class="product-add-area">
-          <button class="quick-add-btn" onclick="addToCart(this,'The Boujee Bucket',120000,'Champagne')">QUICK ADD TO BAG</button>
-          <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-        </div>
-      </div>
-      <p class="product-name">The Boujee Bucket</p>
-      <p class="product-material">Italian Leather · Champagne</p>
-      <div class="product-price-row"><span class="product-price">₦120,000</span></div>
-      <div class="color-dots">
-        <div class="color-dot active" style="background:#E8D5A3"></div>
-        <div class="color-dot" style="background:#C9A84C"></div>
-      </div>
-      <div class="mob-add-wrap">
-        <button class="mob-add-btn" onclick="mobAdd(this,'The Boujee Bucket',120000,'Champagne')">Add to Bag</button>
-        <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-      </div>
-    </div>
-    <div class="product-card reveal rd3">
-      <div class="product-img-wrap">
-        <span class="product-badge badge-best">Fan Fave</span>
-        <svg viewBox="0 0 240 320" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="320" fill="#EDE5DA"/>
-          <rect x="55" y="115" width="130" height="105" rx="20" fill="#C9A84C" opacity="0.6"/>
-          <path d="M82 115 Q82 88 100 83 Q120 78 140 83 Q158 88 158 115" stroke="#C9A84C" stroke-width="7" fill="none" opacity="0.6"/>
-          <circle cx="120" cy="166" r="9" fill="#F5EDD8" opacity="0.9"/>
-          <path d="M185 130 Q220 130 220 160" stroke="#C9A84C" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.45"/>
-        </svg>
-        <button class="product-wishlist" aria-label="Wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-        <div class="product-add-area">
-          <button class="quick-add-btn" onclick="addToCart(this,'La Petite Crossbody',95000,'Honey')">QUICK ADD TO BAG</button>
-          <div class="qty-controls"><button class="qty-btn" onclick="deskQty(this,-1)">−</button><span class="qty-num">1</span><button class="qty-btn" onclick="deskQty(this,1)">+</button><button class="qty-remove-btn" onclick="deskRemove(this)">Remove</button></div>
-        </div>
-      </div>
-      <p class="product-name">La Petite Crossbody</p>
-      <p class="product-material">Smooth Leather · Honey</p>
-      <div class="product-price-row"><span class="product-price">₦95,000</span></div>
-      <div class="color-dots">
-        <div class="color-dot active" style="background:#C9A84C"></div>
-        <div class="color-dot" style="background:#8B6355"></div>
-        <div class="color-dot" style="background:#D4C5B0"></div>
-      </div>
-      <div class="mob-add-wrap">
-        <button class="mob-add-btn" onclick="mobAdd(this,'La Petite Crossbody',95000,'Honey')">Add to Bag</button>
-        <div class="mob-qty-row"><button class="mob-qty-btn" onclick="mobQty(this,-1)">−</button><span class="mob-qty-num">1</span><button class="mob-qty-btn" onclick="mobQty(this,1)">+</button></div>
-      </div>
-    </div>
+  <div class="bestsellers-grid" id="bestSellersGrid">
+    <!-- Rendered by gbRenderGrid() from products-data.js (featured products only) -->
   </div>
 </section>
 
@@ -1044,16 +936,6 @@ a, button { -webkit-tap-highlight-color: transparent; }
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
   reveals.forEach(el => observer.observe(el));
 
-  // Color dots
-  document.querySelectorAll('.color-dots').forEach(group => {
-    group.querySelectorAll('.color-dot').forEach(dot => {
-      dot.addEventListener('click', () => {
-        group.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-        dot.classList.add('active');
-      });
-    });
-  });
-
   // Brand Story Video Modal
   function toggleLifestyleSound() {
     const vid = document.getElementById('lifestyleBgVideo');
@@ -1177,6 +1059,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   </div>
 </div>
 
+<script src="products-data.js"></script>
+<script src="product-render.js"></script>
 <script>
 // ═══════════ BEST SELLERS CART + MODAL ═══════════
 let cart = [];
@@ -1355,14 +1239,19 @@ function syncProductCardUI(name, inCart){
   });
 }
 
-// Restore cart from localStorage (e.g. items added on shop.html)
-try {
-  const saved = JSON.parse(localStorage.getItem("cartItems"));
-  if (Array.isArray(saved) && saved.length) {
-    cart = saved;
-    cart.forEach(item => syncProductCardUI(item.name, item));
-  }
-} catch (e) { /* ignore malformed localStorage data */ }
+// Render featured products (from shared data), then restore/sync cart state
+// now that .product-card elements actually exist in the DOM.
+gbRenderGrid('bestSellersGrid', {featuredOnly:true, context:'home'}).then(() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("cartItems"));
+    if (Array.isArray(saved) && saved.length) {
+      cart = saved;
+      cart.forEach(item => syncProductCardUI(item.name, item));
+    }
+  } catch (e) { /* ignore malformed localStorage data */ }
+
+  renderCart();
+});
 
 // Cross-tab instant sync: reflect cart changes made in another tab
 // (e.g. shop.html or checkout.html open at the same time)
@@ -1378,8 +1267,6 @@ window.addEventListener("storage", (e)=>{
     updateCartModal();
   }
 });
-
-renderCart();
 </script>
 </body>
 </html>
