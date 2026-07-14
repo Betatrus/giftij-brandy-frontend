@@ -80,8 +80,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sort-select:focus{border-color:#C9A84C;}
 
 /* ═══ PRODUCT GRID ═══ */
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.product-card{cursor:pointer;}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;}
+.product-card{cursor:pointer;display:flex;flex-direction:column;height:100%;}
 .product-img-wrap{position:relative;overflow:hidden;background:#F0EAE0;margin-bottom:15px;aspect-ratio:3/4;}
 .product-img-frame{width:100%;height:100%;}
 .product-img-frame svg{width:100%;height:100%;display:block;transition:transform 0.5s ease, opacity 0.2s ease;}
@@ -121,7 +121,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .spec-dot.active{background:#C9A84C;width:16px;border-radius:3px;}
 
 /* ═══ MOBILE ADD TO BAG (below price, shown only on mobile) ═══ */
-.mob-add-wrap{display:none;margin-top:12px;flex-direction:column;gap:0;}
+.mob-add-wrap{display:none;margin-top:auto;padding-top:12px;flex-direction:column;gap:0;}
 .mob-add-btn{width:100%;padding:13px;background:#1A1A1A;color:#fff;font-family:"Jost",sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;}
 .mob-add-btn:hover{background:#C9A84C;color:#1A1A1A;}
 .mob-qty-row{display:none;align-items:center;border:1.5px solid #E8E0D8;border-radius:8px;overflow:hidden;}
@@ -306,7 +306,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
         <a href="https://www.instagram.com/Official_giftij_brandybags/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="igDrawer" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igDrawer)"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="white"/></svg>
         </a>
-        <a href="https://www.tiktok.com/@bagvendorinportharcourt" target="_blank" rel="noopener" aria-label="TikTok">
+        <a href="https://www.tiktok.com/@giftijbrandy" target="_blank" rel="noopener" aria-label="TikTok">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.63c.28 0 .54.04.79.1V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.69a6.34 6.34 0 0 0 12.67.39V8.69a8.18 8.18 0 0 0 4.76 1.52V6.76a4.84 4.84 0 0 1-1-.07z"/></svg>
         </a>
         <a href="https://www.facebook.com/giftijbrandy" target="_blank" rel="noopener" aria-label="Facebook">
@@ -405,26 +405,12 @@ a, button { -webkit-tap-highlight-color: transparent; }
 <!-- CATEGORY BAR -->
 <div class="cat-bar">
   <div class="cat-inner">
-    <button class="cat-tab active" id="roughTab" onclick="toggleCatDrop('roughDrop',this)">
+    <button class="cat-tab active" id="roughTab" onclick="filterCat('rough-body',null,null,'roughTab')">
       Rough Body
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
     </button>
-    <div class="cat-dropdown" id="roughDrop">
-      <button class="cat-sub" onclick="filterCat('rough-body',this,'roughDrop','roughTab')">All Rough Body</button>
-      <button class="cat-sub" onclick="filterCat('rough-tote',this,'roughDrop','roughTab')">Tote Bags</button>
-      <button class="cat-sub" onclick="filterCat('rough-crossbody',this,'roughDrop','roughTab')">Crossbody</button>
-      <button class="cat-sub" onclick="filterCat('rough-clutch',this,'roughDrop','roughTab')">Clutches</button>
-    </div>
-    <button class="cat-tab" id="coachTab" onclick="toggleCatDrop('coachDrop',this)">
+    <button class="cat-tab" id="coachTab" onclick="filterCat('coach',null,null,'coachTab')">
       Coach Bag
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
     </button>
-    <div class="cat-dropdown" id="coachDrop">
-      <button class="cat-sub" onclick="filterCat('coach',this,'coachDrop','coachTab')">All Coach Bags</button>
-      <button class="cat-sub" onclick="filterCat('coach-shoulder',this,'coachDrop','coachTab')">Shoulder Bags</button>
-      <button class="cat-sub" onclick="filterCat('coach-mini',this,'coachDrop','coachTab')">Mini Bags</button>
-      <button class="cat-sub" onclick="filterCat('coach-satchel',this,'coachDrop','coachTab')">Satchels</button>
-    </div>
   </div>
 </div>
 
@@ -669,42 +655,14 @@ function updateStickyBar(){
 // ════════════════════════════════
 // CATEGORY FILTER
 // ════════════════════════════════
-function toggleCatDrop(dropId,tabEl){
-  const drop=document.getElementById(dropId);
-  const isOpen=drop.classList.contains("open");
-  document.querySelectorAll(".cat-dropdown").forEach(d=>d.classList.remove("open"));
-  document.querySelectorAll(".cat-tab").forEach(t=>t.classList.remove("open"));
-  if(!isOpen){ drop.classList.add("open"); tabEl.classList.add("open");
-    const rect=tabEl.getBoundingClientRect(), barRect=tabEl.closest(".cat-bar").getBoundingClientRect();
-    drop.style.left=(rect.left-barRect.left)+"px";
-  }
-  setTimeout(()=>{
-    document.addEventListener("click",function off(e){
-      if(!e.target.closest(".cat-tab")&&!e.target.closest(".cat-dropdown")){
-        document.querySelectorAll(".cat-dropdown").forEach(d=>d.classList.remove("open"));
-        document.querySelectorAll(".cat-tab").forEach(t=>t.classList.remove("open"));
-      }
-      document.removeEventListener("click",off);
-    });
-  },10);
-}
-
 function filterCat(cat,subEl,dropId,tabId){
-  document.querySelectorAll(".cat-sub").forEach(s=>s.classList.remove("active"));
-  if(subEl) subEl.classList.add("active");
   document.querySelectorAll(".cat-tab").forEach(t=>t.classList.remove("active"));
   const tab=document.getElementById(tabId);
   if(tab) tab.classList.add("active");
-  document.querySelectorAll(".cat-dropdown").forEach(d=>d.classList.remove("open"));
-  document.querySelectorAll(".cat-tab").forEach(t=>t.classList.remove("open"));
   const cards=document.querySelectorAll(".product-card");
   let v=0;
   cards.forEach(card=>{
-    const c=card.dataset.cat;
-    const show=cat==="rough-body"&&c==="rough-body"||cat==="coach"&&c==="coach"||
-               cat==="rough-tote"&&c==="rough-body"||cat==="rough-crossbody"&&c==="rough-body"||
-               cat==="rough-clutch"&&c==="rough-body"||cat==="coach-shoulder"&&c==="coach"||
-               cat==="coach-mini"&&c==="coach"||cat==="coach-satchel"&&c==="coach";
+    const show = card.dataset.cat===cat;
     card.style.display=show?"":"none";
     if(show) v++;
   });
