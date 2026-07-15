@@ -32,11 +32,13 @@ function gbRenderCard(p, context){
   const badgeHtml = p.badge ? `<span class="product-badge ${gbBadgeClass(p.badge)}">${p.badge}</span>` : '';
   const oldPriceHtml = p.oldPrice ? `<span class="product-price-old">${gbFmtPrice(p.oldPrice)}</span>` : '';
 
-  const dotsHtml = hasMultiSpec
-    ? `<div class="spec-dots" role="tablist" aria-label="More views of ${p.name}">` +
-        p.images.map((_, i) => `<div class="spec-dot${i===0?' active':''}" data-idx="${i}" onclick="gbChangeSpec(this,'${p.id}')"></div>`).join('') +
-      `</div>`
-    : '';
+  // Always render the dots slot so card layout stays uniform across the
+  // grid — it's just visually empty for single-image products. The moment
+  // an admin uploads a 2nd/3rd spec photo for that product, dots appear
+  // here automatically with no layout shift for neighboring cards.
+  const dotsHtml = `<div class="spec-dots" role="tablist" aria-label="More views of ${p.name}">` +
+      (hasMultiSpec ? p.images.map((_, i) => `<div class="spec-dot${i===0?' active':''}" data-idx="${i}" onclick="gbChangeSpec(this,'${p.id}')"></div>`).join('') : '') +
+    `</div>`;
 
   return `
   <div class="product-card" data-cat="${p.category}" data-price="${p.price}" data-product-id="${p.id}">
