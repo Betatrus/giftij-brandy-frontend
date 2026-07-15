@@ -109,14 +109,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .qty-remove-btn:hover{color:#ff6b6b;}
 
 /* Product info */
-.product-name{font-family:"Playfair Display",serif;font-size:16px;font-weight:600;color:#1A1A1A;margin-bottom:4px;}
-.product-material{font-size:12px;font-weight:400;color:#6A6460;margin-bottom:8px;}
+.product-name{font-family:"Playfair Display",serif;font-size:16px;font-weight:600;line-height:1.25;color:#1A1A1A;margin-bottom:4px;min-height:40px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.product-material{font-size:12px;font-weight:400;color:#6A6460;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .product-price-row{display:flex;align-items:center;gap:10px;}
 .product-price{font-size:15px;font-weight:700;color:#1A1A1A;}
 .product-price-old{font-size:13px;font-weight:300;color:#9A9490;text-decoration:line-through;}
 /* Spec-image dots: only rendered when a product has more than one photo.
    Signals to the customer that there's more to see — tap or swipe. */
-.spec-dots{display:flex;gap:6px;margin-top:8px;}
+.spec-dots{display:flex;gap:6px;margin-top:8px;min-height:6px;}
 .spec-dot{width:6px;height:6px;border-radius:50%;cursor:pointer;background:#D8CFC6;transition:background 0.2s,width 0.2s;}
 .spec-dot.active{background:#C9A84C;width:16px;border-radius:3px;}
 
