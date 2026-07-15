@@ -134,6 +134,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cart-panel{position:fixed;top:72px;right:0;width:320px;height:calc(100vh - 72px);background:#fff;border-left:0.5px solid rgba(201,168,76,0.2);display:flex;flex-direction:column;overflow:hidden;}
 .cart-panel-header{padding:26px 26px 18px;border-bottom:0.5px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .cart-panel-title{font-family:"Playfair Display",serif;font-size:20px;font-weight:600;color:#1A1A1A;}
+.cart-panel-close{display:none;}
+.cart-backdrop{display:none;}
 .cart-item-count{font-size:13px;color:#9A9490;}
 .cart-items{flex:1;overflow-y:auto;padding:18px 26px;}
 .cart-items::-webkit-scrollbar{width:3px;}
@@ -177,7 +179,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sticky-btn{flex:1;padding:15px 20px;background:#1A1A1A;color:#fff;font-family:"Jost",sans-serif;font-size:14px;font-weight:600;letter-spacing:0.06em;border:none;cursor:pointer;border-radius:40px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,0.28);transition:background 0.2s;text-decoration:none;}
 .sticky-btn:hover{background:#C9A84C;color:#1A1A1A;}
 .sticky-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);}
-.sticky-bag-icon{width:52px;height:52px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.28);position:relative;flex-shrink:0;text-decoration:none;color:#fff;}
+.sticky-bag-icon{width:52px;height:52px;border-radius:50%;background:#1A1A1A;border:none;padding:0;font:inherit;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.28);position:relative;flex-shrink:0;text-decoration:none;color:#fff;}
 .sticky-bag-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#C9A84C;color:#1A1A1A;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:"Jost",sans-serif;}
 
 /* Pagination */
@@ -203,9 +205,25 @@ footer{background:#1A1A1A;padding:50px 48px 32px;}
   .product-add-area{display:none!important;}
   /* Show mobile add wrap */
   .mob-add-wrap{display:flex;}
-  /* Hide right cart panel */
+  /* Right cart panel becomes a slide-up drawer on mobile, opened via the bag icon */
   .shop-wrapper{grid-template-columns:1fr;}
-  .cart-panel{display:none;}
+  .cart-panel{
+    position:fixed; top:auto; bottom:0; left:0; right:0; width:100%;
+    height:auto; max-height:82vh; border-left:none;
+    border-radius:20px 20px 0 0;
+    transform:translateY(100%); transition:transform 0.3s ease;
+    z-index:1200; box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+  }
+  .cart-panel.open{transform:translateY(0);}
+  .cart-backdrop{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45);
+    z-index:1100; opacity:0; transition:opacity 0.3s ease;
+  }
+  .cart-backdrop.open{display:block; opacity:1;}
+  .cart-panel-close{
+    background:none; border:none; cursor:pointer; padding:4px;
+    display:flex; align-items:center; justify-content:center; color:#1A1A1A;
+  }
   .shop-main{padding:28px 20px 100px;}
   .page-header{padding:44px 22px 34px;}
   .page-title{font-size:34px;}
@@ -438,7 +456,12 @@ a, button { -webkit-tap-highlight-color: transparent; }
   <aside class="cart-panel" id="cartPanel">
     <div class="cart-panel-header">
       <span class="cart-panel-title">Your Bag</span>
-      <span class="cart-item-count" id="cartCount">0 items</span>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span class="cart-item-count" id="cartCount">0 items</span>
+        <button class="cart-panel-close" id="cartPanelClose" aria-label="Close cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
     </div>
     <div class="cart-items" id="cartItems">
       <div class="cart-empty" id="cartEmpty">
@@ -456,6 +479,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   </aside>
 </div>
 
+<div class="cart-backdrop" id="cartBackdrop"></div>
+
 <!-- STICKY CHECKOUT BAR (mobile only) -->
 <div class="sticky-bar" id="stickyBar">
   <a href="checkout.html" class="sticky-btn">
@@ -465,10 +490,10 @@ a, button { -webkit-tap-highlight-color: transparent; }
     <span class="sticky-dot"></span>
     <span id="stickyTotal">₦0</span>
   </a>
-  <a href="checkout.html" class="sticky-bag-icon">
+  <button class="sticky-bag-icon" id="stickyBagBtn" aria-label="Open your bag">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span class="sticky-bag-badge" id="stickyBadge">0</span>
-  </a>
+  </button>
 </div>
 
 <script src="products-data.js"></script>
@@ -480,6 +505,11 @@ a, button { -webkit-tap-highlight-color: transparent; }
 // ════════════════════════════════
 let cart = [];
 
+function saveCart(){
+  localStorage.setItem("cartItems", JSON.stringify(cart));
+  localStorage.setItem("cartTotal", String(totalAmt()));
+}
+
 function fmt(n){ return "₦" + n.toLocaleString("en-NG"); }
 function totalItems(){ return cart.reduce((s,i)=>s+i.qty,0); }
 function totalAmt(){ return cart.reduce((s,i)=>s+i.price*i.qty,0); }
@@ -489,6 +519,7 @@ function cartId(name,variant){ return name.replace(/\s+/g,"-")+"-"+variant; }
 // RENDER CART PANEL
 // ════════════════════════════════
 function renderCart(){
+  saveCart();
   const items = totalItems(), amt = totalAmt();
   // Nav badge
   const bc = document.getElementById("bagCount");
@@ -586,6 +617,31 @@ function addToCart(btn,name,price,variant){
   renderCart();
 }
 
+// Restore a product card's Add-to-Cart/qty-stepper UI to match a shared cart
+// (used when items were added from another page, e.g. the homepage).
+function syncProductCardUI(name, inCart){
+  document.querySelectorAll(".product-card").forEach(card=>{
+    if(card.querySelector(".product-name")?.textContent !== name) return;
+    const addArea = card.querySelector(".product-add-area");
+    const qc = addArea?.querySelector(".qty-controls");
+    const qb = addArea?.querySelector(".quick-add-btn");
+    const mobWrap = card.querySelector(".mob-add-wrap");
+    const mr = mobWrap?.querySelector(".mob-qty-row");
+    const mb = mobWrap?.querySelector(".mob-add-btn");
+    if(inCart){
+      if(qc){ qc.classList.add("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=inCart.qty; }
+      if(qb) qb.style.display="none";
+      if(mr){ mr.classList.add("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=inCart.qty; }
+      if(mb) mb.style.display="none";
+    } else {
+      if(qc){ qc.classList.remove("visible"); const qn=qc.querySelector(".qty-num"); if(qn) qn.textContent=1; }
+      if(qb) qb.style.display="";
+      if(mr){ mr.classList.remove("show"); const mn=mr.querySelector(".mob-qty-num"); if(mn) mn.textContent=1; }
+      if(mb) mb.style.display="";
+    }
+  });
+}
+
 function deskQty(btn,d){
   const qc=btn.closest(".qty-controls"), qb=qc.previousElementSibling;
   const numEl=qc.querySelector(".qty-num");
@@ -676,6 +732,22 @@ function sortProducts(val){
   cards.forEach(c=>grid.appendChild(c));
 }
 
+// Mobile cart drawer (bag icon opens this; checkout button still goes straight to checkout.html)
+function openCartPanel(){
+  document.getElementById("cartPanel").classList.add("open");
+  document.getElementById("cartBackdrop").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeCartPanel(){
+  document.getElementById("cartPanel").classList.remove("open");
+  document.getElementById("cartBackdrop").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.getElementById("stickyBagBtn").addEventListener("click",openCartPanel);
+document.getElementById("cartPanelClose").addEventListener("click",closeCartPanel);
+document.getElementById("cartBackdrop").addEventListener("click",closeCartPanel);
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeCartPanel(); });
+
 // Mobile menu
 document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("mobileMenu").classList.toggle("open"));
 function toggleMobSub(){
@@ -692,7 +764,30 @@ document.querySelectorAll(".page-btn").forEach(btn=>btn.addEventListener("click"
 // Init: render products from shared data, then show rough body by default
 gbRenderGrid('productGrid', {featuredOnly:false, context:'shop'}).then(() => {
   filterCat("rough-body",null,"roughDrop","roughTab");
+
+  // Restore cart shared across pages (e.g. items added on the homepage)
+  try {
+    const saved = JSON.parse(localStorage.getItem("cartItems"));
+    if (Array.isArray(saved) && saved.length) {
+      cart = saved;
+      cart.forEach(item => syncProductCardUI(item.name, item));
+    }
+  } catch (e) { /* ignore malformed localStorage data */ }
+
   renderCart();
+});
+
+// Cross-tab instant sync: reflect cart changes made in another tab/page
+window.addEventListener("storage", (e)=>{
+  if(e.key === "cartItems"){
+    try { cart = JSON.parse(e.newValue) || []; } catch(err){ cart = []; }
+    document.querySelectorAll(".product-card").forEach(card=>{
+      const name = card.querySelector(".product-name")?.textContent;
+      const inCart = cart.find(i=>i.name===name);
+      syncProductCardUI(name, inCart);
+    });
+    renderCart();
+  }
 });
 </script>
 </body>
