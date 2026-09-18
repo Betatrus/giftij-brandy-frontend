@@ -9,6 +9,9 @@ import { ProductGrid } from "@/components/shop/product-grid"
 import { getVariantCards } from "@/lib/api/adapter"
 import { HOMEPAGE_PLACEMENT } from "@/lib/api/config"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export default async function HomePage() {
   const allCards = await getVariantCards()
 
@@ -36,10 +39,12 @@ export default async function HomePage() {
             <p className="gb-section-label">Loved By Many</p>
             <h2 className="gb-section-title">Best Sellers</h2>
           </div>
+
           <Link href="/shop" className="gb-btn gb-btn-outline">
             View All
           </Link>
         </div>
+
         <ProductGrid
           cards={bestSellers}
           emptyMessage="No Best Sellers have been selected in the Admin dashboard yet."
