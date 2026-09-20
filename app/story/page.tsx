@@ -3,8 +3,8 @@ import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { ImageOrFallback } from "@/components/ui/image-or-fallback"
 
-/** Our Story â€” Giftij Brandy founder story. */
-export const metadata: Metadata = { title: "Our Story â€” Giftij Brandy" }
+/** Our Story — Giftij Brandy founder story. */
+export const metadata: Metadata = { title: "Our Story — Giftij Brandy" }
 
 const VALUES = [
   { title: "Craftsmanship", desc: "Every piece is selected with intention because the details matter." },
@@ -16,8 +16,8 @@ const VALUES = [
 const JOURNEY = [
   {
     step: "01",
-    title: "The First â‚¦70,000",
-    text: "As a final-year student with â‚¦100,000 in savings, our founder invested â‚¦70,000 into what would become Giftij Brandy.",
+    title: "The First ₦70,000",
+    text: "As a final-year student with ₦100,000 in savings, our founder invested ₦70,000 into what would become Giftij Brandy.",
   },
   {
     step: "02",
@@ -94,7 +94,7 @@ export default function StoryPage() {
           </p>
 
           <p className="gb-story-body-text">
-            In my final year as a student, I took â‚¦70,000 from the â‚¦100,000 I had saved and used it to
+            In my final year as a student, I took ₦70,000 from the ₦100,000 I had saved and used it to
             start the business. I was afraid of losing what little I had, so I bought only a few pieces
             at a time.
           </p>
@@ -112,7 +112,7 @@ export default function StoryPage() {
           <div className="gb-story-sig">
             With love,
             <em>Jacobs Gift Amah</em>
-            <span>â€” Founder &amp; Creative Director</span>
+            <span>— Founder &amp; Creative Director</span>
           </div>
         </div>
       </section>
@@ -215,5 +215,3 @@ export default function StoryPage() {
     </>
   )
 }
-
-
