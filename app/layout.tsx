@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next"
 import type { Metadata, Viewport } from "next"
 import { Jost, Playfair_Display } from "next/font/google"
 import { CartProvider } from "@/lib/cart/cart-context"
+import { CartAddedPopup } from "@/components/cart/cart-added-popup"
 import "./globals.css"
 import "@/styles/storefront.css"
 
@@ -39,10 +40,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${jost.variable}`}>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${jost.variable}`}
+    >
       <body className="gb-app antialiased">
-        <CartProvider>{children}</CartProvider>
-        {process.env.NODE_ENV === "production" && <Analytics />}
+        <CartProvider>
+          {children}
+          <CartAddedPopup />
+        </CartProvider>
+
+        {process.env.NODE_ENV === "production" && (
+          <Analytics />
+        )}
       </body>
     </html>
   )

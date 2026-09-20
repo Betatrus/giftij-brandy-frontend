@@ -1,9 +1,7 @@
 import type { Metadata } from "next"
 import { SiteNav } from "@/components/layout/site-nav"
-import { ContactForm } from "./contact-form"
 import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/components/layout/social-links"
 
-/** Contact — content ported from public/contact.html. */
 export const metadata: Metadata = { title: "Contact — Giftij Brandy" }
 
 export default function ContactPage() {
@@ -21,27 +19,21 @@ export default function ContactPage() {
         </span>
       </section>
 
-      <div className="gb-contact-wrap">
-        <h2 className="gb-form-title">Tell Us What You Need.</h2>
-        <ContactForm />
-      </div>
-
-      <section className="gb-info-block">
-        <h2 className="gb-form-title">Our Location &amp; Business Hours</h2>
+      <section className="gb-info-block gb-contact-gold-card">
+        <h2 className="gb-form-title">Shop Location &amp; Business Hours</h2>
 
         <div style={{ marginBottom: 32 }}>
-          <p className="gb-info-label">Location</p>
-          <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 2 }}>Lagos, Nigeria</p>
-          <p style={{ fontSize: 14, fontWeight: 300, color: "var(--gb-muted)" }}>
-            Online-first brand · Nationwide delivery
+          <p className="gb-info-label">Shop Location</p>
+          <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 6 }}>Port Harcourt, Nigeria</p>
+          <p style={{ fontSize: 14, fontWeight: 400, lineHeight: 1.7 }}>
+            Opposite Total Look Salon, Cornerstone, Off NTA Road, Port Harcourt.
           </p>
         </div>
 
         <div style={{ marginBottom: 32 }}>
           <p className="gb-info-label">Business Hours</p>
           <div style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.8 }}>
-            <p><strong style={{ fontWeight: 500 }}>Monday – Friday:</strong> 9 AM – 6 PM</p>
-            <p><strong style={{ fontWeight: 500 }}>Saturday:</strong> 10 AM – 4 PM</p>
+            <p><strong style={{ fontWeight: 500 }}>Monday – Saturday:</strong> 7 AM – 7 PM</p>
             <p><strong style={{ fontWeight: 500 }}>Sunday:</strong> Closed</p>
           </div>
         </div>

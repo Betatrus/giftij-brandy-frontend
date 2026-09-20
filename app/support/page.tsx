@@ -76,7 +76,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="gb-story-cta">
+      <section className="gb-story-cta gb-support-contact-cta">
         <p className="gb-section-label">Still Have Questions?</p>
         <h2 className="gb-section-title">We&apos;re Always Here.</h2>
         <p className="gb-section-sub" style={{ margin: "12px auto 28px" }}>

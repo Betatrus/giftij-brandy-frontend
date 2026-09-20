@@ -5,6 +5,7 @@ import { Hero } from "@/components/home/hero"
 import { Marquee } from "@/components/home/marquee"
 import { FeaturedCollection } from "@/components/home/featured-collection"
 import { Lifestyle } from "@/components/home/lifestyle"
+import { Reviews } from "@/components/home/reviews"
 import { ProductGrid } from "@/components/shop/product-grid"
 import { getVariantCards } from "@/lib/api/adapter"
 import { HOMEPAGE_PLACEMENT } from "@/lib/api/config"
@@ -51,6 +52,7 @@ export default async function HomePage() {
         />
       </section>
 
+      <Reviews />
       <Lifestyle />
       <SiteFooter />
     </>

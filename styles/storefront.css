@@ -2128,3 +2128,703 @@ body.gb-menu-open video {
   color: rgba(26, 26, 26, 0.22);
   background: #f0eae0;
 }
+/* ============================================================
+   PREMIUM CART REFINEMENT
+   ============================================================ */
+.gb-cart-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.gb-cart-items {
+  min-width: 0;
+}
+
+.gb-cart-product-card {
+  margin-bottom: 14px;
+  padding: 18px;
+  border: 1px solid rgba(201, 168, 76, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 8px 26px rgba(26, 26, 26, 0.045);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gb-cart-product-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(201, 168, 76, 0.34);
+  box-shadow: 0 12px 32px rgba(26, 26, 26, 0.065);
+}
+
+.gb-cart-product-card .gb-cart-thumb {
+  width: 92px;
+  height: 110px;
+  border-radius: 8px;
+}
+
+.gb-cart-product-card .gb-product-price {
+  color: #9b7727;
+}
+
+.gb-cart-product-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.gb-cart-summary-card {
+  padding: 26px;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(155deg, #fffdf9 0%, #f8f0df 100%);
+  box-shadow: 0 16px 42px rgba(26, 26, 26, 0.07);
+}
+
+.gb-cart-summary-card h2 {
+  margin: 0;
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.gb-cart-summary-divider {
+  height: 1px;
+  margin: 20px 0 0;
+  background: rgba(201, 168, 76, 0.2);
+}
+
+.gb-cart-stock-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 10px;
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.gb-cart-stock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gb-cart-stock-message strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.gb-cart-stock-message p {
+  margin: 0;
+  color: var(--gb-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.gb-cart-checkout-btn,
+.gb-cart-continue-btn {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.gb-cart-checkout-btn {
+  margin-top: 18px;
+  border: 1px solid var(--gb-gold);
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+.gb-cart-checkout-btn:hover {
+  background: #d4b45b;
+}
+
+.gb-cart-continue-btn {
+  margin-top: 10px;
+  border: 1px solid rgba(26, 26, 26, 0.22);
+  background: transparent;
+  color: var(--gb-ink);
+}
+
+.gb-cart-continue-btn:hover {
+  border-color: var(--gb-gold);
+  background: rgba(201, 168, 76, 0.07);
+}
+
+@media (min-width: 900px) {
+  .gb-cart-page {
+    display: grid;
+    grid-template-columns: 1.55fr minmax(320px, 0.8fr);
+    gap: 42px;
+    align-items: start;
+  }
+
+  .gb-cart-summary-card {
+    position: sticky;
+    top: 110px;
+  }
+}
+
+@media (max-width: 700px) {
+  .gb-cart-product-card {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .gb-cart-product-card .gb-cart-thumb {
+    width: 82px;
+    height: 100px;
+  }
+
+  .gb-cart-product-actions {
+    grid-column: 2;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+
+  .gb-cart-summary-card {
+    margin-top: 24px;
+    padding: 22px 18px;
+  }
+}
+
+/* ============================================================
+   GIFTIJ PREMIUM STOCK UPDATE MODAL / DRAWER
+   ============================================================ */
+.gb-stock-modal { position: fixed; inset: 0; z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.gb-stock-modal-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: rgba(18,14,8,.62); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); cursor: default; }
+.gb-stock-sheet { position: relative; z-index: 1; width: min(100%,520px); overflow: hidden; padding: 44px 42px 38px; border: 1px solid rgba(201,168,76,.28); border-radius: 18px; background: radial-gradient(circle at 100% 0%,rgba(201,168,76,.12),transparent 32%),#fdfaf5; box-shadow: 0 35px 90px rgba(12,9,3,.3),0 8px 24px rgba(12,9,3,.12); animation: gb-stock-modal-enter .28s ease-out; }
+.gb-stock-sheet-accent { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg,#a57d22,var(--gb-gold),#e8d5a3,var(--gb-gold),#a57d22); }
+.gb-stock-sheet-close { position: absolute; top: 20px; right: 20px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; padding: 0; border: 1px solid rgba(26,26,26,.1); border-radius: 50%; background: rgba(255,255,255,.72); color: var(--gb-ink); font-family: Arial,sans-serif; font-size: 25px; font-weight: 300; line-height: 1; cursor: pointer; transition: border-color .2s ease,background .2s ease,transform .2s ease; }
+.gb-stock-sheet-close:hover { border-color: var(--gb-gold); background: #fff; transform: rotate(5deg); }
+.gb-stock-sheet-heading { padding-right: 46px; }
+.gb-stock-sheet-eyebrow { display: block; margin-bottom: 8px; color: #a9822c; font-family: var(--font-jost),"Jost",sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.gb-stock-sheet-heading h2 { margin: 0; font-family: var(--font-playfair),"Playfair Display",serif; font-size: clamp(32px,5vw,42px); font-weight: 600; line-height: 1.1; color: var(--gb-ink); }
+.gb-stock-sheet-status { display: inline-flex; align-items: center; gap: 9px; margin-top: 18px; padding: 8px 12px 8px 8px; border: 1px solid rgba(201,168,76,.25); border-radius: 50px; background: rgba(201,168,76,.08); }
+.gb-stock-sheet-status > span { display: flex; align-items: center; justify-content: center; width: 25px; height: 25px; border-radius: 50%; background: var(--gb-gold); color: #fff; font-size: 14px; font-weight: 800; }
+.gb-stock-sheet-status strong { padding-right: 3px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.gb-stock-sheet-message { margin-top: 28px; padding: 22px 22px 22px 24px; border-left: 3px solid var(--gb-gold); border-radius: 0 10px 10px 0; background: #fff; box-shadow: 0 8px 25px rgba(26,26,26,.045); }
+.gb-stock-sheet-message p { margin: 0; color: #302d29; font-size: 16px; font-weight: 500; line-height: 1.7; }
+.gb-stock-sheet-note { display: flex; align-items: flex-start; gap: 14px; margin-top: 22px; padding: 17px 0; border-top: 1px solid rgba(26,26,26,.07); border-bottom: 1px solid rgba(26,26,26,.07); }
+.gb-stock-sheet-note-icon { display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid rgba(201,168,76,.35); border-radius: 50%; color: #a9822c; font-size: 18px; }
+.gb-stock-sheet-note strong { display: block; margin-bottom: 4px; color: var(--gb-ink); font-size: 14px; font-weight: 700; }
+.gb-stock-sheet-note p { margin: 0; color: var(--gb-muted); font-size: 13px; line-height: 1.55; }
+.gb-stock-sheet-actions { display: grid; gap: 11px; margin-top: 25px; }
+.gb-stock-sheet-primary,.gb-stock-sheet-secondary { min-height: 56px; padding: 0 21px; display: flex; align-items: center; text-decoration: none; border-radius: 8px; font-family: var(--font-jost),"Jost",sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; transition: transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.gb-stock-sheet-primary { justify-content: space-between; border: 1px solid var(--gb-gold); background: var(--gb-gold); color: var(--gb-ink); box-shadow: 0 9px 24px rgba(201,168,76,.2); }
+.gb-stock-sheet-primary span:last-child { font-size: 20px; transition: transform .2s ease; }
+.gb-stock-sheet-primary:hover { background: #d4b45b; transform: translateY(-1px); box-shadow: 0 12px 30px rgba(201,168,76,.27); }
+.gb-stock-sheet-primary:hover span:last-child { transform: translateX(4px); }
+.gb-stock-sheet-secondary { justify-content: center; border: 1px solid rgba(26,26,26,.16); background: rgba(255,255,255,.55); color: var(--gb-ink); }
+.gb-stock-sheet-secondary:hover { border-color: var(--gb-gold); background: rgba(201,168,76,.07); }
+@keyframes gb-stock-modal-enter { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 640px) {
+  .gb-stock-modal { align-items: flex-end; padding: 0; }
+  .gb-stock-modal-backdrop { background: rgba(18,14,8,.66); }
+  .gb-stock-sheet { width: 100%; max-width: none; max-height: 88vh; overflow-y: auto; padding: 38px 22px 24px; border-right: 0; border-bottom: 0; border-left: 0; border-radius: 22px 22px 0 0; animation: gb-stock-drawer-enter .3s ease-out; }
+  .gb-stock-sheet::before { content: ""; position: absolute; top: 12px; left: 50%; width: 42px; height: 4px; border-radius: 50px; background: rgba(26,26,26,.16); transform: translateX(-50%); }
+  .gb-stock-sheet-close { top: 25px; right: 18px; width: 38px; height: 38px; }
+  .gb-stock-sheet-heading { padding-right: 44px; }
+  .gb-stock-sheet-heading h2 { font-size: 32px; }
+  .gb-stock-sheet-message { margin-top: 23px; padding: 18px; }
+  .gb-stock-sheet-message p { font-size: 15px; line-height: 1.65; }
+  .gb-stock-sheet-primary,.gb-stock-sheet-secondary { min-height: 56px; font-size: 12px; }
+}
+@keyframes gb-stock-drawer-enter { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   FINAL CART + CHECKOUT UI CORRECTIONS
+   ============================================================ */
+
+/* Cart summary: no black card, keep the surface light and premium. */
+.gb-cart-summary-card {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.gb-cart-summary-card .gb-cart-total {
+  padding: 8px 0 22px;
+  border-bottom: 0;
+}
+
+/* Both cart actions use the Giftij gold family. */
+.gb-cart-checkout-btn,
+.gb-cart-continue-btn {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.gb-cart-checkout-btn {
+  margin-top: 18px;
+  background: var(--gb-gold);
+  border: 1px solid var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+.gb-cart-checkout-btn:hover {
+  background: #d4b45b;
+  border-color: #d4b45b;
+  color: var(--gb-ink);
+}
+
+.gb-cart-continue-btn {
+  margin-top: 10px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid var(--gb-gold);
+  color: #a9822c;
+}
+
+.gb-cart-continue-btn:hover {
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+/* Checkout main action should be Giftij gold, not black. */
+.gb-checkout-pay-btn {
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+.gb-checkout-pay-btn:hover:not(:disabled) {
+  background: #d4b45b;
+  color: var(--gb-ink);
+}
+
+/* Back to Cart is deliberately a simple centered text link. */
+.gb-checkout-back-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.gb-checkout-back-link {
+  display: inline-block;
+  padding: 0 0 5px;
+  border: 0;
+  border-bottom: 1px solid var(--gb-gold);
+  background: transparent;
+  color: var(--gb-gold) !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.gb-checkout-back-link:hover {
+  color: #a9822c !important;
+  border-bottom-color: #a9822c;
+}
+
+/* Cart-added popup styling. It is also suppressed on cart/checkout in the component. */
+.gb-cart-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(18, 14, 8, 0.58);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.gb-cart-popup {
+  width: min(100%, 480px);
+  padding: 30px;
+  background: var(--gb-cream);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  box-shadow: 0 28px 70px rgba(18, 14, 8, 0.28);
+}
+
+.gb-cart-popup-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.gb-cart-popup-check {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+.gb-cart-popup-product {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.gb-cart-popup-image {
+  position: relative;
+  width: 96px;
+  height: 116px;
+  overflow: hidden;
+  background: #f0eae0;
+}
+
+.gb-cart-popup-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f0eae0;
+}
+
+.gb-cart-popup-name {
+  margin: 0 0 8px;
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.gb-cart-popup-details p:not(.gb-cart-popup-name):not(.gb-cart-popup-price) {
+  margin: 3px 0;
+  color: var(--gb-muted);
+  font-size: 13px;
+}
+
+.gb-cart-popup-price {
+  margin: 10px 0 0;
+  font-weight: 700;
+}
+
+.gb-cart-popup-primary,
+.gb-cart-popup-secondary,
+.gb-cart-popup-continue {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-family: var(--font-jost), "Jost", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.gb-cart-popup-primary,
+.gb-cart-popup-secondary {
+  border: 1px solid var(--gb-gold);
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+}
+
+.gb-cart-popup-secondary {
+  background: rgba(201, 168, 76, 0.12);
+  color: #a9822c;
+}
+
+.gb-cart-popup-continue {
+  min-height: auto;
+  padding: 10px 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--gb-gold);
+  background: transparent;
+  color: var(--gb-gold);
+}
+
+@media (max-width: 640px) {
+  .gb-cart-popup-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .gb-cart-popup {
+    width: 100%;
+    padding: 26px 20px 24px;
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+/* ============================================================
+   FINAL STOREFRONT POLISH
+   Reviews, navigation cart, support/contact and social icons
+   ============================================================ */
+
+/* Reviews restored from the original Giftij homepage. */
+.gb-reviews-section {
+  padding: 72px 24px;
+  background: var(--gb-ink);
+}
+
+.gb-reviews-header {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gb-reviews-label {
+  margin-bottom: 10px;
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 0.1em;
+  color: rgba(232, 213, 163, 0.9);
+}
+
+.gb-reviews-title {
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.gb-reviews-title span {
+  display: block;
+  color: var(--gb-gold-light);
+  font-style: italic;
+}
+
+.gb-reviews-grid {
+  max-width: 1200px;
+  margin: 42px auto 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+
+.gb-review-card {
+  padding: 34px 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  transition: background .25s ease, border-color .25s ease;
+}
+
+.gb-review-card:hover {
+  background: rgba(201, 168, 76, 0.07);
+  border-color: rgba(201, 168, 76, 0.32);
+}
+
+.gb-review-stars {
+  margin-bottom: 20px;
+  color: var(--gb-gold);
+  font-size: 15px;
+  letter-spacing: 4px;
+}
+
+.gb-review-quote {
+  margin: 0 0 26px;
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.gb-review-author {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.gb-review-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 168, 76, 0.18);
+  color: var(--gb-gold-light);
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  font-style: italic;
+}
+
+.gb-review-author-name {
+  margin: 0 0 2px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.gb-review-author-location {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 12px;
+}
+
+@media (min-width: 900px) {
+  .gb-reviews-section {
+    padding: 100px 60px;
+  }
+
+  .gb-reviews-title {
+    font-size: 40px;
+  }
+
+  .gb-reviews-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 60px;
+  }
+
+  .gb-review-card {
+    padding: 44px 36px;
+  }
+}
+
+/* Keep the global cart icon visibly Giftij gold on every page/theme. */
+.gb-cart-fab,
+.gb-cart-fab[data-theme="light"] {
+  color: var(--gb-gold);
+  border-color: rgba(201, 168, 76, 0.58);
+}
+
+.gb-cart-fab svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--gb-gold);
+  stroke-width: 1.8;
+}
+
+/* Support CTA only. Do not recolour the Story page CTA. */
+.gb-support-contact-cta {
+  background: linear-gradient(135deg, #b88e2f 0%, var(--gb-gold) 52%, #d9bd72 100%);
+}
+
+.gb-support-contact-cta .gb-section-label,
+.gb-support-contact-cta .gb-section-title,
+.gb-support-contact-cta .gb-section-sub {
+  color: var(--gb-ink);
+}
+
+.gb-support-contact-cta .gb-btn {
+  background: var(--gb-ink);
+  color: #fff;
+}
+
+.gb-support-contact-cta .gb-btn:hover {
+  background: #fff;
+  color: var(--gb-ink);
+}
+
+/* Contact information card gets the matching gold treatment. */
+.gb-contact-gold-card {
+  margin-bottom: 64px;
+  background: linear-gradient(145deg, #b88e2f 0%, var(--gb-gold) 55%, #dfc77f 100%);
+  color: var(--gb-ink);
+}
+
+.gb-contact-gold-card .gb-form-title,
+.gb-contact-gold-card .gb-info-label,
+.gb-contact-gold-card p,
+.gb-contact-gold-card strong,
+.gb-contact-gold-card a {
+  color: var(--gb-ink) !important;
+}
+
+.gb-contact-gold-card a {
+  font-weight: 600;
+  text-decoration-color: rgba(26, 26, 26, 0.45);
+}
+
+.gb-contact-gold-card a:hover {
+  text-decoration-color: var(--gb-ink);
+}
+
+/* Make all footer/drawer social SVGs fit cleanly inside their circular buttons. */
+.gb-footer-social svg,
+.gb-drawer .gb-socials svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+
+/* Our Story: gold Shop The Collection CTA */
+.gb-story-shop-btn {
+  background: var(--gb-gold);
+  color: var(--gb-ink);
+  border: 1px solid var(--gb-gold);
+}
+
+.gb-story-shop-btn:hover {
+  background: var(--gb-gold-light);
+  color: var(--gb-ink);
+  border-color: var(--gb-gold-light);
+}
+
+/* Ensure uploaded founder photos fill both story image frames. */
+.gb-story-img-box img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+
+/* Homepage marquee: continuous horizontal movement */
+.gb-marquee {
+  overflow: hidden;
+}
+
+.gb-marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: gb-scroll 34s linear infinite;
+  will-change: transform;
+}
+
+.gb-marquee-item {
+  flex: 0 0 auto;
+}
+
+@keyframes gb-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-marquee-inner {
+    animation-duration: 34s;
+  }
+}

@@ -53,18 +53,24 @@ export default async function ProductPage({
   const variantImage = activeGroup?.image || ""
 
   const additionalAngles = (product.images ?? [])
-  .map((image) => (typeof image === "string" ? image : image.url))
-  .filter((src): src is string => Boolean(src))
+    .map((image) =>
+      typeof image === "string" ? image : image.url,
+    )
+    .filter(
+      (src): src is string => Boolean(src),
+    )
 
-const galleryImages = Array.from(
-  new Set(
-    [
-      variantImage,
-      product.coverImage ?? "",
-      ...additionalAngles,
-    ].filter((src): src is string => Boolean(src))
+  const galleryImages = Array.from(
+    new Set(
+      [
+        variantImage,
+        product.coverImage ?? "",
+        ...additionalAngles,
+      ].filter(
+        (src): src is string => Boolean(src),
+      ),
+    ),
   )
-)
 
   const discountedPrice = getDiscountedPrice(
     product.price,
@@ -78,10 +84,15 @@ const galleryImages = Array.from(
 
       <div className="gb-pdp">
         <ProductGallery
-          key={activeGroup?.colorSlug ?? product.slug}
+          key={
+            activeGroup?.colorSlug ??
+            product.slug
+          }
           images={galleryImages}
           alt={`${product.name}${
-            activeGroup ? ` — ${activeGroup.colour}` : ""
+            activeGroup
+              ? ` — ${activeGroup.colour}`
+              : ""
           }`}
         />
 
@@ -92,11 +103,16 @@ const galleryImages = Array.from(
             </p>
           )}
 
-          <h1 className="gb-pdp-title">{product.name}</h1>
+          <h1 className="gb-pdp-title">
+            {product.name}
+          </h1>
 
           <div className="gb-pdp-price-row">
             <span className="gb-pdp-price">
-              {formatPrice(discountedPrice ?? product.price)}
+              {formatPrice(
+                discountedPrice ??
+                  product.price,
+              )}
             </span>
 
             {discountedPrice !== null && (
@@ -118,50 +134,74 @@ const galleryImages = Array.from(
           <div style={{ marginBottom: 24 }}>
             <ColourSelector
               groups={groups}
-              activeColorSlug={activeGroup?.colorSlug}
+              activeColorSlug={
+                activeGroup?.colorSlug
+              }
               productSlug={slug}
             />
           </div>
 
           <PurchasePanel
-            key={activeGroup?.colorSlug ?? slug}
+            key={
+              activeGroup?.colorSlug ?? slug
+            }
             productSlug={slug}
             name={product.name}
-            colour={activeGroup?.colour ?? null}
+            colour={
+              activeGroup?.colour ?? null
+            }
             image={variantImage}
-            price={discountedPrice ?? product.price}
+            price={
+              discountedPrice ??
+              product.price
+            }
             group={activeGroup}
-            productInStock={product.inStock ?? true}
+            productInStock={
+              product.inStock ?? true
+            }
           />
 
           {product.fullDesc && (
             <div style={{ marginTop: 32 }}>
-              <p className="gb-pdp-section-title">Description</p>
+              <p className="gb-pdp-section-title">
+                Description
+              </p>
+
               <p className="gb-pdp-description">
                 {product.fullDesc}
               </p>
             </div>
           )}
 
-          {product.specs && product.specs.length > 0 && (
-            <div style={{ marginTop: 24 }}>
-              <p className="gb-pdp-section-title">Details</p>
-
-              <ul
-                style={{
-                  fontSize: 14,
-                  color: "#4a4540",
-                  lineHeight: 1.9,
-                }}
+          {product.specs &&
+            product.specs.length > 0 && (
+              <div
+                style={{ marginTop: 24 }}
               >
-                {product.specs.map((spec) => (
-                  <li key={spec.label}>
-                    <strong>{spec.label}:</strong> {spec.value}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                <p className="gb-pdp-section-title">
+                  Details
+                </p>
+
+                <ul
+                  style={{
+                    fontSize: 14,
+                    color: "#4a4540",
+                    lineHeight: 1.9,
+                  }}
+                >
+                  {product.specs.map(
+                    (spec) => (
+                      <li key={spec.label}>
+                        <strong>
+                          {spec.label}:
+                        </strong>{" "}
+                        {spec.value}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            )}
         </div>
       </div>
     </>
