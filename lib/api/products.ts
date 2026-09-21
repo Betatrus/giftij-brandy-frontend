@@ -1,14 +1,32 @@
-import { API_BASE } from "./config"
-import type { ApiProductDetail, ApiProductSummary, Category } from "./types"
+import "server-only"
+
+import {
+  SERVER_API_BASE,
+  getStorefrontApiSecret,
+} from "./server-config"
+
+import type {
+  ApiProductDetail,
+  ApiProductSummary,
+  Category,
+} from "./types"
 
 /**
- * Thin, typed wrappers around the Giftij public REST API. Every function
- * here is a plain `fetch` against `API_BASE` — no database access, no
- * secrets, nothing beyond what any browser could call directly.
+ * Server-only typed wrappers around the Giftij product REST API.
+ *
+ * Product catalogue requests are made by the Next.js storefront server,
+ * not directly by the customer's browser.
+ *
+ * Every product request carries the private X-Storefront-Key header.
+ * The secret itself never ships to the browser.
  */
 
 async function getJson<T>(url: string): Promise<T> {
   const res = await fetch(url, {
+    headers: {
+      "X-Storefront-Key": getStorefrontApiSecret(),
+    },
+
     // The admin API already has its own controlled cache/invalidation.
     // The storefront should not keep a second stale copy of product data,
     // especially after a product is deleted or unpublished in admin.
@@ -16,7 +34,9 @@ async function getJson<T>(url: string): Promise<T> {
   })
 
   if (!res.ok) {
-    throw new Error(`Giftij API request failed (${res.status}): ${url}`)
+    throw new Error(
+      `Giftij API request failed (${res.status}): ${url}`,
+    )
   }
 
   return res.json() as Promise<T>
@@ -29,12 +49,14 @@ export interface FetchProductsOptions {
 }
 
 /**
- * Fetches the full active storefront catalogue from the admin public API.
+ * Fetches the full active storefront catalogue from the protected
+ * server-to-server product API.
  */
 export async function fetchProductSummaries(
   options: FetchProductsOptions = {},
 ): Promise<ApiProductSummary[]> {
   const { category, sort = "newest" } = options
+
   const perPage = 50
   const MAX_PAGES = 20
 
@@ -54,18 +76,27 @@ export async function fetchProductSummaries(
 
       const data = await getJson<
         ApiListEnvelope<ApiProductSummary> & {
-          meta?: { pageCount?: number }
+          meta?: {
+            pageCount?: number
+          }
         }
-      >(`${API_BASE}/products?${params.toString()}`)
+      >(
+        `${SERVER_API_BASE}/products?${params.toString()}`,
+      )
 
       const items = unwrapList(data)
+
       all.push(...items)
 
       const pageCount = !Array.isArray(data)
         ? data.meta?.pageCount
         : undefined
 
-      if (!pageCount || page >= pageCount || items.length === 0) {
+      if (
+        !pageCount ||
+        page >= pageCount ||
+        items.length === 0
+      ) {
         break
       }
     }
@@ -74,28 +105,49 @@ export async function fetchProductSummaries(
       ? filterSummariesByCategory(all, category)
       : all
   } catch (error) {
-    console.error("[giftij] failed to load product summaries", error)
+    console.error(
+      "[giftij] failed to load product summaries",
+      error,
+    )
+
     return []
   }
 }
 
 /**
- * The list endpoint returns `{ success, data: [...], meta }`.
- * This helper accepts a couple of reasonable envelope shapes defensively.
+ * The list endpoint returns:
+ *
+ * {
+ *   success: true,
+ *   data: [...],
+ *   meta: {...}
+ * }
+ *
+ * This helper also accepts the plain-array shape defensively.
  */
 type ApiListEnvelope<T> =
-  | { success?: boolean; data?: T[]; items?: T[] }
+  | {
+      success?: boolean
+      data?: T[]
+      items?: T[]
+    }
   | T[]
 
-function unwrapList<T>(payload: ApiListEnvelope<T>): T[] {
-  if (Array.isArray(payload)) return payload
+function unwrapList<T>(
+  payload: ApiListEnvelope<T>,
+): T[] {
+  if (Array.isArray(payload)) {
+    return payload
+  }
+
   return payload.data ?? payload.items ?? []
 }
 
 /**
  * Category matching.
  *
- * Matches on slug OR display name and tolerates singular/plural forms.
+ * Matches on slug OR display name and tolerates
+ * singular/plural forms.
  */
 function normalise(value: unknown): string {
   return String(value ?? "")
@@ -110,16 +162,25 @@ function canonicalise(value: string): string {
     : value
 }
 
-export function productCategoryKeys(item: ApiProductSummary): string[] {
+export function productCategoryKeys(
+  item: ApiProductSummary,
+): string[] {
   const list: Category[] = [
     ...(item.categories ?? []),
+
     ...((item as { category?: Category }).category
-      ? [(item as { category?: Category }).category!]
+      ? [
+          (item as { category?: Category })
+            .category!,
+        ]
       : []),
   ]
 
   return list
-    .flatMap((c) => [normalise(c?.slug), normalise(c?.name)])
+    .flatMap((c) => [
+      normalise(c?.slug),
+      normalise(c?.name),
+    ])
     .filter(Boolean)
     .map(canonicalise)
 }
@@ -128,7 +189,9 @@ function filterSummariesByCategory(
   items: ApiProductSummary[],
   category: string,
 ) {
-  const wanted = canonicalise(normalise(category))
+  const wanted = canonicalise(
+    normalise(category),
+  )
 
   return items.filter((item) =>
     productCategoryKeys(item).includes(wanted),
@@ -138,11 +201,17 @@ function filterSummariesByCategory(
 export async function fetchProductDetail(
   slug: string,
 ): Promise<ApiProductDetail | null> {
-  const url = `${API_BASE}/products/${encodeURIComponent(slug)}`
+  const url =
+    `${SERVER_API_BASE}/products/` +
+    encodeURIComponent(slug)
 
   try {
     const data = await getJson<
-      { success?: boolean; data?: ApiProductDetail } | ApiProductDetail
+      | {
+          success?: boolean
+          data?: ApiProductDetail
+        }
+      | ApiProductDetail
     >(url)
 
     return "data" in data && data.data
@@ -153,6 +222,7 @@ export async function fetchProductDetail(
       `[giftij] failed to load product detail for "${slug}"`,
       error,
     )
+
     return null
   }
 }
