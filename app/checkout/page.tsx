@@ -8,13 +8,26 @@ import { formatPrice } from "@/lib/format"
 import {
   initializeCheckout,
   CheckoutApiError,
+  type CheckoutUnavailableItem,
   type ShippingAddress,
 } from "@/lib/api/checkout"
+
+function buildWhatsAppUrl(phone: string) {
+  let digits = phone.replace(/\D/g, "")
+
+  if (digits.startsWith("0")) {
+    digits = `234${digits.slice(1)}`
+  }
+
+  return `https://wa.me/${digits}`
+}
 
 export default function CheckoutPage() {
   const { items, totalPrice, totalCount } = useCart()
 
-  const [form, setForm] = useState<ShippingAddress & { email: string }>({
+  const [form, setForm] = useState<
+    ShippingAddress & { email: string }
+  >({
     email: "",
     fullName: "",
     phone: "",
@@ -28,9 +41,20 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null)
   const [errorCode, setErrorCode] = useState<string | null>(null)
 
+  const [unavailableItems, setUnavailableItems] = useState<
+    CheckoutUnavailableItem[]
+  >([])
+
+  const [customerCareWhatsApp, setCustomerCareWhatsApp] = useState<
+    string | null
+  >(null)
+
   const isOutOfStock = errorCode === "OUT_OF_STOCK"
 
-  function update<K extends keyof typeof form>(key: K, value: string) {
+  function update<K extends keyof typeof form>(
+    key: K,
+    value: string,
+  ) {
     setForm((current) => ({
       ...current,
       [key]: value,
@@ -40,12 +64,15 @@ export default function CheckoutPage() {
   function closeStockDrawer() {
     setError(null)
     setErrorCode(null)
+    setUnavailableItems([])
+    setCustomerCareWhatsApp(null)
   }
 
   useEffect(() => {
     if (!isOutOfStock) return
 
     const previousOverflow = document.body.style.overflow
+
     document.body.style.overflow = "hidden"
 
     function handleEscape(event: KeyboardEvent) {
@@ -68,7 +95,7 @@ export default function CheckoutPage() {
       form.phone.trim() &&
       form.address.trim() &&
       form.city.trim() &&
-      form.country.trim()
+      form.country.trim(),
   )
 
   async function handlePay() {
@@ -77,40 +104,48 @@ export default function CheckoutPage() {
     setSubmitting(true)
     setError(null)
     setErrorCode(null)
+    setUnavailableItems([])
+    setCustomerCareWhatsApp(null)
 
     try {
       const { email, ...shippingAddress } = form
 
-      /*
-       * The Giftij backend receives the customer details and cart,
-       * confirms live stock, then initializes Paystack only when
-       * the requested stock is available.
-       */
       const result = await initializeCheckout(
         email,
         shippingAddress,
-        items
+        items,
       )
 
       window.location.href = result.authorizationUrl
     } catch (err) {
-      /*
-       * Keep all customer delivery information intact when checkout
-       * cannot continue.
-       */
       if (err instanceof CheckoutApiError) {
         setError(err.message)
         setErrorCode(err.code ?? null)
+
+        setUnavailableItems(
+          err.details?.unavailableItems ?? [],
+        )
+
+        setCustomerCareWhatsApp(
+          err.details?.customerCareWhatsApp ?? null,
+        )
       } else {
         setError(
-          "Something went wrong processing your order. Please try again."
+          "Something went wrong processing your order. Please try again.",
         )
+
         setErrorCode(null)
+        setUnavailableItems([])
+        setCustomerCareWhatsApp(null)
       }
 
       setSubmitting(false)
     }
   }
+
+  const whatsappUrl = customerCareWhatsApp
+    ? buildWhatsAppUrl(customerCareWhatsApp)
+    : null
 
   return (
     <>
@@ -193,7 +228,8 @@ export default function CheckoutPage() {
               <div>
                 <strong>Real-time stock check</strong>
                 <p>
-                  Stock availability is confirmed from the store in real time.
+                  Stock availability is confirmed from the store in real
+                  time.
                 </p>
               </div>
             </div>
@@ -215,7 +251,9 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   placeholder="you@email.com"
                   value={form.email}
-                  onChange={(e) => update("email", e.target.value)}
+                  onChange={(e) =>
+                    update("email", e.target.value)
+                  }
                 />
               </div>
 
@@ -233,7 +271,9 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   placeholder="Adaeze Okonkwo"
                   value={form.fullName}
-                  onChange={(e) => update("fullName", e.target.value)}
+                  onChange={(e) =>
+                    update("fullName", e.target.value)
+                  }
                 />
               </div>
 
@@ -251,7 +291,9 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   placeholder="09023021320"
                   value={form.phone}
-                  onChange={(e) => update("phone", e.target.value)}
+                  onChange={(e) =>
+                    update("phone", e.target.value)
+                  }
                 />
               </div>
 
@@ -269,7 +311,9 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   placeholder="Lagos"
                   value={form.city}
-                  onChange={(e) => update("city", e.target.value)}
+                  onChange={(e) =>
+                    update("city", e.target.value)
+                  }
                 />
               </div>
 
@@ -287,7 +331,9 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   placeholder="Lagos State"
                   value={form.state}
-                  onChange={(e) => update("state", e.target.value)}
+                  onChange={(e) =>
+                    update("state", e.target.value)
+                  }
                 />
               </div>
 
@@ -304,7 +350,9 @@ export default function CheckoutPage() {
                   type="text"
                   className="gb-form-input"
                   value={form.country}
-                  onChange={(e) => update("country", e.target.value)}
+                  onChange={(e) =>
+                    update("country", e.target.value)
+                  }
                 />
               </div>
 
@@ -321,7 +369,9 @@ export default function CheckoutPage() {
                   className="gb-form-textarea"
                   placeholder="Street address, apartment, landmark..."
                   value={form.address}
-                  onChange={(e) => update("address", e.target.value)}
+                  onChange={(e) =>
+                    update("address", e.target.value)
+                  }
                 />
               </div>
             </div>
@@ -332,7 +382,9 @@ export default function CheckoutPage() {
                 role="alert"
                 aria-live="polite"
               >
-                <div className="gb-checkout-alert-icon">i</div>
+                <div className="gb-checkout-alert-icon">
+                  i
+                </div>
 
                 <div className="gb-checkout-alert-content">
                   <p className="gb-checkout-alert-title">
@@ -373,11 +425,15 @@ export default function CheckoutPage() {
               }}
             >
               If your order is available, you&apos;ll be redirected to
-              Paystack&apos;s secure payment page to complete your purchase.
+              Paystack&apos;s secure payment page to complete your
+              purchase.
             </p>
 
             <div className="gb-checkout-back-wrap">
-              <Link href="/cart" className="gb-checkout-back-link">
+              <Link
+                href="/cart"
+                className="gb-checkout-back-link"
+              >
                 Back to Cart
               </Link>
             </div>
@@ -426,15 +482,56 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="gb-stock-sheet-message">
-              <p>{error}</p>
-            </div>
+            {unavailableItems.length > 0 ? (
+              <div
+                className="gb-stock-sheet-message"
+                style={{
+                  display: "grid",
+                  gap: 12,
+                }}
+              >
+                {unavailableItems.map((item) => (
+                  <div
+                    key={`${item.productId}-${item.variantId ?? "base"}`}
+                  >
+                    <strong>{item.name}</strong>
+
+                    {item.available <= 0 ? (
+                      <p style={{ marginTop: 4 }}>
+                        This selection is currently out of stock.
+                      </p>
+                    ) : (
+                      <p style={{ marginTop: 4 }}>
+                        Only{" "}
+                        <strong>{item.available}</strong>{" "}
+                        {item.available === 1
+                          ? "unit is"
+                          : "units are"}{" "}
+                        currently available. You requested{" "}
+                        <strong>{item.requested}</strong>.
+                      </p>
+                    )}
+                  </div>
+                ))}
+
+                <p style={{ marginTop: 4 }}>
+                  Please update your cart before continuing to payment.
+                </p>
+              </div>
+            ) : (
+              <div className="gb-stock-sheet-message">
+                <p>{error}</p>
+              </div>
+            )}
 
             <div className="gb-stock-sheet-note">
-              <span className="gb-stock-sheet-note-icon">◇</span>
+              <span className="gb-stock-sheet-note-icon">
+                ◇
+              </span>
 
               <div>
                 <strong>Need help with your order?</strong>
+
                 <p>
                   Our customer care team can assist you with available
                   alternatives and your order.
@@ -447,9 +544,27 @@ export default function CheckoutPage() {
                 href="/cart"
                 className="gb-stock-sheet-primary"
               >
-                <span>View Cart</span>
+                <span>Update Cart</span>
                 <span aria-hidden="true">→</span>
               </Link>
+
+              {whatsappUrl ? (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gb-stock-sheet-secondary"
+                >
+                  Contact Customer Care on WhatsApp
+                </a>
+              ) : (
+                <Link
+                  href="/contact"
+                  className="gb-stock-sheet-secondary"
+                >
+                  Contact Customer Care
+                </Link>
+              )}
 
               <Link
                 href="/shop"
