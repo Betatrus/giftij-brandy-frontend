@@ -35,13 +35,6 @@ export function PurchasePanel({
     [group],
   )
 
-  /**
-   * Prefer the first variant that is actually available.
-   *
-   * This matters especially for Shoes and Slippers where a colour can
-   * contain multiple size/SKU combinations and some sizes may have
-   * zero stock.
-   */
   const defaultVariant = useMemo(() => {
     if (sizes.length === 0) {
       return null
@@ -49,26 +42,19 @@ export function PurchasePanel({
 
     return (
       sizes.find(
-        (variant) =>
-          variant.inStock !== false,
+        (variant) => variant.inStock !== false,
       ) ?? sizes[0]
     )
   }, [sizes])
 
-  const [
-    selectedSize,
-    setSelectedSize,
-  ] = useState<string | null>(
-    defaultVariant?.size ?? null,
-  )
+  const [selectedSize, setSelectedSize] =
+    useState<string | null>(
+      defaultVariant?.size ?? null,
+    )
 
   const [quantity, setQuantity] =
     useState(1)
 
-  /**
-   * When the customer changes colour, reset the selected size to the
-   * first available variant belonging to that colour.
-   */
   useEffect(() => {
     setSelectedSize(
       defaultVariant?.size ?? null,
@@ -81,44 +67,32 @@ export function PurchasePanel({
     defaultVariant?.size,
   ])
 
-  const selectedVariant =
-    useMemo(() => {
-      if (sizes.length === 0) {
-        return null
-      }
+  const selectedVariant = useMemo(() => {
+    if (sizes.length === 0) {
+      return null
+    }
 
-      return (
-        sizes.find(
-          (variant) =>
-            variant.size ===
-            selectedSize,
-        ) ?? defaultVariant
-      )
-    }, [
-      sizes,
-      selectedSize,
-      defaultVariant,
-    ])
+    return (
+      sizes.find(
+        (variant) =>
+          variant.size === selectedSize,
+      ) ?? defaultVariant
+    )
+  }, [
+    sizes,
+    selectedSize,
+    defaultVariant,
+  ])
 
-  /**
-   * Variant products use exact SKU stock.
-   *
-   * Non-variant products use product-level stock.
-   */
   const hasVariants =
     sizes.length > 0
 
   const isOutOfStock =
     hasVariants
       ? !selectedVariant ||
-        selectedVariant.inStock ===
-          false
+        selectedVariant.inStock === false
       : !productInStock
 
-  /**
-   * Build a useful WhatsApp message automatically so customer care knows
-   * exactly which product/colour/size the customer is asking about.
-   */
   const customerCareMessage =
     useMemo(() => {
       const details = [
@@ -150,9 +124,6 @@ export function PurchasePanel({
       return
     }
 
-    /**
-     * Variant products must always enter the cart with their exact SKU.
-     */
     if (
       hasVariants &&
       !selectedVariant?.sku
@@ -163,11 +134,9 @@ export function PurchasePanel({
     addItem(
       {
         id: `${productSlug}--${
-          group?.colorSlug ??
-          "default"
+          group?.colorSlug ?? "default"
         }--${
-          selectedVariant?.sku ??
-          "default"
+          selectedVariant?.sku ?? "default"
         }`,
 
         productSlug,
@@ -175,17 +144,14 @@ export function PurchasePanel({
         colour,
 
         size:
-          selectedVariant?.size ??
-          null,
+          selectedVariant?.size ?? null,
 
         sku:
-          selectedVariant?.sku ??
-          null,
+          selectedVariant?.sku ?? null,
 
         price,
         image,
       },
-
       quantity,
     )
   }
@@ -203,60 +169,50 @@ export function PurchasePanel({
           </p>
 
           <div className="gb-colour-list">
-            {sizes.map(
-              (variant) => {
-                const unavailable =
-                  variant.inStock ===
-                  false
+            {sizes.map((variant) => {
+              const unavailable =
+                variant.inStock === false
 
-                return (
-                  <button
-                    key={
-                      variant.sku
-                    }
-                    type="button"
-                    className="gb-colour-swatch"
-                    data-active={
-                      variant.size ===
-                      selectedSize
-                    }
-                    data-out-of-stock={
-                      unavailable
-                    }
-                    disabled={
-                      unavailable
-                    }
-                    onClick={() =>
-                      setSelectedSize(
-                        variant.size,
-                      )
-                    }
-                    aria-label={
-                      unavailable
-                        ? `Size ${variant.size ?? ""} out of stock`
-                        : `Select size ${variant.size ?? ""}`
-                    }
-                    title={
-                      unavailable
-                        ? "Out of stock"
-                        : undefined
-                    }
-                    style={
-                      unavailable
-                        ? {
-                            opacity:
-                              0.45,
-                            cursor:
-                              "not-allowed",
-                          }
-                        : undefined
-                    }
-                  >
-                    {variant.size}
-                  </button>
-                )
-              },
-            )}
+              return (
+                <button
+                  key={variant.sku}
+                  type="button"
+                  className="gb-colour-swatch"
+                  data-active={
+                    variant.size === selectedSize
+                  }
+                  data-out-of-stock={
+                    unavailable
+                  }
+                  disabled={unavailable}
+                  onClick={() =>
+                    setSelectedSize(
+                      variant.size,
+                    )
+                  }
+                  aria-label={
+                    unavailable
+                      ? `Size ${variant.size ?? ""} out of stock`
+                      : `Select size ${variant.size ?? ""}`
+                  }
+                  title={
+                    unavailable
+                      ? "Out of stock"
+                      : undefined
+                  }
+                  style={
+                    unavailable
+                      ? {
+                          opacity: 0.45,
+                          cursor: "not-allowed",
+                        }
+                      : undefined
+                  }
+                >
+                  {variant.size}
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
@@ -321,8 +277,7 @@ export function PurchasePanel({
       {isOutOfStock && (
         <>
           <p className="gb-pdp-stock-note">
-            This selection is currently
-            out of stock.
+            This selection is currently out of stock.
           </p>
 
           <div
@@ -340,10 +295,8 @@ export function PurchasePanel({
                 margin: 0,
                 fontSize: 13,
                 fontWeight: 700,
-                letterSpacing:
-                  "0.08em",
-                textTransform:
-                  "uppercase",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
               }}
             >
               Need this item?
@@ -351,22 +304,18 @@ export function PurchasePanel({
 
             <p
               style={{
-                margin:
-                  "8px 0 0",
+                margin: "8px 0 0",
                 fontSize: 14,
                 lineHeight: 1.6,
               }}
             >
-              Contact customer care
-              to check availability
-              or available
-              alternatives.
+              Contact customer care to check availability
+              or available alternatives.
             </p>
 
             <p
               style={{
-                margin:
-                  "12px 0 0",
+                margin: "12px 0 0",
                 fontSize: 14,
                 fontWeight: 700,
               }}
@@ -376,22 +325,20 @@ export function PurchasePanel({
             </p>
 
             <a
-              href={
-                customerCareUrl
-              }
+              href={customerCareUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="gb-btn"
               style={{
                 display: "flex",
-                alignItems:
-                  "center",
-                justifyContent:
-                  "center",
+                alignItems: "center",
+                justifyContent: "center",
                 width: "100%",
                 marginTop: 16,
-                textDecoration:
-                  "none",
+                textDecoration: "none",
+                background: "#d4a72c",
+                color: "#111111",
+                border: "1px solid #d4a72c",
               }}
             >
               Contact Customer Care
