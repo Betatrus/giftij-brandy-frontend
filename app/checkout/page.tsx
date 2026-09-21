@@ -72,7 +72,6 @@ export default function CheckoutPage() {
     if (!isOutOfStock) return
 
     const previousOverflow = document.body.style.overflow
-
     document.body.style.overflow = "hidden"
 
     function handleEscape(event: KeyboardEvent) {
@@ -153,7 +152,9 @@ export default function CheckoutPage() {
 
       <section className="gb-page-header">
         <span className="gb-page-eyebrow">Almost There</span>
+
         <span className="gb-page-title">Checkout</span>
+
         <span className="gb-page-sub">
           Review your order and enter your delivery details.
         </span>
@@ -174,19 +175,29 @@ export default function CheckoutPage() {
           </div>
         ) : (
           <div style={{ maxWidth: 640 }}>
-            <p className="gb-pdp-section-title">Order Summary</p>
+            <p className="gb-pdp-section-title">
+              Order Summary
+            </p>
 
             {items.map((item) => (
-              <div key={item.id} className="gb-cart-row">
+              <div
+                key={item.id}
+                className="gb-cart-row"
+              >
                 <div className="gb-cart-thumb">
                   {item.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.image} alt={item.name} />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                    />
                   ) : null}
                 </div>
 
                 <div style={{ flex: 1 }}>
-                  <p className="gb-product-name">{item.name}</p>
+                  <p className="gb-product-name">
+                    {item.name}
+                  </p>
 
                   {(item.colour || item.size) && (
                     <p className="gb-product-colour">
@@ -205,7 +216,9 @@ export default function CheckoutPage() {
                 </div>
 
                 <p className="gb-product-price">
-                  {formatPrice(item.price * item.quantity)}
+                  {formatPrice(
+                    item.price * item.quantity,
+                  )}
                 </p>
               </div>
             ))}
@@ -216,25 +229,33 @@ export default function CheckoutPage() {
                 {totalCount === 1 ? "" : "s"})
               </span>
 
-              <span>{formatPrice(totalPrice)}</span>
+              <span>
+                {formatPrice(totalPrice)}
+              </span>
             </div>
 
             <div
               className="gb-cart-stock-message"
               style={{ marginBottom: 28 }}
             >
-              <span className="gb-cart-stock-icon">✓</span>
+              <span className="gb-cart-stock-icon">
+                ✓
+              </span>
 
               <div>
-                <strong>Real-time stock check</strong>
+                <strong>
+                  Real-time stock check
+                </strong>
+
                 <p>
-                  Stock availability is confirmed from the store in real
-                  time.
+                  Stock availability is confirmed from the store in real time.
                 </p>
               </div>
             </div>
 
-            <p className="gb-pdp-section-title">Delivery Details</p>
+            <p className="gb-pdp-section-title">
+              Delivery Details
+            </p>
 
             <div className="gb-form-grid">
               <div className="gb-form-group">
@@ -252,7 +273,10 @@ export default function CheckoutPage() {
                   placeholder="you@email.com"
                   value={form.email}
                   onChange={(e) =>
-                    update("email", e.target.value)
+                    update(
+                      "email",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -272,7 +296,10 @@ export default function CheckoutPage() {
                   placeholder="Adaeze Okonkwo"
                   value={form.fullName}
                   onChange={(e) =>
-                    update("fullName", e.target.value)
+                    update(
+                      "fullName",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -292,7 +319,10 @@ export default function CheckoutPage() {
                   placeholder="09023021320"
                   value={form.phone}
                   onChange={(e) =>
-                    update("phone", e.target.value)
+                    update(
+                      "phone",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -312,7 +342,10 @@ export default function CheckoutPage() {
                   placeholder="Lagos"
                   value={form.city}
                   onChange={(e) =>
-                    update("city", e.target.value)
+                    update(
+                      "city",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -332,7 +365,10 @@ export default function CheckoutPage() {
                   placeholder="Lagos State"
                   value={form.state}
                   onChange={(e) =>
-                    update("state", e.target.value)
+                    update(
+                      "state",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -351,7 +387,10 @@ export default function CheckoutPage() {
                   className="gb-form-input"
                   value={form.country}
                   onChange={(e) =>
-                    update("country", e.target.value)
+                    update(
+                      "country",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -370,7 +409,10 @@ export default function CheckoutPage() {
                   placeholder="Street address, apartment, landmark..."
                   value={form.address}
                   onChange={(e) =>
-                    update("address", e.target.value)
+                    update(
+                      "address",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
@@ -408,7 +450,10 @@ export default function CheckoutPage() {
                 fontSize: 15,
                 fontWeight: 700,
               }}
-              disabled={!isComplete || submitting}
+              disabled={
+                !isComplete ||
+                submitting
+              }
               onClick={handlePay}
             >
               {submitting
@@ -425,8 +470,7 @@ export default function CheckoutPage() {
               }}
             >
               If your order is available, you&apos;ll be redirected to
-              Paystack&apos;s secure payment page to complete your
-              purchase.
+              Paystack&apos;s secure payment page to complete your purchase.
             </p>
 
             <div className="gb-checkout-back-wrap">
@@ -478,51 +522,56 @@ export default function CheckoutPage() {
 
               <div className="gb-stock-sheet-status">
                 <span>!</span>
-                <strong>Availability Changed</strong>
+
+                <strong>
+                  Availability Changed
+                </strong>
               </div>
             </div>
 
-            {unavailableItems.length > 0 ? (
-              <div
-                className="gb-stock-sheet-message"
-                style={{
-                  display: "grid",
-                  gap: 12,
-                }}
-              >
-                {unavailableItems.map((item) => (
+            <div className="gb-stock-sheet-message">
+              {unavailableItems.length > 0 ? (
+                unavailableItems.map((item) => (
                   <div
                     key={`${item.productId}-${item.variantId ?? "base"}`}
+                    style={{
+                      marginBottom: 12,
+                    }}
                   >
-                    <strong>{item.name}</strong>
+                    <strong>
+                      {item.name}
+                    </strong>
 
                     {item.available <= 0 ? (
-                      <p style={{ marginTop: 4 }}>
-                        This selection is currently out of stock.
+                      <p style={{ marginTop: 5 }}>
+                        Out of stock.
                       </p>
                     ) : (
-                      <p style={{ marginTop: 4 }}>
-                        Only{" "}
-                        <strong>{item.available}</strong>{" "}
+                      <p style={{ marginTop: 5 }}>
+                        Only {item.available}{" "}
                         {item.available === 1
                           ? "unit is"
                           : "units are"}{" "}
-                        currently available. You requested{" "}
-                        <strong>{item.requested}</strong>.
+                        currently available.
                       </p>
                     )}
                   </div>
-                ))}
-
-                <p style={{ marginTop: 4 }}>
-                  Please update your cart before continuing to payment.
-                </p>
-              </div>
-            ) : (
-              <div className="gb-stock-sheet-message">
+                ))
+              ) : (
                 <p>{error}</p>
-              </div>
-            )}
+              )}
+
+              <p
+                style={{
+                  marginTop: 12,
+                  fontWeight: 600,
+                }}
+              >
+                {customerCareWhatsApp
+                  ? `Contact customer care: ${customerCareWhatsApp}`
+                  : "Contact customer care for assistance."}
+              </p>
+            </div>
 
             <div className="gb-stock-sheet-note">
               <span className="gb-stock-sheet-note-icon">
@@ -530,41 +579,41 @@ export default function CheckoutPage() {
               </span>
 
               <div>
-                <strong>Need help with your order?</strong>
+                <strong>
+                  Need help with your order?
+                </strong>
 
                 <p>
-                  Our customer care team can assist you with available
+                  Our customer care team can assist you with availability,
                   alternatives and your order.
                 </p>
               </div>
             </div>
 
             <div className="gb-stock-sheet-actions">
-              <Link
-                href="/cart"
-                className="gb-stock-sheet-primary"
-              >
-                <span>Update Cart</span>
-                <span aria-hidden="true">→</span>
-              </Link>
-
-              {whatsappUrl ? (
+              {whatsappUrl && (
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="gb-stock-sheet-secondary"
+                  className="gb-stock-sheet-primary"
                 >
-                  Contact Customer Care on WhatsApp
+                  <span>
+                    Contact Customer Care
+                  </span>
+
+                  <span aria-hidden="true">
+                    →
+                  </span>
                 </a>
-              ) : (
-                <Link
-                  href="/contact"
-                  className="gb-stock-sheet-secondary"
-                >
-                  Contact Customer Care
-                </Link>
               )}
+
+              <Link
+                href="/cart"
+                className="gb-stock-sheet-secondary"
+              >
+                View Cart
+              </Link>
 
               <Link
                 href="/shop"
