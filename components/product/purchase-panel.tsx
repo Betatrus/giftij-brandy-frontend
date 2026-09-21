@@ -42,15 +42,18 @@ export function PurchasePanel({
 
     return (
       sizes.find(
-        (variant) => variant.inStock !== false,
+        (variant) =>
+          variant.inStock !== false,
       ) ?? sizes[0]
     )
   }, [sizes])
 
-  const [selectedSize, setSelectedSize] =
-    useState<string | null>(
-      defaultVariant?.size ?? null,
-    )
+  const [
+    selectedSize,
+    setSelectedSize,
+  ] = useState<string | null>(
+    defaultVariant?.size ?? null,
+  )
 
   const [quantity, setQuantity] =
     useState(1)
@@ -87,34 +90,71 @@ export function PurchasePanel({
   const hasVariants =
     sizes.length > 0
 
+  const unavailableSizes = useMemo(
+    () =>
+      sizes.filter(
+        (variant) =>
+          variant.inStock === false,
+      ),
+    [sizes],
+  )
+
+  const availableSizes = useMemo(
+    () =>
+      sizes.filter(
+        (variant) =>
+          variant.inStock !== false,
+      ),
+    [sizes],
+  )
+
+  const hasUnavailableSizes =
+    unavailableSizes.length > 0
+
+  const allSizesOutOfStock =
+    hasVariants &&
+    availableSizes.length === 0
+
   const isOutOfStock =
     hasVariants
-      ? !selectedVariant ||
+      ? allSizesOutOfStock ||
+        !selectedVariant ||
         selectedVariant.inStock === false
       : !productInStock
 
-  const customerCareMessage =
-    useMemo(() => {
-      const details = [
-        name,
-        colour
-          ? `Colour: ${colour}`
-          : null,
-        selectedVariant?.size
-          ? `Size: ${selectedVariant.size}`
-          : null,
-      ]
+  const customerCareMessage = useMemo(() => {
+    const unavailableSizeText =
+      unavailableSizes
+        .map((variant) => variant.size)
         .filter(Boolean)
         .join(", ")
 
-      return encodeURIComponent(
-        `Hello Giftij Brandy, I am interested in ${details}, but it is currently out of stock. Please let me know if it is available or if there is an alternative.`,
-      )
-    }, [
+    const details = [
       name,
-      colour,
-      selectedVariant?.size,
-    ])
+      colour
+        ? `Colour: ${colour}`
+        : null,
+      allSizesOutOfStock
+        ? "All sizes are currently out of stock"
+        : unavailableSizeText
+          ? `Unavailable size${unavailableSizes.length === 1 ? "" : "s"}: ${unavailableSizeText}`
+          : selectedVariant?.size
+            ? `Size: ${selectedVariant.size}`
+            : null,
+    ]
+      .filter(Boolean)
+      .join(", ")
+
+    return encodeURIComponent(
+      `Hello Giftij Brandy, I am interested in ${details}. Please let me know about availability or available alternatives.`,
+    )
+  }, [
+    name,
+    colour,
+    unavailableSizes,
+    allSizesOutOfStock,
+    selectedVariant?.size,
+  ])
 
   const customerCareUrl =
     `https://wa.me/${CUSTOMER_CARE_WHATSAPP}?text=${customerCareMessage}`
@@ -214,6 +254,70 @@ export function PurchasePanel({
               )
             })}
           </div>
+
+          {hasUnavailableSizes &&
+            !allSizesOutOfStock && (
+              <div
+                style={{
+                  marginTop: 16,
+                  padding: 16,
+                  border:
+                    "1px solid rgba(184, 139, 45, 0.28)",
+                  background:
+                    "rgba(184, 139, 45, 0.05)",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: 13,
+                    fontWeight: 700,
+                  }}
+                >
+                  Some sizes are currently out of stock.
+                </p>
+
+                <p
+                  style={{
+                    margin: "6px 0 0",
+                    fontSize: 13,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Contact customer care if you need one of the unavailable sizes.
+                </p>
+
+                <p
+                  style={{
+                    margin: "8px 0 0",
+                    fontSize: 13,
+                    fontWeight: 700,
+                  }}
+                >
+                  Contact customer care: {CUSTOMER_CARE_PHONE}
+                </p>
+
+                <a
+                  href={customerCareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gb-btn"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    marginTop: 12,
+                    textDecoration: "none",
+                    background: "#d4a72c",
+                    color: "#111111",
+                    border: "1px solid #d4a72c",
+                  }}
+                >
+                  Contact Customer Care
+                </a>
+              </div>
+            )}
         </div>
       )}
 
@@ -320,8 +424,7 @@ export function PurchasePanel({
                 fontWeight: 700,
               }}
             >
-              Contact customer care:{" "}
-              {CUSTOMER_CARE_PHONE}
+              Contact customer care: {CUSTOMER_CARE_PHONE}
             </p>
 
             <a
