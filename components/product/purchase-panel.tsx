@@ -8,6 +8,9 @@ import {
 import { useCart } from "@/lib/cart/cart-context"
 import type { VariantGroup } from "@/lib/api/types"
 
+const CUSTOMER_CARE_PHONE = "09023021320"
+const CUSTOMER_CARE_WHATSAPP = "2349023021320"
+
 export function PurchasePanel({
   productSlug,
   name,
@@ -33,11 +36,11 @@ export function PurchasePanel({
   )
 
   /**
-   * Prefer the first variant that is actually in stock.
+   * Prefer the first variant that is actually available.
    *
-   * This is especially important for Shoes and Slippers where one colour
-   * can have several size/SKU combinations and the first database variant
-   * may legitimately have zero stock.
+   * This matters especially for Shoes and Slippers where a colour can
+   * contain multiple size/SKU combinations and some sizes may have
+   * zero stock.
    */
   const defaultVariant = useMemo(() => {
     if (sizes.length === 0) {
@@ -63,13 +66,8 @@ export function PurchasePanel({
     useState(1)
 
   /**
-   * When the customer changes colour, the VariantGroup changes.
-   *
-   * React can preserve this client component's local state between those
-   * navigations, so a size selected under the previous colour must not
-   * remain selected for the new colour.
-   *
-   * Reset to the first available size belonging to the new colour.
+   * When the customer changes colour, reset the selected size to the
+   * first available variant belonging to that colour.
    */
   useEffect(() => {
     setSelectedSize(
@@ -103,11 +101,9 @@ export function PurchasePanel({
     ])
 
   /**
-   * Variant product:
-   * the selected SKU owns its stock.
+   * Variant products use exact SKU stock.
    *
-   * Non-variant product:
-   * fall back to the product-level stock signal.
+   * Non-variant products use product-level stock.
    */
   const hasVariants =
     sizes.length > 0
@@ -119,16 +115,43 @@ export function PurchasePanel({
           false
       : !productInStock
 
+  /**
+   * Build a useful WhatsApp message automatically so customer care knows
+   * exactly which product/colour/size the customer is asking about.
+   */
+  const customerCareMessage =
+    useMemo(() => {
+      const details = [
+        name,
+        colour
+          ? `Colour: ${colour}`
+          : null,
+        selectedVariant?.size
+          ? `Size: ${selectedVariant.size}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(", ")
+
+      return encodeURIComponent(
+        `Hello Giftij Brandy, I am interested in ${details}, but it is currently out of stock. Please let me know if it is available or if there is an alternative.`,
+      )
+    }, [
+      name,
+      colour,
+      selectedVariant?.size,
+    ])
+
+  const customerCareUrl =
+    `https://wa.me/${CUSTOMER_CARE_WHATSAPP}?text=${customerCareMessage}`
+
   function handleAddToCart() {
     if (isOutOfStock) {
       return
     }
 
     /**
-     * Variant products must never enter the cart without their real SKU.
-     *
-     * This protects Shoes/Slippers checkout because the backend later
-     * resolves the exact colour + size combination using this SKU.
+     * Variant products must always enter the cart with their exact SKU.
      */
     if (
       hasVariants &&
@@ -165,13 +188,6 @@ export function PurchasePanel({
 
       quantity,
     )
-
-    /**
-     * No separate popup code is needed here.
-     *
-     * addItem() in CartProvider already opens the same global
-     * CartAddedPopup used by Bags.
-     */
   }
 
   return (
@@ -303,10 +319,85 @@ export function PurchasePanel({
       </button>
 
       {isOutOfStock && (
-        <p className="gb-pdp-stock-note">
-          This colour/size is currently
-          out of stock.
-        </p>
+        <>
+          <p className="gb-pdp-stock-note">
+            This selection is currently
+            out of stock.
+          </p>
+
+          <div
+            style={{
+              marginTop: 18,
+              padding: 20,
+              border:
+                "1px solid rgba(184, 139, 45, 0.35)",
+              background:
+                "rgba(184, 139, 45, 0.06)",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing:
+                  "0.08em",
+                textTransform:
+                  "uppercase",
+              }}
+            >
+              Need this item?
+            </p>
+
+            <p
+              style={{
+                margin:
+                  "8px 0 0",
+                fontSize: 14,
+                lineHeight: 1.6,
+              }}
+            >
+              Contact customer care
+              to check availability
+              or available
+              alternatives.
+            </p>
+
+            <p
+              style={{
+                margin:
+                  "12px 0 0",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              Contact customer care:{" "}
+              {CUSTOMER_CARE_PHONE}
+            </p>
+
+            <a
+              href={
+                customerCareUrl
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gb-btn"
+              style={{
+                display: "flex",
+                alignItems:
+                  "center",
+                justifyContent:
+                  "center",
+                width: "100%",
+                marginTop: 16,
+                textDecoration:
+                  "none",
+              }}
+            >
+              Contact Customer Care
+            </a>
+          </div>
+        </>
       )}
     </div>
   )
