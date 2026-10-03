@@ -28,7 +28,7 @@ export function PurchasePanel({
   group: VariantGroup | null
   productInStock?: boolean
 }) {
-  const { addItem } = useCart()
+  const { items, addItem, updateQuantity } = useCart()
 
   const sizes = useMemo(
     () => group?.sizes ?? [],
@@ -57,6 +57,21 @@ export function PurchasePanel({
 
   const [quantity, setQuantity] =
     useState(1)
+
+  /**
+   * Product-page cart editing is deliberately visit-scoped.
+   *
+   * Once this exact product/colour/size is added during the current
+   * product-page visit, the quantity control becomes a live view of the
+   * central cart item and +/- updates the real cart immediately.
+   *
+   * This Set is intentionally local to PurchasePanel. Leaving this page
+   * unmounts it, so returning later starts a fresh product-page visit even
+   * if the cart itself still exists in sessionStorage. The existing cart
+   * session/inactivity behavior in CartProvider is therefore unchanged.
+   */
+  const [liveCartItemIds, setLiveCartItemIds] =
+    useState<Set<string>>(() => new Set())
 
   useEffect(() => {
     setSelectedSize(
@@ -159,6 +174,63 @@ export function PurchasePanel({
   const customerCareUrl =
     `https://wa.me/${CUSTOMER_CARE_WHATSAPP}?text=${customerCareMessage}`
 
+  const currentItemId = useMemo(
+    () =>
+      `${productSlug}--${
+        group?.colorSlug ?? "default"
+      }--${
+        selectedVariant?.sku ?? "default"
+      }`,
+    [
+      productSlug,
+      group?.colorSlug,
+      selectedVariant?.sku,
+    ],
+  )
+
+  const currentCartItem = useMemo(
+    () =>
+      items.find(
+        (item) => item.id === currentItemId,
+      ) ?? null,
+    [items, currentItemId],
+  )
+
+  const isLiveCartQuantity =
+    liveCartItemIds.has(currentItemId) &&
+    currentCartItem !== null
+
+  const displayedQuantity =
+    isLiveCartQuantity && currentCartItem
+      ? currentCartItem.quantity
+      : quantity
+
+  function handleDecreaseQuantity() {
+    if (isLiveCartQuantity && currentCartItem) {
+      updateQuantity(
+        currentItemId,
+        currentCartItem.quantity - 1,
+      )
+      return
+    }
+
+    setQuantity((current) =>
+      Math.max(1, current - 1),
+    )
+  }
+
+  function handleIncreaseQuantity() {
+    if (isLiveCartQuantity && currentCartItem) {
+      updateQuantity(
+        currentItemId,
+        currentCartItem.quantity + 1,
+      )
+      return
+    }
+
+    setQuantity((current) => current + 1)
+  }
+
   function handleAddToCart() {
     if (isOutOfStock) {
       return
@@ -173,11 +245,7 @@ export function PurchasePanel({
 
     addItem(
       {
-        id: `${productSlug}--${
-          group?.colorSlug ?? "default"
-        }--${
-          selectedVariant?.sku ?? "default"
-        }`,
+        id: currentItemId,
 
         productSlug,
         name,
@@ -194,6 +262,16 @@ export function PurchasePanel({
       },
       quantity,
     )
+
+    setLiveCartItemIds((current) => {
+      const next = new Set(current)
+      next.add(currentItemId)
+      return next
+    })
+
+    // Once added, +/- edits the actual cart quantity. Keep the next
+    // "Add to Cart" action as a single additional unit if used again.
+    setQuantity(1)
   }
 
   return (
@@ -333,30 +411,17 @@ export function PurchasePanel({
         <div className="gb-qty">
           <button
             type="button"
-            onClick={() =>
-              setQuantity(
-                (current) =>
-                  Math.max(
-                    1,
-                    current - 1,
-                  ),
-              )
-            }
+            onClick={handleDecreaseQuantity}
             aria-label="Decrease quantity"
           >
             −
           </button>
 
-          <span>{quantity}</span>
+          <span>{displayedQuantity}</span>
 
           <button
             type="button"
-            onClick={() =>
-              setQuantity(
-                (current) =>
-                  current + 1,
-              )
-            }
+            onClick={handleIncreaseQuantity}
             aria-label="Increase quantity"
           >
             +
