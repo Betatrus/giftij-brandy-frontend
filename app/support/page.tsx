@@ -3,47 +3,67 @@ import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { FaqList, type Faq } from "./faq-list"
 
-/** Help & Support — content ported from public/support.html. */
-export const metadata: Metadata = { title: "Help & Support — Giftij Brandy" }
+export const metadata: Metadata = {
+  title: "Help & Support — Giftij Brandy",
+  description:
+    "Get answers about Giftij Brandy orders, delivery across Nigeria, tracking, refunds, exchanges, and customer support.",
+}
 
 const FAQS: Faq[] = [
   {
-    q: "How long does delivery take within Nigeria?",
-    a: "Lagos orders typically arrive within 1–2 business days. Orders to other Nigerian states take 2–5 business days depending on location. You'll receive a tracking link via WhatsApp and email as soon as your order is dispatched.",
+    q: "Will I receive exactly the product I ordered?",
+    a: "Yes. We send the exact product, colour, size, and style selected when you place your order. We also confirm your order details before dispatch to reduce mistakes. If there is any issue with availability, we will contact you before your order is shipped.",
   },
   {
-    q: "Do you ship internationally?",
-    a: "Yes! We ship to the UK, US, Canada, and select European countries. International shipping takes 7–14 business days. Customs fees and import duties are the responsibility of the customer and vary by country.",
+    q: "Do you deliver outside Port Harcourt?",
+    a: "Yes. Giftij Brandy delivers to customers in Port Harcourt and other locations across Nigeria.",
   },
   {
-    q: "How do I track my order?",
-    a: "Once your order ships, you'll get a tracking number via WhatsApp and email. If you haven't received your tracking details within 24 hours of dispatch, reach out to us and we'll sort it immediately.",
+    q: "How long does delivery take outside Port Harcourt?",
+    a: "Delivery time depends on your location. Orders to nearby South-South and South-East states typically arrive within about 24 hours, while deliveries to western states and farther northern locations may take up to 48 hours. Delivery times may vary slightly depending on the courier, exact destination, weekends, public holidays, or other logistics conditions.",
   },
   {
-    q: "What is your return policy?",
-    a: "We accept returns within 14 days of delivery for items in original, unused condition with all tags attached. Custom or personalised pieces are non-returnable. Contact us via WhatsApp to initiate a return and we'll guide you through the process.",
+    q: "How much does delivery cost?",
+    a: "Delivery cost depends on your location and the courier handling your order. The applicable delivery fee will be communicated or shown before dispatch, depending on the order process.",
   },
   {
-    q: "How do exchanges work?",
-    a: "Want a different colour or style? We offer free exchanges within 14 days. Simply return your item and let us know what you'd like instead. If there's a price difference, we'll sort the balance via transfer or refund.",
+    q: "How can I track my order?",
+    a: "Once your order has been dispatched, you can contact our support team for an update on your delivery. If a tracking reference is available for your shipment, it will be shared with you.",
   },
   {
-    q: "Are your bags made from real leather?",
-    a: "Absolutely. All Giftij Brandy bags use full-grain or pebbled genuine leather. We list the exact leather type and origin on each product page. We never use bonded leather or PU — you're getting the real thing, every time.",
+    q: "What should I do if I receive the wrong product?",
+    a: "Contact Giftij Brandy support as soon as possible with your order details and clear photos of the product you received. We will review the issue and arrange the appropriate replacement or resolution.",
   },
   {
-    q: "Do the bags come with a dust bag and authenticity card?",
-    a: "Yes! Every bag arrives in our signature gold-and-black gift box, with a branded dust bag, gold authenticity card, and care guide card. It's gift-ready right out of the box.",
+    q: "What should I do if my product arrives damaged or defective?",
+    a: "Contact our support team as soon as possible and provide clear photos or videos showing the issue. We will review the complaint and advise you on the next step.",
   },
   {
-    q: "What payment methods do you accept?",
-    a: "We accept card payments (Mastercard, Visa), bank transfers, and payments via Paystack. For international orders, we also accept PayPal. All transactions are secured with SSL encryption.",
+    q: "Do you offer refunds?",
+    a: "Yes. A refund may be issued if the product you receive is damaged, defective, incorrect, or does not meet the expected quality standard. Refund requests are reviewed based on the condition of the product and the details provided.",
   },
   {
-    q: "Can I pay in instalments?",
-    a: "Yes! We offer a layaway plan for orders above ₦100,000. Pay 50% upfront and the balance before dispatch. Contact us on WhatsApp to set this up — we'll hold your item for up to 14 days.",
+    q: "Can I exchange an item if the size does not fit?",
+    a: "Size exchanges may be available for eligible items that are unused and returned in their original condition. Contact our support team as soon as possible after delivery to confirm whether your order qualifies.",
+  },
+  {
+    q: "How do I contact Giftij Brandy customer support?",
+    a: "You can contact our customer support team through the contact options available on our Support page for help with orders, delivery, returns, exchanges, or product-related questions.",
   },
 ]
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+}
 
 const CARE = [
   {
@@ -70,20 +90,20 @@ const CARE = [
 
 const TOPICS = [
   {
-    title: "Orders & Shipping",
-    desc: "Delivery times, tracking, and dispatch.",
+    title: "Orders & Products",
+    desc: "Order accuracy, product issues, and what to do if something is wrong.",
   },
   {
-    title: "Returns & Exchanges",
-    desc: "Our 14-day policy, explained simply.",
+    title: "Delivery",
+    desc: "Delivery across Nigeria, estimated timelines, costs, and tracking.",
   },
   {
-    title: "Bag Care Guide",
-    desc: "Keep your leather beautiful for years.",
+    title: "Returns & Refunds",
+    desc: "Refunds, damaged items, wrong products, and size exchanges.",
   },
   {
-    title: "Payments",
-    desc: "Cards, transfers, Paystack and layaway.",
+    title: "Customer Support",
+    desc: "How to reach Giftij Brandy when you need help with an order.",
   },
 ]
 
@@ -92,120 +112,82 @@ export default function SupportPage() {
     <>
       <SiteNav theme="light" />
 
-      <section className="gb-page-header">
-        <span className="gb-page-eyebrow">
-          We&apos;re Here For You
-        </span>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }}
+      />
 
-        <span className="gb-page-title">
-          Help &amp; Support
-        </span>
+      <section className="gb-page-header">
+        <span className="gb-page-eyebrow">We&apos;re Here For You</span>
+
+        <span className="gb-page-title">Help &amp; Support</span>
 
         <span className="gb-page-sub">
-          Find answers, track orders, and get the care your bag deserves.
+          Get clear answers about orders, delivery, returns, exchanges, and support.
         </span>
       </section>
 
       <section className="gb-section">
-        <p className="gb-section-label">
-          Browse Topics
-        </p>
+        <p className="gb-section-label">Browse Topics</p>
 
-        <h2
-          className="gb-section-title"
-          style={{ marginBottom: 32 }}
-        >
+        <h2 className="gb-section-title" style={{ marginBottom: 32 }}>
           How Can We Help?
         </h2>
 
         <div className="gb-topics-grid">
           {TOPICS.map((topic) => (
-            <div
-              className="gb-topic-card"
-              key={topic.title}
-            >
-              <h3 className="gb-topic-title">
-                {topic.title}
-              </h3>
-
-              <p className="gb-topic-desc">
-                {topic.desc}
-              </p>
+            <div className="gb-topic-card" key={topic.title}>
+              <h3 className="gb-topic-title">{topic.title}</h3>
+              <p className="gb-topic-desc">{topic.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section
-        className="gb-section"
-        style={{ background: "#f7f1e7" }}
-      >
-        <p className="gb-section-label">
-          Good to Know
-        </p>
+      <section className="gb-section" style={{ background: "#f7f1e7" }}>
+        <p className="gb-section-label">Good to Know</p>
 
-        <h2
-          className="gb-section-title"
-          style={{ marginBottom: 24 }}
-        >
-          Frequently Asked
+        <h2 className="gb-section-title" style={{ marginBottom: 24 }}>
+          Frequently Asked Questions About Orders, Delivery &amp; Returns
         </h2>
 
         <FaqList items={FAQS} />
       </section>
 
       <section className="gb-section">
-        <p className="gb-section-label">
-          Keep It Beautiful
-        </p>
+        <p className="gb-section-label">Keep It Beautiful</p>
 
-        <h2
-          className="gb-section-title"
-          style={{ marginBottom: 32 }}
-        >
+        <h2 className="gb-section-title" style={{ marginBottom: 32 }}>
           Bag Care Guide
         </h2>
 
         <div className="gb-care-grid">
           {CARE.map((item) => (
             <div key={item.num}>
-              <p className="gb-care-num">
-                {item.num}
-              </p>
-
-              <h3 className="gb-care-title">
-                {item.title}
-              </h3>
-
-              <p className="gb-care-text">
-                {item.text}
-              </p>
+              <p className="gb-care-num">{item.num}</p>
+              <h3 className="gb-care-title">{item.title}</h3>
+              <p className="gb-care-text">{item.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="gb-story-cta">
-        <p className="gb-section-label">
-          Still Have Questions?
+        <p className="gb-section-label">Still Have Questions?</p>
+
+        <h2 className="gb-section-title">We&apos;re Always Here.</h2>
+
+        <p className="gb-section-sub" style={{ margin: "12px auto 12px" }}>
+          Visit us opposite Total Look Salon, Cornerstone, Off NTA Road,
+          Port Harcourt.
         </p>
 
-        <h2 className="gb-section-title">
-          We&apos;re Always Here.
-        </h2>
-
-        <p
-          className="gb-section-sub"
-          style={{ margin: "12px auto 28px" }}
-        >
+        <p className="gb-section-sub" style={{ margin: "0 auto 28px" }}>
           Our team typically responds within 2 hours on WhatsApp.
           For email, expect us within 24 hours on business days.
         </p>
 
-        <Link
-          href="/contact"
-          className="gb-btn gb-story-shop-btn"
-        >
+        <Link href="/contact" className="gb-btn gb-story-shop-btn">
           Contact Us
         </Link>
       </section>
