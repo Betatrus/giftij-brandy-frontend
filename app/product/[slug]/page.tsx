@@ -1,6 +1,8 @@
+
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { SiteNav } from "@/components/layout/site-nav"
+import { ProductBackLink } from "@/components/product/product-back-link"
 import { ColourSelector } from "@/components/product/colour-selector"
 import { ProductGallery } from "@/components/product/product-gallery"
 import { PurchasePanel } from "@/components/product/purchase-panel"
@@ -81,6 +83,10 @@ export default async function ProductPage({
   return (
     <>
       <SiteNav theme="light" />
+
+      <div style={{ padding: "0 24px" }}>
+        <ProductBackLink />
+      </div>
 
       <div className="gb-pdp">
         <ProductGallery
@@ -175,9 +181,7 @@ export default async function ProductPage({
 
           {product.specs &&
             product.specs.length > 0 && (
-              <div
-                style={{ marginTop: 24 }}
-              >
+              <div style={{ marginTop: 24 }}>
                 <p className="gb-pdp-section-title">
                   Details
                 </p>
@@ -189,16 +193,14 @@ export default async function ProductPage({
                     lineHeight: 1.9,
                   }}
                 >
-                  {product.specs.map(
-                    (spec) => (
-                      <li key={spec.label}>
-                        <strong>
-                          {spec.label}:
-                        </strong>{" "}
-                        {spec.value}
-                      </li>
-                    ),
-                  )}
+                  {product.specs.map((spec) => (
+                    <li key={spec.label}>
+                      <strong>
+                        {spec.label}:
+                      </strong>{" "}
+                      {spec.value}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
