@@ -40,7 +40,7 @@ interface CartContextValue {
 const STORAGE_KEY = "giftij-cart"
 const LAST_ACTIVITY_KEY = "giftij-storefront-last-activity"
 
-const INACTIVITY_MS = 3 * 60 * 1000
+const INACTIVITY_MS = 7 * 60 * 1000
 
 const CartContext = createContext<CartContextValue | null>(null)
 
@@ -116,7 +116,7 @@ export function CartProvider({
   /**
    * Global storefront inactivity handling.
    *
-   * After 3 minutes without real user interaction:
+   * After 7 minutes without real user interaction:
    * - cart is cleared
    * - checkout React state disappears when the page unmounts
    * - customer returns to the homepage
