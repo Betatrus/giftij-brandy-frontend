@@ -43,7 +43,7 @@ function CheckoutCallbackInner() {
         const result = await getOrderStatus(reference!)
         if (cancelled) return
 
-        if (result.status === "confirmed" || result.status === "stock_unavailable") {
+        if (result.status === "confirmed") {
           setStatus(result.status)
           setOrderNumber(result.orderNumber ?? null)
           if (!clearedRef.current) {
@@ -84,7 +84,7 @@ function CheckoutCallbackInner() {
       <section className="gb-page-header">
         <span className="gb-page-eyebrow">Order Status</span>
         <span className="gb-page-title">
-          {status === "confirmed" ? "Payment Confirmed" : status === "stock_unavailable" ? "Payment Received — Order Needs Attention" : "Confirming Your Payment"}
+          {status === "confirmed" ? "Payment successful" : "Confirming Your Payment"}
         </span>
       </section>
 
@@ -99,23 +99,10 @@ function CheckoutCallbackInner() {
 
           {status === "confirmed" && (
             <>
-              <p>Thank you! Your order has been placed and payment confirmed.</p>
+              <p>Your payment was successful. Thank you for your order.</p>
               {orderNumber && (
                 <p className="gb-product-name" style={{ marginTop: 8 }}>Order #{orderNumber}</p>
               )}
-              <Link href="/shop" className="gb-btn" style={{ marginTop: 20 }}>
-                Continue Shopping
-              </Link>
-            </>
-          )}
-
-          {status === "stock_unavailable" && (
-            <>
-              <p>Your payment was received successfully, but the item became unavailable before the order could be allocated. We have recorded your paid order and flagged it for our team to resolve. Please contact us for an update or refund arrangement.</p>
-              {orderNumber && (
-                <p className="gb-product-name" style={{ marginTop: 8 }}>Order #{orderNumber}</p>
-              )}
-              {reference && <p className="gb-form-note">Payment reference: {reference}</p>}
               <Link href="/shop" className="gb-btn" style={{ marginTop: 20 }}>
                 Continue Shopping
               </Link>
