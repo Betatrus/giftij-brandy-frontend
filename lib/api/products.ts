@@ -44,6 +44,7 @@ async function getJson<T>(url: string): Promise<T> {
 
 export interface FetchProductsOptions {
   category?: string
+  featured?: string
   q?: string
   pageSize?: number
   sort?: string
@@ -56,7 +57,7 @@ export interface FetchProductsOptions {
 export async function fetchProductSummaries(
   options: FetchProductsOptions = {},
 ): Promise<ApiProductSummary[]> {
-  const { category, q, sort = "newest" } = options
+  const { category, featured, q, sort = "newest" } = options
 
   const perPage = 50
   const MAX_PAGES = 20
@@ -73,6 +74,10 @@ export async function fetchProductSummaries(
 
       if (category) {
         params.set("category", category)
+      }
+
+      if (featured) {
+        params.set("featured", featured)
       }
 
       if (q?.trim()) {
