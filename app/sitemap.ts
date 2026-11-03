@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next"
 import { fetchProductSummaries } from "@/lib/api/products"
 import { CATEGORIES } from "@/lib/api/config"
-import { absoluteUrl } from "@/lib/seo"
+import { absoluteUrl } from "@/lib/seo"\nimport { fetchBlogPosts, fetchBlogSettings } from "@/lib/api/blog"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await fetchProductSummaries()
+  const [products, blogPosts, blogSettings] = await Promise.all([fetchProductSummaries(), fetchBlogPosts(), fetchBlogSettings()])
 
   return [
     { url: absoluteUrl("/"), changeFrequency: "daily", priority: 1 },

@@ -17,7 +17,7 @@ function Chevron({ size = 8 }: { size?: number }) {
 export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
   const { totalCount } = useCart()
   const [open, setOpen] = useState(false)
-  const [shopOpen, setShopOpen] = useState(false)
+  const [shopOpen, setShopOpen] = useState(false)\n  const [blogVisible, setBlogVisible] = useState(false)\n\n  useEffect(() => {\n    let active = true\n    fetch("/api/blog-settings", { cache: "no-store" })\n      .then((response) => response.ok ? response.json() : null)\n      .then((settings) => { if (active) setBlogVisible(settings?.blogNavigationVisible === true) })\n      .catch(() => { if (active) setBlogVisible(false) })\n    return () => { active = false }\n  }, [])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -75,7 +75,7 @@ export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
                 </div>
               )}
               <Link href="/story" className="gb-link" onClick={close}>Our Story <Chevron /></Link>
-              <Link href="/contact" className="gb-link" onClick={close}>Contact &amp; Support <Chevron /></Link>
+              {blogVisible && <Link href="/blog" className="gb-link" onClick={close}>Blog <Chevron /></Link>}\n              <Link href="/contact" className="gb-link" onClick={close}>Contact &amp; Support <Chevron /></Link>
               <Link href="/cart" className="gb-link" onClick={close}>Cart <Chevron /></Link>
             </div>
             <div className="gb-follow"><p className="gb-follow-label">Follow Us</p><DrawerSocials /></div>
