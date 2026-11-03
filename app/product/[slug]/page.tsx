@@ -8,6 +8,8 @@ import { ProductGallery } from "@/components/product/product-gallery"
 import { PurchasePanel } from "@/components/product/purchase-panel"
 import { getProductWithVariantGroups } from "@/lib/api/adapter"
 import { formatPrice, getDiscountedPrice } from "@/lib/format"
+import { JsonLd } from "@/components/seo/json-ld"
+import { cleanDescription, pageMetadata, SITE_URL } from "@/lib/seo"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -20,11 +22,27 @@ export async function generateMetadata({
   const { slug } = await params
   const result = await getProductWithVariantGroups(slug)
 
-  return {
-    title: result
-      ? `${result.product.name} — Giftij Brandy`
-      : "Product — Giftij Brandy",
+  if (!result) {
+    return pageMetadata({
+      title: "Product Not Found",
+      path: `/product/${encodeURIComponent(slug)}`,
+      noIndex: true,
+    })
   }
+
+  const product = result.product
+  const image = product.coverImage ?? product.images?.[0]?.url
+  const description = cleanDescription(
+    product.fullDesc ?? product.description,
+    `Shop ${product.name} at Giftij Brandy in Nigeria. View product details, available options and current price.`,
+  )
+
+  return pageMetadata({
+    title: `${product.name} | Shop Online in Nigeria`,
+    description,
+    path: `/product/${encodeURIComponent(slug)}`,
+    image: image ?? undefined,
+  })
 }
 
 export default async function ProductPage({
@@ -83,6 +101,44 @@ export default async function ProductPage({
   return (
     <>
       <SiteNav theme="light" />
+
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+            { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+            { "@type": "ListItem", position: 3, name: product.name, item: `${SITE_URL}/product/${encodeURIComponent(slug)}` },
+          ],
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: cleanDescription(product.fullDesc ?? product.description),
+          image: Array.from(new Set([
+            product.coverImage ?? "",
+            ...(product.images ?? []).map((item) => item.url),
+            ...groups.map((group) => group.image),
+          ].filter(Boolean))),
+          brand: { "@type": "Brand", name: "Giftij Brandy" },
+          category: product.categories?.map((category) => category.name).join(", "),
+          ...(product.variants?.length === 1 ? { sku: product.variants[0].sku } : {}),
+          offers: {
+            "@type": "Offer",
+            url: `${SITE_URL}/product/${encodeURIComponent(slug)}`,
+            priceCurrency: "NGN",
+            price: getDiscountedPrice(product.price, product.discount, product.discountedPrice) ?? product.price,
+            itemCondition: "https://schema.org/NewCondition",
+            ...(typeof product.inStock === "boolean"
+              ? { availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" }
+              : {}),
+          },
+        }}
+      />
 
       <div style={{ padding: "0 24px" }}>
         <ProductBackLink />
