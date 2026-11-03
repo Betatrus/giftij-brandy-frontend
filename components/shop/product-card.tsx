@@ -16,8 +16,8 @@ export function ProductCard({ card, priority = false }: { card: VariantCard; pri
         {badge && <span className="gb-product-badge">{badge}</span>}
         {card.image ? (
           // eslint-disable-next-line @next/next/no-img-element -- images come
-          // from the backend's own CDN; unoptimized passthrough preserves
-          // original quality without adding filters/overlays.
+          // from Cloudinary; delivery transformations request right-sized,
+          // modern formats while preserving the source asset.
           <img src={storefrontImageUrl(card.image, 640)} alt={`${card.name}${card.colour ? ` — ${card.colour}` : ""}`} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" />
         ) : (
           // No fallback to the product cover/gallery image here on purpose —
