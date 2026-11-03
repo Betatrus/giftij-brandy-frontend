@@ -1,11 +1,36 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/seo/json-ld"
+import { pageMetadata, SITE_URL } from "@/lib/seo"
 import { SiteNav } from "@/components/layout/site-nav"
 import { ProductGrid } from "@/components/shop/product-grid"
 import { ShopSearch } from "@/components/shop/shop-search"
 import { getVariantCards } from "@/lib/api/adapter"
 import { CATEGORIES, isCategorySlug, type CategorySlug } from "@/lib/api/config"
 
-export const metadata: Metadata = { title: "Shop — Giftij Brandy" }
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; q?: string }>
+}): Promise<Metadata> {
+  const params = await searchParams
+  const requested = params.category?.toLowerCase()
+  const category = requested && isCategorySlug(requested) ? requested : undefined
+  const query = params.q?.trim() ?? ""
+  const categoryName = category ? CATEGORIES.find((item) => item.slug === category)?.name : undefined
+  const title = categoryName
+    ? `Shop ${categoryName} Online in Nigeria`
+    : "Shop Bags, Shoes & Slippers Online in Nigeria"
+  const description = categoryName
+    ? `Explore stylish ${categoryName.toLowerCase()} at Giftij Brandy. Shop online from Port Harcourt, Nigeria, and view current product details and availability.`
+    : "Explore bags, shoes and slippers at Giftij Brandy. Browse the online collection and find fashion pieces for everyday style in Nigeria."
+
+  return pageMetadata({
+    title,
+    description,
+    path: category ? `/shop?category=${encodeURIComponent(category)}` : "/shop",
+    noIndex: Boolean(query),
+  })
+}
 
 export default async function ShopPage({
   searchParams,
@@ -31,6 +56,27 @@ export default async function ShopPage({
     <>
       <SiteNav theme="light" />
 
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: categoryName ? `Giftij Brandy ${categoryName}` : "Giftij Brandy Shop",
+          url: category ? `${SITE_URL}/shop?category=${encodeURIComponent(category)}` : `${SITE_URL}/shop`,
+          isPartOf: { "@type": "WebSite", name: "Giftij Brandy", url: SITE_URL },
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+            { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+            ...(categoryName ? [{ "@type": "ListItem", position: 3, name: categoryName, item: `${SITE_URL}/shop?category=${encodeURIComponent(category!)}` }] : []),
+          ],
+        }}
+      />
+
       <section className="gb-page-header">
         <div className="gb-breadcrumb">
           <a href="/">Home</a>
@@ -45,9 +91,9 @@ export default async function ShopPage({
         </div>
 
         <span className="gb-page-eyebrow">The Collection</span>
-        <span className="gb-page-title">
+        <h1 className="gb-page-title">
           Shop All{categoryName ? ` ${categoryName}` : ""}
-        </span>
+        </h1>
         <span className="gb-page-sub">Uniquely maintain your style with us.</span>
       </section>
 
