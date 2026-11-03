@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next"
 import { fetchProductSummaries } from "@/lib/api/products"
 import { CATEGORIES } from "@/lib/api/config"
-import { BLOG_POSTS } from "@/lib/blogs"
 import { absoluteUrl } from "@/lib/seo"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -14,12 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl(`/shop?category=${encodeURIComponent(category.slug)}`),
       changeFrequency: "daily" as const,
       priority: 0.8,
-    })),
-    { url: absoluteUrl("/blogs"), changeFrequency: "weekly", priority: 0.7 },
-    ...BLOG_POSTS.map((post) => ({
-      url: absoluteUrl(`/blogs/${post.slug}`),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
     })),
     ...products.map((product) => ({
       url: absoluteUrl(`/product/${encodeURIComponent(product.slug)}`),

@@ -74,7 +74,6 @@ export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
                   {CATEGORIES.map((c) => <Link key={c.slug} href={`/shop?category=${c.slug}`} className="gb-sublink" onClick={close}>{c.name} <Chevron size={7} /></Link>)}
                 </div>
               )}
-              <Link href="/blogs" className="gb-link" onClick={close}>Blogs &amp; Guides <Chevron /></Link>
               <Link href="/story" className="gb-link" onClick={close}>Our Story <Chevron /></Link>
               <Link href="/contact" className="gb-link" onClick={close}>Contact &amp; Support <Chevron /></Link>
               <Link href="/cart" className="gb-link" onClick={close}>Cart <Chevron /></Link>
