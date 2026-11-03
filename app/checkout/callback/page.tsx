@@ -84,7 +84,7 @@ function CheckoutCallbackInner() {
       <section className="gb-page-header">
         <span className="gb-page-eyebrow">Order Status</span>
         <span className="gb-page-title">
-          {status === "confirmed" ? "Payment Confirmed" : "Confirming Your Payment"}
+          {status === "confirmed" ? "Payment Successful" : "Confirming Your Payment"}
         </span>
       </section>
 
@@ -99,7 +99,7 @@ function CheckoutCallbackInner() {
 
           {status === "confirmed" && (
             <>
-              <p>Thank you! Your order has been placed and payment confirmed.</p>
+              <p>Thank you! Your payment was successful. Your order has been recorded.</p>
               {orderNumber && (
                 <p className="gb-product-name" style={{ marginTop: 8 }}>Order #{orderNumber}</p>
               )}
