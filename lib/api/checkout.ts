@@ -104,7 +104,6 @@ export type OrderStatus =
   | "confirmed"
   | "processing"
   | "failed"
-  | "stock_unavailable"
 
 export interface OrderStatusResult {
   status: OrderStatus
