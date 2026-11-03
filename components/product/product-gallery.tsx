@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { storefrontImageUrl } from "@/lib/images"
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0)
@@ -11,7 +12,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
       <div className="gb-pdp-gallery-main">
         {gallery[active] ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={gallery[active]} alt={alt} />
+          <img src={storefrontImageUrl(gallery[active], 1200)} alt={alt} fetchPriority="high" decoding="async" />
         ) : null}
       </div>
 
@@ -27,7 +28,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
               aria-label={`Show angle ${index + 1}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" />
+              <img src={storefrontImageUrl(src, 240)} alt="" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
