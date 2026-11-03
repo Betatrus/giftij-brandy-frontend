@@ -18,8 +18,8 @@ export function ProductGrid({
 
   return (
     <div className="gb-product-grid">
-      {cards.map((card) => (
-        <ProductCard key={card.id} card={card} />
+      {cards.map((card, index) => (
+        <ProductCard key={card.id} card={card} priority={index < 2} />
       ))}
     </div>
   )
