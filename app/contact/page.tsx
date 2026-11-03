@@ -1,10 +1,13 @@
 import type { Metadata } from "next"
 import { SiteNav } from "@/components/layout/site-nav"
 import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/components/layout/social-links"
+import { pageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Contact — Giftij Brandy",
-}
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Giftij Brandy | Port Harcourt, Nigeria",
+  description: "Contact Giftij Brandy for product enquiries and online orders. Find our store in Port Harcourt, Rivers State, Nigeria, or reach us on WhatsApp.",
+  path: "/contact",
+})
 
 export default function ContactPage() {
   return (
