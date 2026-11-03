@@ -37,11 +37,25 @@ function CheckoutCallbackInner() {
     }
 
     let cancelled = false
+    let retryTimer: ReturnType<typeof setTimeout> | null = null
+    let consecutiveNetworkErrors = 0
+    attemptsRef.current = 0
+
+    function schedulePoll() {
+      if (cancelled) return
+      retryTimer = setTimeout(() => {
+        void poll()
+      }, POLL_INTERVAL_MS)
+    }
 
     async function poll() {
       try {
         const result = await getOrderStatus(reference!)
         if (cancelled) return
+
+        // A successful response means the connection recovered. Reset the
+        // consecutive network-error counter, even while the webhook is pending.
+        consecutiveNetworkErrors = 0
 
         if (result.status === "confirmed") {
           setStatus(result.status)
@@ -65,15 +79,27 @@ function CheckoutCallbackInner() {
         }
 
         setStatus("processing")
-        setTimeout(poll, POLL_INTERVAL_MS)
+        schedulePoll()
       } catch {
-        if (!cancelled) setStatus("error")
+        if (cancelled) return
+
+        // A temporary status-endpoint/network failure is not evidence that
+        // payment failed. Retry a few times before showing the support state.
+        consecutiveNetworkErrors += 1
+        if (consecutiveNetworkErrors >= 5) {
+          setStatus("error")
+          return
+        }
+
+        setStatus("processing")
+        schedulePoll()
       }
     }
 
-    poll()
+    void poll()
     return () => {
       cancelled = true
+      if (retryTimer) clearTimeout(retryTimer)
     }
   }, [reference, clear])
 
