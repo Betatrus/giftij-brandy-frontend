@@ -1,23 +1,15 @@
 import Link from "next/link"
 import { FooterSocials } from "./social-links"
 
-/** Footer, ported from public/index.html (content + socials + columns). */
 export function SiteFooter() {
   return (
     <footer className="gb-footer">
       <div className="gb-footer-top">
         <div>
-          <p className="gb-footer-brand-name">
-            GIFTIJ <span>BRANDY</span>
-          </p>
-          <p className="gb-footer-tagline">
-            Uniquely Maintain Your Style With Us.
-            <br />
-            Everything fashion bags — budget-friendly to luxury.
-          </p>
+          <p className="gb-footer-brand-name">GIFTIJ <span>BRANDY</span></p>
+          <p className="gb-footer-tagline">Uniquely Maintain Your Style With Us.<br />Everything fashion bags — budget-friendly to luxury.</p>
           <FooterSocials />
         </div>
-
         <div>
           <p className="gb-footer-col-title">Shop</p>
           <ul className="gb-footer-links">
@@ -27,17 +19,16 @@ export function SiteFooter() {
             <li><Link href="/shop">All Products</Link></li>
           </ul>
         </div>
-
         <div>
-          <p className="gb-footer-col-title">Help</p>
+          <p className="gb-footer-col-title">Explore</p>
           <ul className="gb-footer-links">
+            <li><Link href="/blogs">Blogs &amp; Guides</Link></li>
+            <li><Link href="/story">Our Story</Link></li>
             <li><Link href="/support">Help &amp; Support</Link></li>
             <li><Link href="/contact">Contact Us</Link></li>
-            <li><Link href="/story">Our Story</Link></li>
             <li><Link href="/cart">Cart</Link></li>
           </ul>
         </div>
-
         <div>
           <p className="gb-footer-col-title">Stay Connected</p>
           <ul className="gb-footer-links">
@@ -46,15 +37,9 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-
       <div className="gb-footer-bottom">
-        <p className="gb-footer-copy">
-          © {new Date().getFullYear()} Giftij Brandy. Uniquely Maintain Your Style With Us.
-        </p>
-        <div className="gb-footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms</a>
-        </div>
+        <p className="gb-footer-copy">© {new Date().getFullYear()} Giftij Brandy. Uniquely Maintain Your Style With Us.</p>
+        <div className="gb-footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
       </div>
     </footer>
   )
