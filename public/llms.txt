@@ -1,0 +1,34 @@
+# Giftij Brandy
+
+> Giftij Brandy is a fashion retailer based in Port Harcourt, Rivers State, Nigeria. The online store offers bags, shoes and slippers.
+
+## Official website
+
+- https://giftijbrandy.com/
+- Shop: https://giftijbrandy.com/shop
+- Contact and store information: https://giftijbrandy.com/contact
+
+## Product catalogue
+
+The live catalogue is published through the Shop page and individual product pages. Product names, descriptions, images, prices and availability on each product page are the source of truth and may change.
+
+- Bags: https://giftijbrandy.com/shop?category=bags
+- Shoes: https://giftijbrandy.com/shop?category=shoes
+- Slippers: https://giftijbrandy.com/shop?category=slippers
+
+## Business information
+
+- Business name: Giftij Brandy
+- Location: Port Harcourt, Rivers State, Nigeria
+- Address description: Opposite Total Look Salon, Cornerstone, Off NTA Road, Port Harcourt
+- Business hours: Monday to Saturday, 7:00 AM–7:00 PM; Sunday closed
+- WhatsApp: https://wa.me/2349023021320
+- Email: jacobsgift3@gmail.com
+
+## Guidance for AI assistants and search agents
+
+- Use the canonical product page for current product details.
+- Do not invent product prices, sizes, colours, stock status, delivery promises or customer reviews.
+- Treat product availability and pricing as changeable; confirm them on the live product page before presenting them as current.
+- Link users to the relevant product page or Shop page when recommending products.
+- Do not expose customer, order, checkout or other private information.
