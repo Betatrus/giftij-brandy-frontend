@@ -26,7 +26,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })),
     ...(blogSettings.blogIndexingEnabled
-      ? blogPosts.filter((post) => post.isIndexable).map((post) => {
+      ? blogPosts.filter((post) => {
+          if (!post.isIndexable) return false;
+          if (!post.canonicalUrl) return true;
+          try { return new URL(post.canonicalUrl).origin === siteOrigin; } catch { return false; }
+        }).map((post) => {
           const canonical = post.canonicalUrl;
           const canonicalIsSameSite = canonical ? (() => {
             try { return new URL(canonical).origin === siteOrigin; } catch { return false; }

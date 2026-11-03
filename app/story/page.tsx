@@ -2,9 +2,14 @@
 import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { ImageOrFallback } from "@/components/ui/image-or-fallback"
+import { pageMetadata } from "@/lib/seo"
 
 /** Our Story — Giftij Brandy founder story. */
-export const metadata: Metadata = { title: "Our Story" }
+export const metadata: Metadata = pageMetadata({
+  title: "Our Story",
+  description: "Discover the story behind Giftij Brandy, a Nigerian fashion store offering bags, shoes and slippers from Port Harcourt.",
+  path: "/story",
+})
 
 const VALUES = [
   { title: "Craftsmanship", desc: "Every piece is selected with intention because the details matter." },
