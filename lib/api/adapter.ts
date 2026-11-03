@@ -88,13 +88,9 @@ function toVariantCard(product: ApiProductSummary, group: VariantGroup | null): 
 }
 
 /**
- * The list endpoint's summary DTO (see PUBLIC_PRODUCT_SUMMARY_SELECT in
- * the admin repo) intentionally embeds only `{ id, currentStock }` per
- * variant — no colour, size, sku, or image. That's fine for computing
- * `inStock` server-side, but it means a summary's `variants[]` is never
- * enough on its own to render colour cards/images. Detect that "thin"
- * shape (rather than just "empty") so this never silently mistakes it
- * for "no variants" and renders a single colourless, imageless card.
+ * The public summary DTO includes the active variant fields needed for
+ * colour cards. Products with no active variants can be rendered from the
+ * summary alone, without a second product-detail API request.
  */
 function hasUsableVariantData(variants: ApiVariant[] | undefined): variants is ApiVariant[] {
   return !!variants && variants.length > 0 && variants.every((v) => typeof v.sku === "string")
@@ -102,6 +98,10 @@ function hasUsableVariantData(variants: ApiVariant[] | undefined): variants is A
 
 async function buildCardsForProduct(product: ApiProductSummary): Promise<VariantCard[]> {
   let variants = product.variants
+
+  if (product.hasVariants === false || (product.hasVariants === true && variants?.length === 0)) {
+    return [toVariantCard(product, null)]
+  }
 
   if (!hasUsableVariantData(variants)) {
     const detail = await fetchProductDetail(product.slug)
