@@ -124,7 +124,7 @@ export default async function ProductPage({
             ...(product.images ?? []).map((item) => item.url),
             ...groups.map((group) => group.image),
           ].filter(Boolean))),
-          brand: { "@type": "Brand", name: "Giftij Brandy" },
+          brand: { "@type": "Brand", name: product.brand?.trim() || "Giftij Brandy" },
           category: product.categories?.map((category) => category.name).join(", "),
           ...(product.variants?.length === 1 ? { sku: product.variants[0].sku } : {}),
           offers: {
