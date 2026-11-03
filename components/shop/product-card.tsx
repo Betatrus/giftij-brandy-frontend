@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { formatPrice, getDiscountedPrice } from "@/lib/format"
 import type { VariantCard } from "@/lib/api/types"
+import { storefrontImageUrl } from "@/lib/images"
 
-export function ProductCard({ card }: { card: VariantCard }) {
+export function ProductCard({ card, priority = false }: { card: VariantCard; priority?: boolean }) {
   const discountedPrice = getDiscountedPrice(card.price, card.discount, card.discountedPrice)
   const href = card.colorSlug
     ? `/product/${card.productSlug}?color=${card.colorSlug}`
@@ -17,7 +18,7 @@ export function ProductCard({ card }: { card: VariantCard }) {
           // eslint-disable-next-line @next/next/no-img-element -- images come
           // from the backend's own CDN; unoptimized passthrough preserves
           // original quality without adding filters/overlays.
-          <img src={card.image} alt={`${card.name}${card.colour ? ` — ${card.colour}` : ""}`} loading="lazy" />
+          <img src={storefrontImageUrl(card.image, 640)} alt={`${card.name}${card.colour ? ` — ${card.colour}` : ""}`} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" />
         ) : (
           // No fallback to the product cover/gallery image here on purpose —
           // a card must only ever show this colour's own photo. A neutral
