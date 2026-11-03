@@ -33,12 +33,12 @@ export async function generateMetadata({
   const product = result.product
   const image = product.coverImage ?? product.images?.[0]?.url
   const description = cleanDescription(
-    product.fullDesc ?? product.description,
+    product.seoDescription ?? product.fullDesc ?? product.description ?? product.shortDesc,
     `Shop ${product.name} at Giftij Brandy in Nigeria. View product details, available options and current price.`,
   )
 
   return pageMetadata({
-    title: `${product.name} | Shop Online in Nigeria`,
+    title: product.seoTitle?.trim() || `${product.name} | Shop Online in Nigeria`,
     description,
     path: `/product/${encodeURIComponent(slug)}`,
     image: image ?? undefined,
