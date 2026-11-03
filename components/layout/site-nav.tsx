@@ -76,8 +76,7 @@ export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
               )}
               <Link href="/blogs" className="gb-link" onClick={close}>Blogs &amp; Guides <Chevron /></Link>
               <Link href="/story" className="gb-link" onClick={close}>Our Story <Chevron /></Link>
-              <Link href="/support" className="gb-link" onClick={close}>Help &amp; Support <Chevron /></Link>
-              <Link href="/contact" className="gb-link" onClick={close}>Contact <Chevron /></Link>
+              <Link href="/contact" className="gb-link" onClick={close}>Contact &amp; Support <Chevron /></Link>
               <Link href="/cart" className="gb-link" onClick={close}>Cart <Chevron /></Link>
             </div>
             <div className="gb-follow"><p className="gb-follow-label">Follow Us</p><DrawerSocials /></div>

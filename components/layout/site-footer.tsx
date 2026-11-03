@@ -24,8 +24,7 @@ export function SiteFooter() {
           <ul className="gb-footer-links">
             <li><Link href="/blogs">Blogs &amp; Guides</Link></li>
             <li><Link href="/story">Our Story</Link></li>
-            <li><Link href="/support">Help &amp; Support</Link></li>
-            <li><Link href="/contact">Contact Us</Link></li>
+            <li><Link href="/contact">Contact &amp; Support</Link></li>
             <li><Link href="/cart">Cart</Link></li>
           </ul>
         </div>
