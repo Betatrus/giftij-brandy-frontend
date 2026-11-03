@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { pageMetadata } from "@/lib/seo"
+import type { Metadata } from "next"
 import { SiteNav } from "@/components/layout/site-nav"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { Hero } from "@/components/home/hero"
@@ -9,6 +11,12 @@ import { Reviews } from "@/components/home/reviews"
 import { ProductGrid } from "@/components/shop/product-grid"
 import { getVariantCards } from "@/lib/api/adapter"
 import { HOMEPAGE_PLACEMENT } from "@/lib/api/config"
+
+export const metadata: Metadata = pageMetadata({
+  title: "Bags, Shoes & Slippers Online in Nigeria",
+  description: "Discover stylish bags, shoes and slippers at Giftij Brandy. Shop fashion essentials online from Port Harcourt, Nigeria.",
+  path: "/",
+})
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
