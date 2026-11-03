@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export default async function HomePage() {
-  const allCards = await getVariantCards()
+  const allCards = await getVariantCards({ featured: HOMEPAGE_PLACEMENT.bestSellers })
 
   /*
    * Best Sellers is controlled exclusively by the Admin dashboard's
