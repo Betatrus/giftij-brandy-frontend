@@ -53,6 +53,7 @@ export interface ApiProductSummary {
   coverImage?: string | null
   images?: string[]
   inStock?: boolean
+  hasVariants?: boolean
   variantType?: string
   variants?: ApiVariant[]
 }
