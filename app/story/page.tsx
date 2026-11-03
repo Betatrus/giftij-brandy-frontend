@@ -4,7 +4,7 @@ import { SiteNav } from "@/components/layout/site-nav"
 import { ImageOrFallback } from "@/components/ui/image-or-fallback"
 
 /** Our Story — Giftij Brandy founder story. */
-export const metadata: Metadata = { title: "Our Story — Giftij Brandy" }
+export const metadata: Metadata = { title: "Our Story" }
 
 const VALUES = [
   { title: "Craftsmanship", desc: "Every piece is selected with intention because the details matter." },

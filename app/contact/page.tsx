@@ -5,7 +5,7 @@ import { FaqList, type Faq } from "@/app/support/faq-list"
 import { pageMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact & Support Giftij Brandy | Port Harcourt, Nigeria",
+  title: "Contact & Support in Port Harcourt, Nigeria",
   description: "Contact Giftij Brandy for product enquiries and order assistance. Find answers about delivery, payments, returns and exchanges, or reach our Port Harcourt team.",
   path: "/contact",
 })
