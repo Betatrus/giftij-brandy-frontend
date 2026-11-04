@@ -20,28 +20,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily" as const,
       priority: 0.8,
     })),
-    ...products.map((product) => ({
-      url: absoluteUrl(`/product/${encodeURIComponent(product.slug)}`),
-      changeFrequency: "daily" as const,
-      priority: 0.7,
-    })),
+    ...products
+      .filter((product) => Boolean(product.slug?.trim()))
+      .map((product) => ({
+        url: absoluteUrl(`/product/${encodeURIComponent(product.slug)}`),
+        changeFrequency: "daily" as const,
+        priority: 0.7,
+      })),
     ...(blogSettings.blogIndexingEnabled
-      ? blogPosts.filter((post) => {
-          if (!post.isIndexable) return false;
-          if (!post.canonicalUrl) return true;
-          try { return new URL(post.canonicalUrl).origin === siteOrigin; } catch { return false; }
-        }).map((post) => {
-          const canonical = post.canonicalUrl;
-          const canonicalIsSameSite = canonical ? (() => {
-            try { return new URL(canonical).origin === siteOrigin; } catch { return false; }
-          })() : false;
-          return {
-            url: canonicalIsSameSite ? canonical! : absoluteUrl(`/blog/${encodeURIComponent(post.slug)}`),
-            lastModified: new Date(post.updatedAt),
-            changeFrequency: "monthly" as const,
-            priority: post.isFeatured ? 0.8 : 0.6,
-          };
-        })
+      ? [
+          {
+            url: absoluteUrl("/blog"),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+          },
+          ...blogPosts
+            .filter((post) => {
+              if (!post.slug?.trim() || !post.isIndexable) return false;
+              if (!post.canonicalUrl) return true;
+              try {
+                return new URL(post.canonicalUrl).origin === siteOrigin;
+              } catch {
+                return false;
+              }
+            })
+            .map((post) => {
+              const canonical = post.canonicalUrl;
+              const canonicalIsSameSite = canonical
+                ? (() => {
+                    try {
+                      return new URL(canonical).origin === siteOrigin;
+                    } catch {
+                      return false;
+                    }
+                  })()
+                : false;
+
+              return {
+                url: canonicalIsSameSite
+                  ? canonical!
+                  : absoluteUrl(`/blog/${encodeURIComponent(post.slug)}`),
+                lastModified: new Date(post.updatedAt),
+                changeFrequency: "monthly" as const,
+                priority: post.isFeatured ? 0.8 : 0.6,
+              };
+            }),
+        ]
       : []),
   ];
 }
