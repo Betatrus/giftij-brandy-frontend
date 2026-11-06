@@ -159,7 +159,7 @@ export default function StoryPage() {
         ))}
       </section>
 
-      <section className="gb-story-intro">
+      <section id="founder" className="gb-story-intro">
         <div className="gb-story-img-box">
           <ImageOrFallback
             src={founderImage}
