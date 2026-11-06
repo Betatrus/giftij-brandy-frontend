@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { SERVER_API_BASE, getStorefrontApiSecret } from "@/lib/api/server-config";
+import { SERVER_API_BASE, getStorefrontApiHeaders } from "@/lib/api/server-config";
 
 export async function GET() {
   try {
     const response = await fetch(`${SERVER_API_BASE}/blog-settings`, {
-      headers: { "X-Storefront-Key": getStorefrontApiSecret() }, cache: "no-store",
+      headers: getStorefrontApiHeaders(), cache: "no-store",
     });
     if (!response.ok) return NextResponse.json({ blogNavigationVisible: false }, { status: 200 });
     const payload = await response.json();
