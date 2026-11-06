@@ -2,12 +2,13 @@
 import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { ImageOrFallback } from "@/components/ui/image-or-fallback"
-import { pageMetadata } from "@/lib/seo"
+import { pageMetadata, absoluteUrl, SITE_URL } from "@/lib/seo"
+import { JsonLd } from "@/components/seo/json-ld"
 
 /** Our Story — Giftij Brandy founder story. */
 export const metadata: Metadata = pageMetadata({
-  title: "Our Story",
-  description: "Discover the story behind Giftij Brandy, a Nigerian fashion store offering bags, shoes and slippers from Port Harcourt.",
+  title: "Our Story – Nigerian Fashion Brand",
+  description: "Meet the founder of Giftij Brandy and discover how a Port Harcourt fashion business grew from a student startup into a Nigerian bags, shoes and slippers brand.",
   path: "/story",
 })
 
@@ -217,6 +218,17 @@ export default function StoryPage() {
           Shop The Collection
         </Link>
       </section>
+
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": `${SITE_URL}/story#founder`,
+        name: "Jacobs Gift Amah",
+        jobTitle: "Founder & Creative Director",
+        url: absoluteUrl("/story#founder"),
+        image: absoluteUrl(founderImage),
+        worksFor: { "@id": `${SITE_URL}/#store` },
+      }} />
     </>
   )
 }
