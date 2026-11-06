@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Jost, Playfair_Display } from "next/font/google"
 import { CartProvider } from "@/lib/cart/cart-context"
 import { CartAddedPopup } from "@/components/cart/cart-added-popup"
+import { CampaignAnnouncements } from "@/components/marketing/campaign-announcements"
 import "./globals.css"
 import "@/styles/storefront.css"
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartAddedPopup />
+          <CampaignAnnouncements />
         </CartProvider>
 
         {process.env.NODE_ENV === "production" && (
