@@ -27,11 +27,27 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
   };
 }
 function renderInline(text:string){
-  const parts=text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
+  const parts=text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|\x60[^\x60]+\x60)/g);
   return parts.map((part,i)=>{
+    const link=part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if(link){
+      const [,label,rawHref]=link;
+      const href=rawHref.trim();
+      const isInternal=(href.startsWith("/")&&!href.startsWith("//"))||href.startsWith("#");
+      let isAllowed=isInternal;
+      if(!isAllowed){
+        try { isAllowed=["http:","https:","mailto:","tel:"].includes(new URL(href).protocol); }
+        catch { isAllowed=false; }
+      }
+      if(!isAllowed)return label;
+      const className="text-[#9b7a35] underline underline-offset-4 hover:opacity-80";
+      return isInternal
+        ? createElement(Link,{key:i,href,className},label)
+        : createElement("a",{key:i,href,className,target:href.startsWith("http")?"_blank":undefined,rel:href.startsWith("http")?"noopener noreferrer":undefined},label);
+    }
     if(part.startsWith("**")&&part.endsWith("**"))return createElement("strong",{key:i},part.slice(2,-2));
     if(part.startsWith("*")&&part.endsWith("*"))return createElement("em",{key:i},part.slice(1,-1));
-    if(part.startsWith("`")&&part.endsWith("`"))return createElement("code",{key:i,className:"rounded bg-cream px-1"},part.slice(1,-1));
+    if(part.startsWith("\x60")&&part.endsWith("\x60"))return createElement("code",{key:i,className:"rounded bg-cream px-1"},part.slice(1,-1));
     return part;
   });
 }
