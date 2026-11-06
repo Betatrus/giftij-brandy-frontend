@@ -4,6 +4,8 @@ import { CATEGORIES } from "@/lib/api/config";
 import { absoluteUrl, SITE_URL } from "@/lib/seo";
 import { fetchBlogPosts, fetchBlogSettings } from "@/lib/api/blog";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, blogPosts, blogSettings] = await Promise.all([
     fetchProductSummaries(),
