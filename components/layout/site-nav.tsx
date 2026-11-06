@@ -31,6 +31,20 @@ export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
   const { totalCount } = useCart()
   const [open, setOpen] = useState(false)
   const [shopOpen, setShopOpen] = useState(false)
+  const [blogVisible, setBlogVisible] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/blog-settings", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((settings) => {
+        if (active) setBlogVisible(settings?.blogNavigationVisible === true)
+      })
+      .catch(() => {
+        if (active) setBlogVisible(false)
+      })
+    return () => { active = false }
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -126,6 +140,11 @@ export function SiteNav({ theme = "dark" }: { theme?: "dark" | "light" }) {
               <Link href="/story" className="gb-link" onClick={close}>
                 Our Story <Chevron />
               </Link>
+              {blogVisible && (
+                <Link href="/blog" className="gb-link" onClick={close}>
+                  Blog <Chevron />
+                </Link>
+              )}
               <Link href="/support" className="gb-link" onClick={close}>
                 Help &amp; Support <Chevron />
               </Link>
