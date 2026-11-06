@@ -1,4 +1,3 @@
-import { API_BASE } from "./config"
 import type { CartItem } from "@/lib/cart/cart-context"
 
 export interface ShippingAddress {
@@ -87,7 +86,7 @@ export async function initializeCheckout(
   items: CartItem[],
 ): Promise<InitializeCheckoutResult> {
   return postJson<InitializeCheckoutResult>(
-    `${API_BASE}/checkout/initialize`,
+    "/api/checkout/initialize",
     {
       email,
       shippingAddress,
@@ -114,7 +113,8 @@ export async function getOrderStatus(
   reference: string,
 ): Promise<OrderStatusResult> {
   const res = await fetch(
-    `${API_BASE}/orders/status?reference=${encodeURIComponent(reference)}`,
+    `/api/orders/status?reference=${encodeURIComponent(reference)}`,
+    { cache: "no-store" },
   )
 
   const json = await res.json().catch(() => null)
