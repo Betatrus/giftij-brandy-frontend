@@ -1,5 +1,5 @@
 import "server-only";
-import { SERVER_API_BASE, getStorefrontApiSecret } from "./server-config";
+import { SERVER_API_BASE, getStorefrontApiHeaders } from "./server-config";
 
 export type BlogPostSummary = {
   id: string; title: string; slug: string; excerpt: string; type: string; tags: string[];
@@ -14,7 +14,7 @@ type BlogPostResult = BlogPost | { redirectTo: string };
 async function request<T>(path: string): Promise<T | null> {
   try {
     const response = await fetch(`${SERVER_API_BASE}${path}`, {
-      headers: { "X-Storefront-Key": getStorefrontApiSecret() }, cache: "no-store",
+      headers: getStorefrontApiHeaders(), cache: "no-store",
     });
     if (!response.ok) return null;
     const payload = await response.json();
