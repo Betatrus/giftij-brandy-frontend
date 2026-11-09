@@ -2,7 +2,8 @@ import { API_BASE } from "./config"
 import type { CartItem } from "@/lib/cart/cart-context"
 
 export interface ShippingAddress {
-  fullName: string
+  firstName: string
+  lastName: string
   phone: string
   address: string
   city: string
