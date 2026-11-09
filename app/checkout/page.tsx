@@ -29,7 +29,8 @@ export default function CheckoutPage() {
     ShippingAddress & { email: string }
   >({
     email: "",
-    fullName: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     address: "",
     city: "",
@@ -90,7 +91,8 @@ export default function CheckoutPage() {
 
   const isComplete = Boolean(
     form.email.trim() &&
-      form.fullName.trim() &&
+      form.firstName.trim() &&
+      form.lastName.trim() &&
       form.phone.trim() &&
       form.address.trim() &&
       form.city.trim() &&
@@ -284,23 +286,38 @@ export default function CheckoutPage() {
               <div className="gb-form-group">
                 <label
                   className="gb-form-label"
-                  htmlFor="co-name"
+                  htmlFor="co-first-name"
                 >
-                  Full Name
+                  First Name
                 </label>
 
                 <input
-                  id="co-name"
+                  id="co-first-name"
                   type="text"
                   className="gb-form-input"
-                  placeholder="Adaeze Okonkwo"
-                  value={form.fullName}
-                  onChange={(e) =>
-                    update(
-                      "fullName",
-                      e.target.value,
-                    )
-                  }
+                  placeholder="Adaeze"
+                  autoComplete="given-name"
+                  value={form.firstName}
+                  onChange={(e) => update("firstName", e.target.value)}
+                />
+              </div>
+
+              <div className="gb-form-group">
+                <label
+                  className="gb-form-label"
+                  htmlFor="co-last-name"
+                >
+                  Last Name
+                </label>
+
+                <input
+                  id="co-last-name"
+                  type="text"
+                  className="gb-form-input"
+                  placeholder="Okonkwo"
+                  autoComplete="family-name"
+                  value={form.lastName}
+                  onChange={(e) => update("lastName", e.target.value)}
                 />
               </div>
 
@@ -440,6 +457,37 @@ export default function CheckoutPage() {
               </div>
             )}
 
+            <div
+              className="gb-checkout-payment-note"
+              style={{
+                marginTop: 24,
+                padding: 18,
+                border: "1px solid rgba(32, 32, 32, 0.12)",
+                borderRadius: 12,
+                background: "#faf8f5",
+                color: "#242424",
+              }}
+            >
+              <p style={{ margin: "0 0 12px", fontWeight: 700, fontSize: 15 }}>
+                Payment Summary
+              </p>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
+                <span>Product price</span>
+                <strong>{formatPrice(totalPrice)}</strong>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
+                <span>Paystack processing fee</span>
+                <strong>Added by Paystack</strong>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, paddingTop: 10, borderTop: "1px solid rgba(32, 32, 32, 0.12)", fontWeight: 700 }}>
+                <span>Total to pay</span>
+                <strong>{formatPrice(totalPrice)} + processing fee</strong>
+              </div>
+              <p style={{ margin: "12px 0 0", fontSize: 13, lineHeight: 1.6 }}>
+                Paystack adds the applicable processing fee and shows your exact total before you confirm payment. Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
+              </p>
+            </div>
+
             <button
               type="button"
               className="gb-btn gb-checkout-pay-btn"
@@ -457,8 +505,8 @@ export default function CheckoutPage() {
               onClick={handlePay}
             >
               {submitting
-                ? "Processing order request..."
-                : "Check Stock & Continue to Payment"}
+                ? "Placing order..."
+                : "Place order"}
             </button>
 
             <p
@@ -469,8 +517,7 @@ export default function CheckoutPage() {
                 marginTop: 14,
               }}
             >
-              If your order is available, you&apos;ll be redirected to
-              Paystack&apos;s secure payment page to complete your purchase.
+              Your items are reserved when you place your order. Complete payment within 10 minutes to keep your reservation.
             </p>
 
             <div className="gb-checkout-back-wrap">
