@@ -509,17 +509,6 @@ export default function CheckoutPage() {
                 : "Place order"}
             </button>
 
-            <p
-              className="gb-form-note"
-              style={{
-                fontSize: 14,
-                lineHeight: 1.6,
-                marginTop: 14,
-              }}
-            >
-              Your items are reserved when you place your order. Complete payment within 10 minutes to keep your reservation.
-            </p>
-
             <div className="gb-checkout-back-wrap">
               <Link
                 href="/cart"
