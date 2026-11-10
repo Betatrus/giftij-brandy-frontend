@@ -34,7 +34,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
           {campaign.creativeImageUrl && <div style={{ marginBottom: 28 }}><img src={campaign.creativeImageUrl} alt={campaign.title} style={{ width: "100%", maxHeight: 420, objectFit: "cover" }} /></div>}
           {offerSets.length > 1 && <nav aria-label="Campaign offer sets" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {offerSets.map((setOption) => (
-              <Link key={setOption.id} href={setOption.id === offerSet.id ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className={setOption.id === offerSet.id ? "gb-btn" : "gb-btn gb-btn-outline"}>{setOption.title}</Link>
+              <Link key={setOption.id} href={setOption.id === offerSet.id ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className="gb-btn" style={{ opacity: setOption.id === offerSet.id ? 1 : 0.65 }}>{setOption.title}</Link>
             ))}
           </nav>}
           <div style={{ marginBottom: 28 }}>
