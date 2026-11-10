@@ -1,0 +1,31 @@
+name: Cloudflare migration readiness (Storefront)
+
+on:
+  push:
+    branches:
+      - cloudflare/migration-prep
+  pull_request:
+    branches:
+      - cloudflare/migration-prep
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-storefront-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-and-compatibility-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.18"
+          cache: npm
+      - run: npm ci
+      - name: TypeScript check (the current Next config suppresses build-time type errors)
+        run: npx tsc --noEmit
+      - name: vinext compatibility check
+        run: npx --yes vinext check
