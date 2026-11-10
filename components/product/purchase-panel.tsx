@@ -187,6 +187,7 @@ export function PurchasePanel({
       productSlug,
       group?.colorSlug,
       selectedVariant?.sku,
+      offerCampaignSlug,
     ],
   )
 
