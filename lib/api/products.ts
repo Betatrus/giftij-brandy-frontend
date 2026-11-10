@@ -2,7 +2,7 @@ import "server-only"
 
 import {
   SERVER_API_BASE,
-  getStorefrontApiSecret,
+  getStorefrontApiHeaders,
 } from "./server-config"
 
 import type {
@@ -23,9 +23,7 @@ import type {
 
 async function getJson<T>(url: string): Promise<T> {
   const res = await fetch(url, {
-    headers: {
-      "X-Storefront-Key": getStorefrontApiSecret(),
-    },
+    headers: getStorefrontApiHeaders(),
 
     // The admin API already has its own controlled cache/invalidation.
     // The storefront should not keep a second stale copy of product data,

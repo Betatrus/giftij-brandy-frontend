@@ -30,3 +30,21 @@ export function getStorefrontApiSecret(): string {
 
   return secret
 }
+
+/**
+ * Admin Preview deployments are protected by Vercel Authentication.
+ * The optional bypass token is server-only and must be configured in the
+ * storefront Preview environment; never expose it to the browser.
+ */
+export function getStorefrontApiHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {
+    "X-Storefront-Key": getStorefrontApiSecret(),
+  }
+  const bypassSecret = process.env.ADMIN_PREVIEW_BYPASS_SECRET?.trim()
+
+  if (bypassSecret) {
+    headers["x-vercel-protection-bypass"] = bypassSecret
+  }
+
+  return headers
+}
