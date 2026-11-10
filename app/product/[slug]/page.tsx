@@ -83,7 +83,7 @@ export default async function ProductPage({
     product.discount,
     product.discountedPrice,
   )
-  const discountedPrice = campaignProduct?.offerPrice ?? regularDiscountedPrice
+  const discountedPrice = campaignProduct?.discountPercent !== null && campaignProduct ? campaignProduct.offerPrice : regularDiscountedPrice
 
   return (
     <>
