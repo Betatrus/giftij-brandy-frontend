@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "cloudflare:build": "opennextjs-cloudflare build",
+    "cloudflare:build": "npm install && opennextjs-cloudflare build",
     "cloudflare:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cloudflare:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cloudflare:upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -36,5 +36,6 @@
     "tailwindcss": "^4.2.0",
     "typescript": "5.7.3",
     "wrangler": "^4.135.0"
-  }
+  },
+  "packageManager": "npm@11.19.1"
 }
