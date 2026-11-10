@@ -19,6 +19,7 @@ export function PurchasePanel({
   price,
   group,
   productInStock = true,
+  offerCampaignSlug,
 }: {
   productSlug: string
   name: string
@@ -27,6 +28,7 @@ export function PurchasePanel({
   price: number
   group: VariantGroup | null
   productInStock?: boolean
+  offerCampaignSlug?: string
 }) {
   const { items, addItem, updateQuantity } = useCart()
 
@@ -180,7 +182,7 @@ export function PurchasePanel({
         group?.colorSlug ?? "default"
       }--${
         selectedVariant?.sku ?? "default"
-      }`,
+      }--offer-${offerCampaignSlug ?? "none"}`,
     [
       productSlug,
       group?.colorSlug,
@@ -259,6 +261,7 @@ export function PurchasePanel({
 
         price,
         image,
+        offerCampaignSlug,
       },
       quantity,
     )
