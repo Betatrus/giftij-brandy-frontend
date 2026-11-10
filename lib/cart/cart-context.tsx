@@ -117,7 +117,7 @@ export function CartProvider({
   /**
    * Global storefront inactivity handling.
    *
-   * After 3 minutes without real user interaction:
+   * After 10 minutes without real user interaction:
    * - cart is cleared
    * - checkout React state disappears when the page unmounts
    * - customer returns to the homepage
