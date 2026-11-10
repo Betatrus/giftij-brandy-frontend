@@ -7,10 +7,11 @@ This branch is the Cloudflare migration Preview branch. Keep the existing storef
 Configure the Storefront Worker build settings:
 
 - Production branch: `main`
-- Build command: `npx opennextjs-cloudflare build`
+- Build command: `npm run cloudflare:build`
 - Deploy command: `npx wrangler deploy`
 - Preview command: `npx wrangler preview`
 - Root directory: `/`
+- Build variable: `SKIP_DEPENDENCY_INSTALL=1` (the build script runs `npm install` itself to synchronize the lockfile before OpenNext builds)
 
 Use Worker Previews for branch testing. Preview variables are isolated in the `previews` block of `wrangler.jsonc`.
 
