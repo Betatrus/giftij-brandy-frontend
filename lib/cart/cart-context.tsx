@@ -19,6 +19,7 @@ export interface CartItem {
   sku: string | null
   price: number
   image: string
+  offerCampaignSlug?: string
   quantity: number
 }
 
@@ -40,7 +41,7 @@ interface CartContextValue {
 const STORAGE_KEY = "giftij-cart"
 const LAST_ACTIVITY_KEY = "giftij-storefront-last-activity"
 
-const INACTIVITY_MS = 3 * 60 * 1000
+const INACTIVITY_MS = 10 * 60 * 1000
 
 const CartContext = createContext<CartContextValue | null>(null)
 
