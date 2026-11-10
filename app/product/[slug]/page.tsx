@@ -8,10 +8,11 @@ import { ProductGallery } from "@/components/product/product-gallery"
 import { PurchasePanel } from "@/components/product/purchase-panel"
 import { getProductWithVariantGroups } from "@/lib/api/adapter"
 import { formatPrice, getDiscountedPrice } from "@/lib/format"
+import { fetchOfferCampaign } from "@/lib/api/offers"
 
 interface PageProps {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ color?: string }>
+  searchParams: Promise<{ color?: string; offer?: string }>
 }
 
 export async function generateMetadata({
@@ -32,7 +33,7 @@ export default async function ProductPage({
   searchParams,
 }: PageProps) {
   const { slug } = await params
-  const { color } = await searchParams
+  const { color, offer: offerSlug } = await searchParams
 
   const result = await getProductWithVariantGroups(slug)
 
@@ -41,6 +42,9 @@ export default async function ProductPage({
   }
 
   const { product, groups } = result
+  const campaign = offerSlug ? await fetchOfferCampaign(offerSlug) : null
+  const campaignProduct = campaign?.products.find((item) => item.slug === product.slug) ?? null
+  const isCampaignOffer = Boolean(campaignProduct)
 
   const activeGroup =
     groups.find((group) => group.colorSlug === color) ??
@@ -74,11 +78,12 @@ export default async function ProductPage({
     ),
   )
 
-  const discountedPrice = getDiscountedPrice(
+  const regularDiscountedPrice = getDiscountedPrice(
     product.price,
     product.discount,
     product.discountedPrice,
   )
+  const discountedPrice = campaignProduct?.offerPrice ?? regularDiscountedPrice
 
   return (
     <>
@@ -113,6 +118,7 @@ export default async function ProductPage({
             {product.name}
           </h1>
 
+          {isCampaignOffer && campaign && <p className="gb-pdp-eyebrow">{campaign.campaign.title} · Special offer</p>}
           <div className="gb-pdp-price-row">
             <span className="gb-pdp-price">
               {formatPrice(
@@ -165,6 +171,7 @@ export default async function ProductPage({
             productInStock={
               product.inStock ?? true
             }
+            offerCampaignSlug={isCampaignOffer ? campaign?.campaign.slug : undefined}
           />
 
           {product.fullDesc && (
