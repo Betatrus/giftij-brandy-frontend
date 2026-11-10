@@ -5,19 +5,21 @@ import { SiteNav } from "@/components/layout/site-nav"
 import { formatPrice } from "@/lib/format"
 import { fetchOfferCampaign } from "@/lib/api/offers"
 
-interface PageProps { params: Promise<{ slug: string }> }
+interface PageProps { params: Promise<{ slug: string }>; searchParams: Promise<{ set?: string }> }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const offer = await fetchOfferCampaign(slug)
+  const { set } = await searchParams
+  const offer = await fetchOfferCampaign(slug, set)
   return { title: offer ? `${offer.campaign.title} — Giftij Brandy` : "Offer — Giftij Brandy", description: offer?.campaign.description ?? "Explore Giftij Brandy offers." }
 }
 
-export default async function OfferPage({ params }: PageProps) {
+export default async function OfferPage({ params, searchParams }: PageProps) {
   const { slug } = await params
-  const offer = await fetchOfferCampaign(slug)
+  const { set } = await searchParams
+  const offer = await fetchOfferCampaign(slug, set)
   if (!offer || offer.products.length === 0) notFound()
-  const { campaign, offerSet, products } = offer
+  const { campaign, offerSet, offerSets, products } = offer
   return (
     <>
       <SiteNav theme="light" />
@@ -30,6 +32,11 @@ export default async function OfferPage({ params }: PageProps) {
         </section>
         <section className="gb-shop-main">
           {campaign.creativeImageUrl && <div style={{ marginBottom: 28 }}><img src={campaign.creativeImageUrl} alt={campaign.title} style={{ width: "100%", maxHeight: 420, objectFit: "cover" }} /></div>}
+          {offerSets.length > 1 && <nav aria-label="Campaign offer sets" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
+            {offerSets.map((setOption) => (
+              <Link key={setOption.id} href={setOption.id === offerSet.id ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className={setOption.id === offerSet.id ? "gb-btn" : "gb-btn gb-btn-outline"}>{setOption.title}</Link>
+            ))}
+          </nav>}
           <div style={{ marginBottom: 28 }}>
             <p className="gb-section-label">Current offer</p>
             <h2 className="gb-section-title">{offerSet.title}</h2>
@@ -37,7 +44,7 @@ export default async function OfferPage({ params }: PageProps) {
           </div>
           <div className="gb-product-grid">
             {products.map((product) => (
-              <Link key={product.slug} href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}`} className="gb-product-card">
+              <Link key={product.slug} href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`} className="gb-product-card">
                 <div className="gb-product-img-wrap">
                   {product.image ? <img src={product.image} alt={product.imageAlt} loading="lazy" /> : <div className="gb-product-img-placeholder" aria-hidden="true" />}
                   {product.discountPercent !== null && <span className="gb-product-badge">-{product.discountPercent}%</span>}
