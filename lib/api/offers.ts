@@ -25,6 +25,7 @@ export interface PublicOfferCampaign {
     endsAt: string | null
     maxQualifyingOrders: number | null
     qualifyingOrdersCount: number
+    defaultOfferSetId: string
   }
   offerSets: { id: string; title: string; description: string | null }[]
   offerSet: { id: string; title: string; description: string | null }
