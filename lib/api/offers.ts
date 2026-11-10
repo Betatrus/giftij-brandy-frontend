@@ -18,6 +18,7 @@ export interface PublicOfferCampaign {
     title: string
     slug: string
     description: string | null
+    announcementHtml: string | null
     creativeImageUrl: string | null
     ctaText: string
     startsAt: string | null
