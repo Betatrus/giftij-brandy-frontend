@@ -25,14 +25,15 @@ export interface PublicOfferCampaign {
     maxQualifyingOrders: number | null
     qualifyingOrdersCount: number
   }
-  offerSet: { title: string; description: string | null }
+  offerSets: { id: string; title: string; description: string | null }[]
+  offerSet: { id: string; title: string; description: string | null }
   products: PublicOfferProduct[]
 }
 
-export async function fetchOfferCampaign(slug: string): Promise<PublicOfferCampaign | null> {
+export async function fetchOfferCampaign(slug: string, offerSetId?: string): Promise<PublicOfferCampaign | null> {
   try {
     const response = await fetch(
-      `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}`,
+      `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}${offerSetId ? `?set=${encodeURIComponent(offerSetId)}` : ""}`,
       { headers: { "X-Storefront-Key": getStorefrontApiSecret() }, cache: "no-store" },
     )
     if (!response.ok) return null
