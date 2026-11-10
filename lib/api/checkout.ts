@@ -97,6 +97,7 @@ export async function initializeCheckout(
         sku: item.sku ?? undefined,
         quantity: item.quantity,
         offerCampaignSlug: item.offerCampaignSlug,
+        offerSetId: item.offerSetId,
       })),
     },
   )
