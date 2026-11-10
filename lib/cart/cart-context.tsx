@@ -20,6 +20,7 @@ export interface CartItem {
   price: number
   image: string
   offerCampaignSlug?: string
+  offerSetId?: string
   quantity: number
 }
 
