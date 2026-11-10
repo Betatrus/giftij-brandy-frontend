@@ -12,7 +12,7 @@ import { fetchOfferCampaign } from "@/lib/api/offers"
 
 interface PageProps {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ color?: string; offer?: string }>
+  searchParams: Promise<{ color?: string; offer?: string; set?: string }>
 }
 
 export async function generateMetadata({
@@ -33,7 +33,7 @@ export default async function ProductPage({
   searchParams,
 }: PageProps) {
   const { slug } = await params
-  const { color, offer: offerSlug } = await searchParams
+  const { color, offer: offerSlug, set: offerSetId } = await searchParams
 
   const result = await getProductWithVariantGroups(slug)
 
@@ -42,7 +42,7 @@ export default async function ProductPage({
   }
 
   const { product, groups } = result
-  const campaign = offerSlug ? await fetchOfferCampaign(offerSlug) : null
+  const campaign = offerSlug ? await fetchOfferCampaign(offerSlug, offerSetId) : null
   const campaignProduct = campaign?.products.find((item) => item.slug === product.slug) ?? null
   const isCampaignOffer = Boolean(campaignProduct)
 
@@ -172,6 +172,7 @@ export default async function ProductPage({
               product.inStock ?? true
             }
             offerCampaignSlug={isCampaignOffer ? campaign?.campaign.slug : undefined}
+            offerSetId={isCampaignOffer ? campaign?.offerSet.id : undefined}
           />
 
           {product.fullDesc && (
