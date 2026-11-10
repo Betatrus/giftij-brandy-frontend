@@ -34,7 +34,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
           {campaign.announcementHtml && <iframe title={`${campaign.title} announcement`} srcDoc={campaign.announcementHtml} sandbox="" referrerPolicy="no-referrer" loading="lazy" style={{ width: "100%", minHeight: 280, border: 0, marginBottom: 28, background: "white" }}/>}\n          {campaign.creativeImageUrl && <div style={{ marginBottom: 28 }}><img src={campaign.creativeImageUrl} alt={campaign.title} style={{ width: "100%", maxHeight: 420, objectFit: "cover" }} /></div>}
           {offerSets.length > 1 && <nav aria-label="Campaign offer sets" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
             {offerSets.map((setOption) => (
-              <Link key={setOption.id} href={setOption.id === offerSet.id ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className="gb-btn" style={{ opacity: setOption.id === offerSet.id ? 1 : 0.65 }}>{setOption.title}</Link>
+              <Link key={setOption.id} href={setOption.id === campaign.defaultOfferSetId ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className="gb-btn" style={{ opacity: setOption.id === offerSet.id ? 1 : 0.65 }}>{setOption.title}</Link>
             ))}
           </nav>}
           <div style={{ marginBottom: 28 }}>
