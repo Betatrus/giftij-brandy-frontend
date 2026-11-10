@@ -133,15 +133,17 @@ export default async function ProductPage({
               </span>
             )}
 
-            {product.discount ? (
-              <span
-                className="gb-product-badge"
-                style={{ position: "static" }}
-              >
-                -{product.discount}%
-              </span>
+            {campaignProduct?.discountPercent !== null && campaignProduct ? (
+              <span className="gb-product-badge" style={{ position: "static" }}>-{campaignProduct.discountPercent}%</span>
+            ) : product.discount ? (
+              <span className="gb-product-badge" style={{ position: "static" }}>-{product.discount}%</span>
             ) : null}
           </div>
+          {campaignProduct && (campaignProduct.freeDelivery || campaignProduct.giftDescription) && (
+            <p style={{ marginTop: -14, marginBottom: 22, fontSize: 13, color: "#75664f" }}>
+              {[campaignProduct.freeDelivery ? "Free delivery" : null, campaignProduct.giftDescription].filter(Boolean).join(" · ")}
+            </p>
+          )}
 
           <div style={{ marginBottom: 24 }}>
             <ColourSelector
