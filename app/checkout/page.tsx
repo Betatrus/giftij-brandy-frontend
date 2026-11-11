@@ -484,7 +484,7 @@ export default function CheckoutPage() {
                 <strong>{formatPrice(totalPrice)} + processing fee</strong>
               </div>
               <p style={{ margin: "12px 0 0", fontSize: 13, lineHeight: 1.6 }}>
-                Paystack adds the applicable processing fee and shows your exact total before you confirm payment. Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
+                Paystack calculates and displays the applicable processing fee before you confirm payment. Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method. Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
               </p>
             </div>
 
