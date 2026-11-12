@@ -67,7 +67,19 @@ function CheckoutCallbackInner() {
         setStatus("processing")
         setTimeout(poll, POLL_INTERVAL_MS)
       } catch {
-        if (!cancelled) setStatus("error")
+        if (cancelled) return
+
+        // A delayed webhook or temporary API/network failure should not
+        // terminate payment confirmation early. Keep polling within the
+        // same two-minute window, then show the support fallback.
+        attemptsRef.current += 1
+        if (attemptsRef.current >= MAX_POLL_ATTEMPTS) {
+          setStatus("error")
+          return
+        }
+
+        setStatus("processing")
+        setTimeout(poll, POLL_INTERVAL_MS)
       }
     }
 
