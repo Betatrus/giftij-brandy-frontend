@@ -37,8 +37,11 @@ function CheckoutCallbackInner() {
     }
 
     let cancelled = false
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     async function poll() {
+      if (cancelled) return
+
       try {
         const result = await getOrderStatus(reference!)
         if (cancelled) return
@@ -65,7 +68,7 @@ function CheckoutCallbackInner() {
         }
 
         setStatus("processing")
-        setTimeout(poll, POLL_INTERVAL_MS)
+        timeoutId = setTimeout(poll, POLL_INTERVAL_MS)
       } catch {
         if (cancelled) return
 
@@ -79,13 +82,14 @@ function CheckoutCallbackInner() {
         }
 
         setStatus("processing")
-        setTimeout(poll, POLL_INTERVAL_MS)
+        timeoutId = setTimeout(poll, POLL_INTERVAL_MS)
       }
     }
 
     poll()
     return () => {
       cancelled = true
+      if (timeoutId !== null) clearTimeout(timeoutId)
     }
   }, [reference, clear])
 
