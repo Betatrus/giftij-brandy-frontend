@@ -464,44 +464,45 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            <div
+            <section
               className="gb-checkout-payment-note"
+              aria-labelledby="gb-payment-summary-title"
               style={{
-                marginTop: 24,
-                padding: 18,
+                marginTop: 28,
+                padding: "22px 20px",
                 border: "1px solid rgba(32, 32, 32, 0.12)",
-                borderRadius: 12,
+                borderRadius: 14,
                 background: "#faf8f5",
                 color: "#242424",
               }}
             >
-              <p style={{ margin: "0 0 12px", fontWeight: 700, fontSize: 15 }}>
+              <p id="gb-payment-summary-title" style={{ margin: "0 0 18px", fontWeight: 700, fontSize: 17 }}>
                 Payment Summary
               </p>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
-                <span>Product price</span>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 12, fontSize: 15 }}>
+                <span>Product subtotal</span>
                 <strong>{formatPrice(totalPrice)}</strong>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
                 <span>Paystack processing fee</span>
-                <strong>Added by Paystack</strong>
+                <strong style={{ textAlign: "right" }}>Calculated by Paystack</strong>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, paddingTop: 10, borderTop: "1px solid rgba(32, 32, 32, 0.12)", fontWeight: 700 }}>
-                <span>Total to pay</span>
-                <strong>{formatPrice(totalPrice)} + processing fee</strong>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
+                <span>Total payable</span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice)} + Paystack fee</strong>
               </div>
-              <div style={{ marginTop: 16, fontSize: 14, lineHeight: 1.75, color: "#4b4741" }}>
-                <p style={{ margin: "0 0 10px" }}>
+              <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 15, lineHeight: 1.85, color: "#4b4741" }}>
+                <p style={{ margin: "0 0 12px" }}>
                   Paystack calculates and displays the applicable processing fee before you confirm payment.
                 </p>
-                <p style={{ margin: "0 0 10px" }}>
+                <p style={{ margin: "0 0 12px" }}>
                   Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
                 </p>
                 <p style={{ margin: 0 }}>
                   Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
                 </p>
               </div>
-            </div>
+            </section>
 
             <button
               type="button"
