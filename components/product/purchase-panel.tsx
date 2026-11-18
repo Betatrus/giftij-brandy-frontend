@@ -9,7 +9,7 @@ import { useCart } from "@/lib/cart/cart-context"
 import type { VariantGroup } from "@/lib/api/types"
 
 function normaliseWhatsAppNumber(phone: string) {
-  let digits = phone.replace(/\\D/g, "")
+  let digits = phone.replace(/[^0-9]/g, "")
   if (digits.startsWith("0")) digits = `234${digits.slice(1)}`
   return digits
 }
