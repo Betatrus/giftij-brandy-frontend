@@ -16,16 +16,17 @@ export function CampaignAnnouncementPopup({
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (!visible) return;
+
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     const timeout = window.setTimeout(() => setVisible(false), 5000);
 
     return () => {
       window.clearTimeout(timeout);
       document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [visible]);
 
   useEffect(() => {
     if (!visible) return;
