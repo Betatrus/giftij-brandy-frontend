@@ -19,7 +19,29 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
   const { slug } = await params
   const { set } = await searchParams
   const offer = await fetchOfferCampaign(slug, set)
-  if (!offer || offer.products.length === 0) notFound()
+  if (!offer) notFound()
+
+  if ("expired" in offer && offer.expired) {
+    return (
+      <>
+        <SiteNav theme="light" />
+        <main>
+          <section className="gb-page-header">
+            <div className="gb-breadcrumb"><Link href="/">Home</Link><span>/</span><span>Offers</span></div>
+            <span className="gb-page-eyebrow">Campaign ended</span>
+            <h1 className="gb-page-title">{offer.campaign.title}</h1>
+            <p className="gb-page-sub">This offer is no longer available. Thank you for your interest.</p>
+          </section>
+          <section className="gb-shop-main" style={{ textAlign: "center", paddingTop: 24 }}>
+            <p className="gb-pdp-description">Explore our latest collections and current offers.</p>
+            <Link href="/shop" className="gb-btn" style={{ display: "inline-flex", marginTop: 20 }}>Explore the shop</Link>
+          </section>
+        </main>
+      </>
+    )
+  }
+
+  if (offer.products.length === 0) notFound()
   const { campaign, offerSet, offerSets, products } = offer
   return (
     <>
