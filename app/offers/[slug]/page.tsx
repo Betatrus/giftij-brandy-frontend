@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { SiteNav } from "@/components/layout/site-nav"
 import { formatPrice } from "@/lib/format"
 import { fetchOfferCampaign } from "@/lib/api/offers"
+import { CampaignAnnouncementPopup } from "@/components/shop/campaign-announcement-popup"
 
 interface PageProps { params: Promise<{ slug: string }>; searchParams: Promise<{ set?: string }> }
 
@@ -23,6 +24,12 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
   return (
     <>
       <SiteNav theme="light" />
+      <CampaignAnnouncementPopup
+        title={campaign.title}
+        description={campaign.description}
+        imageUrl={campaign.creativeImageUrl}
+        announcementHtml={campaign.announcementHtml}
+      />
       <main>
         <section className="gb-page-header">
           <div className="gb-breadcrumb"><Link href="/">Home</Link><span>/</span><span>Offers</span></div>
@@ -42,7 +49,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
             <h2 className="gb-section-title">{offerSet.title}</h2>
             {offerSet.description && <p className="gb-pdp-description">{offerSet.description}</p>}
           </div>
-          <div className="gb-product-grid">
+          <div id="offer-products" className="gb-product-grid">
             {products.map((product) => (
               <Link key={product.slug} href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`} className="gb-product-card">
                 <div className="gb-product-img-wrap">
