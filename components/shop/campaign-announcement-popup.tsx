@@ -32,7 +32,7 @@ export function CampaignAnnouncementPopup({
       window.clearTimeout(timeout);
       document.body.style.overflow = previousOverflow;
     };
-  }, [visible]);
+  }, [visible, durationSeconds]);
 
   useEffect(() => {
     if (!visible) return;
