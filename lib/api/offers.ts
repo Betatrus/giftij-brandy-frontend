@@ -60,3 +60,37 @@ export async function fetchOfferCampaign(slug: string, offerSetId?: string): Pro
     return null
   }
 }
+
+
+export interface PublicActiveOfferAnnouncement {
+  id: string
+  title: string
+  slug: string
+  description: string | null
+  announcementHtml: string | null
+  creativeImageUrl: string | null
+  ctaText: string
+  startsAt: string | null
+  endsAt: string | null
+  url: string
+}
+
+export async function fetchActiveOfferAnnouncement(): Promise<PublicActiveOfferAnnouncement | null> {
+  try {
+    const response = await fetch(
+      `${SERVER_API_BASE}/offers/active`,
+      {
+        headers: { "X-Storefront-Key": getStorefrontApiSecret() },
+        cache: "no-store",
+      },
+    )
+    if (!response.ok) return null
+    const json = await response.json()
+    return json?.success && json.data
+      ? json.data as PublicActiveOfferAnnouncement
+      : null
+  } catch (error) {
+    console.error("[giftij] failed to load active offer announcement", error)
+    return null
+  }
+}
