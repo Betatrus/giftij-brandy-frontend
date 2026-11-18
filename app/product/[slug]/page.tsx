@@ -83,7 +83,8 @@ export default async function ProductPage({
     product.discount,
     product.discountedPrice,
   )
-  const discountedPrice = campaignProduct?.discountPercent !== null && campaignProduct ? campaignProduct.offerPrice : regularDiscountedPrice
+  const hasCampaignPriceReduction = Boolean(campaignProduct && campaignProduct.offerPrice < campaignProduct.basePrice)
+  const discountedPrice = hasCampaignPriceReduction && campaignProduct ? campaignProduct.offerPrice : regularDiscountedPrice
 
   return (
     <>
@@ -133,8 +134,14 @@ export default async function ProductPage({
               </span>
             )}
 
-            {campaignProduct?.discountPercent !== null && campaignProduct ? (
-              <span className="gb-product-badge" style={{ position: "static" }}>-{campaignProduct.discountPercent}%</span>
+            {hasCampaignPriceReduction && campaignProduct ? (
+              <span className="gb-product-badge" style={{ position: "static" }}>
+                {campaignProduct.discountPercent !== null
+                  ? `-${campaignProduct.discountPercent}%`
+                  : `-${formatPrice(campaignProduct.basePrice - campaignProduct.offerPrice)}`}
+              </span>
+            ) : product.discountType === "FIXED" && product.discountAmount ? (
+              <span className="gb-product-badge" style={{ position: "static" }}>-{formatPrice(product.discountAmount)}</span>
             ) : product.discount ? (
               <span className="gb-product-badge" style={{ position: "static" }}>-{product.discount}%</span>
             ) : null}
