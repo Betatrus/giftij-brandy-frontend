@@ -16,50 +16,99 @@ export function CampaignAnnouncementPopup({
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => setVisible(false), 6000);
-    return () => window.clearTimeout(timeout);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const timeout = window.setTimeout(() => setVisible(false), 5000);
+
+    return () => {
+      window.clearTimeout(timeout);
+      document.body.style.overflow = previousOverflow;
+    };
   }, []);
 
-  if (!visible || (!imageUrl && !announcementHtml && !description)) return null;
+  useEffect(() => {
+    if (!visible) return;
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setVisible(false);
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [visible]);
+
+  if (!visible) return null;
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${title} campaign announcement`}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 p-4"
+      className="fixed inset-0 z-[5000] flex items-center justify-center bg-[#120e08]/75 p-4 backdrop-blur-sm"
+      role="presentation"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) setVisible(false);
+      }}
     >
-      <section className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${title} campaign announcement`}
+        className="relative w-full max-w-2xl overflow-hidden border border-[#c9a84c]/50 bg-[#fdfaf5] shadow-[0_28px_90px_rgba(0,0,0,0.38)]"
+      >
         <button
           type="button"
           aria-label="Close campaign announcement"
           onClick={() => setVisible(false)}
-          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/65 text-xl text-white"
+          className="absolute right-3 top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/65 text-2xl leading-none text-white shadow-lg transition hover:bg-black"
         >
           ×
         </button>
+
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageUrl} alt={title} className="max-h-[65vh] w-full object-cover" />
+          <img
+            src={imageUrl}
+            alt={title}
+            className="max-h-[68vh] w-full object-cover"
+          />
         ) : announcementHtml ? (
           <iframe
             title={`${title} announcement creative`}
             srcDoc={announcementHtml}
             sandbox=""
             referrerPolicy="no-referrer"
-            className="h-[min(65vh,520px)] w-full border-0 bg-white"
+            className="h-[min(68vh,560px)] w-full border-0 bg-white"
           />
         ) : (
-          <div className="px-7 pb-4 pt-12 text-center">
-            <p className="text-xs uppercase tracking-[0.2em] text-ink/45">Giftij Brandy offer</p>
-            <h2 className="mt-3 font-display text-2xl text-ink">{title}</h2>
-            {description && <p className="mt-3 text-sm leading-6 text-ink/65">{description}</p>}
+          <div className="relative overflow-hidden px-7 pb-8 pt-16 text-center sm:px-14 sm:pb-12 sm:pt-20">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-4 border border-[#c9a84c]/35" />
+            <p className="relative text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9b7930]">
+              Giftij Brandy · A special edit
+            </p>
+            <div aria-hidden="true" className="relative mx-auto my-5 h-px w-16 bg-[#c9a84c]" />
+            <h2 className="relative font-serif text-3xl leading-tight text-[#1a1a1a] sm:text-5xl">
+              {title}
+            </h2>
+            {description && (
+              <p className="relative mx-auto mt-5 max-w-lg text-base leading-7 text-[#625b50] sm:text-lg">
+                {description}
+              </p>
+            )}
+            <p className="relative mt-7 text-[10px] font-medium uppercase tracking-[0.24em] text-[#9b7930]">
+              Curated for your moment
+            </p>
           </div>
         )}
-        <div className="flex items-center justify-between gap-3 px-5 py-3">
-          <p className="text-xs text-ink/45">This announcement closes automatically.</p>
-          <a href="#offer-products" onClick={() => setVisible(false)} className="rounded-lg bg-gold px-4 py-2 text-sm font-medium text-white">
-            Shop offers
+
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#c9a84c]/25 px-5 py-4 sm:px-7">
+          <p className="text-xs tracking-wide text-[#766e62]">
+            This announcement closes automatically.
+          </p>
+          <a
+            href="#offer-products"
+            onClick={() => setVisible(false)}
+            className="inline-flex min-h-11 items-center justify-center bg-[#c9a84c] px-6 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#dfc77f]"
+          >
+            Shop the offer
           </a>
         </div>
       </section>
