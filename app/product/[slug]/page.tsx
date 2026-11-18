@@ -175,6 +175,7 @@ export default async function ProductPage({
             }
             offerCampaignSlug={isCampaignOffer ? campaign?.campaign.slug : undefined}
             offerSetId={isCampaignOffer ? campaign?.offerSet.id : undefined}
+            customerCareWhatsApp={product.customerCareWhatsApp ?? null}
           />
 
           {product.fullDesc && (
