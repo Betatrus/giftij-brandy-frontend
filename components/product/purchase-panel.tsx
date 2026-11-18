@@ -8,8 +8,11 @@ import {
 import { useCart } from "@/lib/cart/cart-context"
 import type { VariantGroup } from "@/lib/api/types"
 
-const CUSTOMER_CARE_PHONE = "09023021320"
-const CUSTOMER_CARE_WHATSAPP = "2349023021320"
+function normaliseWhatsAppNumber(phone: string) {
+  let digits = phone.replace(/\\D/g, "")
+  if (digits.startsWith("0")) digits = `234${digits.slice(1)}`
+  return digits
+}
 
 export function PurchasePanel({
   productSlug,
@@ -21,6 +24,7 @@ export function PurchasePanel({
   productInStock = true,
   offerCampaignSlug,
   offerSetId,
+  customerCareWhatsApp,
 }: {
   productSlug: string
   name: string
@@ -31,6 +35,7 @@ export function PurchasePanel({
   productInStock?: boolean
   offerCampaignSlug?: string
   offerSetId?: string
+  customerCareWhatsApp?: string | null
 }) {
   const { items, addItem, updateQuantity } = useCart()
 
@@ -175,8 +180,9 @@ export function PurchasePanel({
     selectedVariant?.size,
   ])
 
-  const customerCareUrl =
-    `https://wa.me/${CUSTOMER_CARE_WHATSAPP}?text=${customerCareMessage}`
+  const customerCareUrl = customerCareWhatsApp?.trim()
+    ? `https://wa.me/${normaliseWhatsAppNumber(customerCareWhatsApp)}?text=${customerCareMessage}`
+    : null
 
   const currentItemId = useMemo(
     () =>
@@ -380,13 +386,13 @@ export function PurchasePanel({
                     fontWeight: 700,
                   }}
                 >
-                  Contact customer care: {CUSTOMER_CARE_PHONE}
+                  Contact customer care: {customerCareWhatsApp || "see our Contact page"}
                 </p>
 
                 <a
-                  href={customerCareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={customerCareUrl ?? "/contact"}
+                  target={customerCareUrl ? "_blank" : undefined}
+                  rel={customerCareUrl ? "noopener noreferrer" : undefined}
                   className="gb-btn"
                   style={{
                     display: "flex",
@@ -497,13 +503,13 @@ export function PurchasePanel({
                 fontWeight: 700,
               }}
             >
-              Contact customer care: {CUSTOMER_CARE_PHONE}
+              Contact customer care: {customerCareWhatsApp || "see our Contact page"}
             </p>
 
             <a
-              href={customerCareUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={customerCareUrl ?? "/contact"}
+              target={customerCareUrl ? "_blank" : undefined}
+              rel={customerCareUrl ? "noopener noreferrer" : undefined}
               className="gb-btn"
               style={{
                 display: "flex",
