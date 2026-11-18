@@ -47,6 +47,8 @@ export interface ApiProductSummary {
   name: string
   price: number
   discount?: number | null
+  discountType?: "PERCENTAGE" | "FIXED"
+  discountAmount?: number | null
   discountedPrice?: number | null
   categories: Category[]
   featuredFlags?: string[]
