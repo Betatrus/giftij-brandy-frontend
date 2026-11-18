@@ -1,48 +1,110 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import { SiteNav } from "@/components/layout/site-nav"
 import { formatPrice } from "@/lib/format"
 import { fetchOfferCampaign } from "@/lib/api/offers"
 import { CampaignAnnouncementPopup } from "@/components/shop/campaign-announcement-popup"
 
-interface PageProps { params: Promise<{ slug: string }>; searchParams: Promise<{ set?: string }> }
+interface PageProps {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ set?: string }>
+}
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const { set } = await searchParams
   const offer = await fetchOfferCampaign(slug, set)
-  return { title: offer ? `${offer.campaign.title} — Giftij Brandy` : "Offer — Giftij Brandy", description: offer?.campaign.description ?? "Explore Giftij Brandy offers." }
+
+  if (offer && "expired" in offer) {
+    return {
+      title: `${offer.campaign.title} — Offer Ended | Giftij Brandy`,
+      description: offer.campaign.description ?? "This Giftij Brandy offer has ended.",
+    }
+  }
+
+  return {
+    title: offer ? `${offer.campaign.title} — Giftij Brandy` : "Offers — Giftij Brandy",
+    description: offer?.campaign.description ?? "Explore curated Giftij Brandy offers.",
+  }
+}
+
+function CampaignBreadcrumb() {
+  return (
+    <nav aria-label="Breadcrumb" className="mb-7 flex items-center gap-3 text-xs tracking-wide text-[#766e62]">
+      <Link href="/" className="transition hover:text-[#9b7930]">Home</Link>
+      <span aria-hidden="true">/</span>
+      <span>Offers</span>
+    </nav>
+  )
 }
 
 export default async function OfferPage({ params, searchParams }: PageProps) {
   const { slug } = await params
   const { set } = await searchParams
   const offer = await fetchOfferCampaign(slug, set)
-  if (!offer) notFound()
 
-  if ("expired" in offer && offer.expired) {
+  if (!offer) {
     return (
       <>
         <SiteNav theme="light" />
-        <main>
-          <section className="gb-page-header">
-            <div className="gb-breadcrumb"><Link href="/">Home</Link><span>/</span><span>Offers</span></div>
-            <span className="gb-page-eyebrow">Campaign ended</span>
-            <h1 className="gb-page-title">{offer.campaign.title}</h1>
-            <p className="gb-page-sub">This offer is no longer available. Thank you for your interest.</p>
-          </section>
-          <section className="gb-shop-main" style={{ textAlign: "center", paddingTop: 24 }}>
-            <p className="gb-pdp-description">Explore our latest collections and current offers.</p>
-            <Link href="/shop" className="gb-btn" style={{ display: "inline-flex", marginTop: 20 }}>Explore the shop</Link>
-          </section>
+        <main className="min-h-[60vh] bg-[#fdfaf5] px-6 pb-20 pt-36 text-center">
+          <p className="font-serif italic text-[#a9822c]">Giftij Brandy offers</p>
+          <h1 className="mt-3 font-serif text-3xl text-[#1a1a1a] sm:text-5xl">This offer is unavailable</h1>
+          <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-[#766e62]">
+            The link may have changed, or this campaign is not currently available.
+          </p>
+          <Link href="/shop" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a]">
+            Explore the shop
+          </Link>
         </main>
       </>
     )
   }
 
-  if (offer.products.length === 0) notFound()
+  if ("expired" in offer && offer.expired) {
+    return (
+      <>
+        <SiteNav theme="light" />
+        <main className="min-h-[70vh] bg-[#fdfaf5] px-6 pb-20 pt-32">
+          <div className="mx-auto max-w-3xl text-center">
+            <CampaignBreadcrumb />
+            <p className="font-serif italic text-[#a9822c]">Campaign ended</p>
+            <h1 className="mt-4 font-serif text-4xl leading-tight text-[#1a1a1a] sm:text-6xl">{offer.campaign.title}</h1>
+            <div aria-hidden="true" className="mx-auto my-7 h-px w-20 bg-[#c9a84c]" />
+            <p className="mx-auto max-w-xl text-base leading-8 text-[#766e62]">
+              This offer is no longer available. Thank you for your interest in Giftij Brandy.
+            </p>
+            {offer.campaign.endsAt && (
+              <p className="mt-4 text-xs uppercase tracking-[0.14em] text-[#9b7930]">
+                Offer ended {new Date(offer.campaign.endsAt).toLocaleDateString("en-NG", { dateStyle: "long" })}
+              </p>
+            )}
+            <Link href="/shop" className="mt-9 inline-flex min-h-12 items-center justify-center bg-[#1a1a1a] px-8 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#c9a84c] hover:text-[#1a1a1a]">
+              Discover the collection
+            </Link>
+          </div>
+        </main>
+      </>
+    )
+  }
+
+  if (offer.products.length === 0) {
+    return (
+      <>
+        <SiteNav theme="light" />
+        <main className="min-h-[60vh] bg-[#fdfaf5] px-6 pb-20 pt-36 text-center">
+          <p className="font-serif italic text-[#a9822c]">Giftij Brandy offers</p>
+          <h1 className="mt-3 font-serif text-3xl text-[#1a1a1a]">Products are being refreshed</h1>
+          <p className="mt-4 text-sm leading-7 text-[#766e62]">Please explore the shop while this offer is updated.</p>
+          <Link href="/shop" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a]">Explore the shop</Link>
+        </main>
+      </>
+    )
+  }
+
   const { campaign, offerSet, offerSets, products } = offer
+  const hasCreative = Boolean(campaign.creativeImageUrl || campaign.announcementHtml)
+
   return (
     <>
       <SiteNav theme="light" />
@@ -52,41 +114,125 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
         imageUrl={campaign.creativeImageUrl}
         announcementHtml={campaign.announcementHtml}
       />
-      <main>
-        <section className="gb-page-header">
-          <div className="gb-breadcrumb"><Link href="/">Home</Link><span>/</span><span>Offers</span></div>
-          <span className="gb-page-eyebrow">Limited-time collection</span>
-          <h1 className="gb-page-title">{campaign.title}</h1>
-          {campaign.description && <p className="gb-page-sub">{campaign.description}</p>}
-        </section>
-        <section className="gb-shop-main">
-          {campaign.announcementHtml && <iframe title={`${campaign.title} announcement`} srcDoc={campaign.announcementHtml} sandbox="" referrerPolicy="no-referrer" loading="lazy" style={{ width: "100%", minHeight: 280, border: 0, marginBottom: 28, background: "white" }}/>}
-          {campaign.creativeImageUrl && <div style={{ marginBottom: 28 }}><img src={campaign.creativeImageUrl} alt={campaign.title} style={{ width: "100%", maxHeight: 420, objectFit: "cover" }} /></div>}
-          {offerSets.length > 1 && <nav aria-label="Campaign offer sets" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-            {offerSets.map((setOption) => (
-              <Link key={setOption.id} href={setOption.id === campaign.defaultOfferSetId ? `/offers/${encodeURIComponent(campaign.slug)}` : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`} aria-current={setOption.id === offerSet.id ? "page" : undefined} className="gb-btn" style={{ opacity: setOption.id === offerSet.id ? 1 : 0.65 }}>{setOption.title}</Link>
-            ))}
-          </nav>}
-          <div style={{ marginBottom: 28 }}>
-            <p className="gb-section-label">Current offer</p>
-            <h2 className="gb-section-title">{offerSet.title}</h2>
-            {offerSet.description && <p className="gb-pdp-description">{offerSet.description}</p>}
+
+      <main className="min-h-screen bg-[#fdfaf5]">
+        <section className="relative overflow-hidden border-b border-[#c9a84c]/20 bg-[#1a1a1a] text-white">
+          {campaign.creativeImageUrl && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={campaign.creativeImageUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-35" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#17130d]/95 via-[#17130d]/75 to-[#17130d]/30" />
+            </>
+          )}
+          <div className="relative mx-auto grid min-h-[360px] max-w-[1320px] items-center gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.7fr)] lg:px-16">
+            <div className="max-w-3xl">
+              <CampaignBreadcrumb />
+              <p className="font-serif italic text-[#e8d5a3]">A limited Giftij Brandy edit</p>
+              <h1 className="mt-4 font-serif text-4xl font-medium leading-[1.08] sm:text-6xl lg:text-7xl">{campaign.title}</h1>
+              {campaign.description && (
+                <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">{campaign.description}</p>
+              )}
+              <a href="#offer-products" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#e8d5a3]">
+                {campaign.ctaText}
+              </a>
+            </div>
+            {campaign.creativeImageUrl && (
+              <div className="hidden justify-self-end lg:block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={campaign.creativeImageUrl} alt={campaign.title} className="max-h-[330px] w-full max-w-[390px] object-cover shadow-2xl ring-1 ring-white/20" />
+              </div>
+            )}
           </div>
-          <div id="offer-products" className="gb-product-grid">
+        </section>
+
+        <section className="mx-auto max-w-[1320px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
+          {campaign.announcementHtml && (
+            <div className="mb-12 overflow-hidden border border-[#e8e0d8] bg-white shadow-sm">
+              <iframe
+                title={`${campaign.title} campaign announcement`}
+                srcDoc={campaign.announcementHtml}
+                sandbox=""
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                className="min-h-[260px] w-full border-0 sm:min-h-[340px]"
+              />
+            </div>
+          )}
+
+          {offerSets.length > 1 && (
+            <nav aria-label="Campaign offer sets" className="mb-12 flex flex-wrap gap-2 border-b border-[#e8e0d8] pb-6">
+              {offerSets.map((setOption) => (
+                <Link
+                  key={setOption.id}
+                  href={setOption.id === campaign.defaultOfferSetId
+                    ? `/offers/${encodeURIComponent(campaign.slug)}`
+                    : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`}
+                  aria-current={setOption.id === offerSet.id ? "page" : undefined}
+                  className={`inline-flex min-h-10 items-center border px-5 text-xs font-semibold uppercase tracking-[0.12em] transition ${setOption.id === offerSet.id ? "border-[#1a1a1a] bg-[#1a1a1a] text-white" : "border-[#d8cdbb] bg-transparent text-[#625b50] hover:border-[#c9a84c]"}`}
+                >
+                  {setOption.title}
+                </Link>
+              ))}
+            </nav>
+          )}
+
+          <div className="mb-9 flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="font-serif italic text-[#a9822c]">Selected for this campaign</p>
+              <h2 className="mt-2 font-serif text-3xl text-[#1a1a1a] sm:text-4xl">{offerSet.title}</h2>
+              {offerSet.description && <p className="mt-3 max-w-2xl text-sm leading-7 text-[#766e62]">{offerSet.description}</p>}
+            </div>
+            <div className="text-sm text-[#766e62]">
+              <span>{products.length} {products.length === 1 ? "piece" : "pieces"} in this edit</span>
+              {campaign.endsAt && (
+                <span className="mt-2 block text-xs uppercase tracking-[0.1em] text-[#9b7930]">
+                  Ends {new Date(campaign.endsAt).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" })}
+                </span>
+              )}
+              {campaign.maxQualifyingOrders !== null && (
+                <span className="mt-1 block text-xs text-[#766e62]">
+                  Limited to {campaign.maxQualifyingOrders} qualifying orders
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div id="offer-products" className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
             {products.map((product) => (
-              <Link key={product.slug} href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`} className="gb-product-card">
-                <div className="gb-product-img-wrap">
-                  {product.image ? <img src={product.image} alt={product.imageAlt} loading="lazy" /> : <div className="gb-product-img-placeholder" aria-hidden="true" />}
-                  {product.offerPrice < product.basePrice && <span className="gb-product-badge">{product.discountPercent !== null ? `-${product.discountPercent}%` : `-${formatPrice(product.discountAmount ?? product.basePrice - product.offerPrice)}`}</span>}
+              <Link
+                key={product.slug}
+                href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`}
+                className="group flex h-full flex-col text-inherit no-underline"
+              >
+                <div className="relative mb-4 aspect-[3/4] overflow-hidden bg-[#f0eae0]">
+                  {product.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={product.image} alt={product.imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.16em] text-[#a39a8c]">Giftij Brandy</div>
+                  )}
+                  {product.offerPrice < product.basePrice && (
+                    <span className="absolute left-3 top-3 bg-[#c9a84c] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#1a1a1a]">
+                      {product.discountPercent !== null ? `${product.discountPercent}% off` : `${formatPrice(product.discountAmount ?? product.basePrice - product.offerPrice)} off`}
+                    </span>
+                  )}
                 </div>
-                <p className="gb-product-name">{product.name}</p>
-                <div className="gb-product-price-row"><span className="gb-product-price">{formatPrice(product.offerPrice)}</span>{product.offerPrice < product.basePrice && <span className="gb-product-price-old">{formatPrice(product.basePrice)}</span>}</div>
-                {(product.freeDelivery || product.giftDescription) && <p style={{ marginTop: 6, fontSize: 12, color: "#75664f" }}>{[product.freeDelivery ? "Free delivery" : null, product.giftDescription].filter(Boolean).join(" · ")}</p>}
-                <span className="gb-btn" style={{ display: "inline-flex", marginTop: 12 }}>{campaign.ctaText}</span>
+                <p className="font-serif text-lg leading-snug text-[#1a1a1a] transition group-hover:text-[#9b7930] sm:text-xl">{product.name}</p>
+                <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="text-sm font-semibold text-[#1a1a1a] sm:text-base">{formatPrice(product.offerPrice)}</span>
+                  {product.offerPrice < product.basePrice && <span className="text-xs text-[#8a8175] line-through">{formatPrice(product.basePrice)}</span>}
+                </div>
+                {(product.freeDelivery || product.giftDescription) && (
+                  <p className="mt-2 text-xs leading-5 text-[#8a713c]">
+                    {[product.freeDelivery ? "Complimentary delivery" : null, product.giftDescription].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+                <span className="mt-4 inline-flex min-h-11 items-center justify-center border border-[#1a1a1a] px-4 text-[10px] font-bold uppercase tracking-[0.13em] text-[#1a1a1a] transition group-hover:border-[#c9a84c] group-hover:bg-[#c9a84c]">
+                  {campaign.ctaText}
+                </span>
               </Link>
             ))}
           </div>
-          {campaign.endsAt && <p style={{ marginTop: 28, fontSize: 13, color: "#75664f" }}>Offer ends {new Date(campaign.endsAt).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" })}.</p>}
         </section>
       </main>
     </>
