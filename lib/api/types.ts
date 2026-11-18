@@ -68,6 +68,7 @@ export interface ApiProductDetail
   extends Omit<ApiProductSummary, "images" | "variants"> {
   fullDesc?: string
   description?: string
+  customerCareWhatsApp?: string | null
   images: ApiProductImage[]
   specs?: { label: string; value: string }[]
   variants: ApiVariant[]
