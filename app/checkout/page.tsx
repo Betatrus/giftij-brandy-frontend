@@ -12,14 +12,15 @@ import {
   type ShippingAddress,
 } from "@/lib/api/checkout"
 
-function buildWhatsAppUrl(phone: string) {
+function buildWhatsAppUrl(phone: string, message?: string) {
   let digits = phone.replace(/\D/g, "")
 
   if (digits.startsWith("0")) {
     digits = `234${digits.slice(1)}`
   }
 
-  return `https://wa.me/${digits}`
+  const query = message ? `?text=${encodeURIComponent(message)}` : ""
+  return `https://wa.me/${digits}${query}`
 }
 
 export default function CheckoutPage() {
@@ -144,8 +145,14 @@ export default function CheckoutPage() {
     }
   }
 
+  const whatsappMessage = [
+    "Hello Giftij! I tried to purchase the following item(s), but checkout notified me that the stock is unavailable:",
+    ...unavailableItems.map((item) => `• ${item.name} — requested: ${item.requested}, currently available: ${item.available}`),
+    "I'm still interested in getting them. Could you please let me know if they can be restocked or sourced for me? Thank you.",
+  ].join("\n")
+
   const whatsappUrl = customerCareWhatsApp
-    ? buildWhatsAppUrl(customerCareWhatsApp)
+    ? buildWhatsAppUrl(customerCareWhatsApp, whatsappMessage)
     : null
 
   return (
@@ -483,9 +490,17 @@ export default function CheckoutPage() {
                 <span>Total to pay</span>
                 <strong>{formatPrice(totalPrice)} + processing fee</strong>
               </div>
-              <p style={{ margin: "12px 0 0", fontSize: 13, lineHeight: 1.6 }}>
-                Paystack calculates and displays the applicable processing fee before you confirm payment. Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method. Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
-              </p>
+              <div style={{ marginTop: 16, fontSize: 14, lineHeight: 1.75, color: "#4b4741" }}>
+                <p style={{ margin: "0 0 10px" }}>
+                  Paystack calculates and displays the applicable processing fee before you confirm payment.
+                </p>
+                <p style={{ margin: "0 0 10px" }}>
+                  Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
+                </p>
+                <p style={{ margin: 0 }}>
+                  Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
+                </p>
+              </div>
             </div>
 
             <button
