@@ -42,7 +42,8 @@ export default async function ProductPage({
   }
 
   const { product, groups } = result
-  const campaign = offerSlug ? await fetchOfferCampaign(offerSlug, offerSetId) : null
+  const campaignResult = offerSlug ? await fetchOfferCampaign(offerSlug, offerSetId) : null
+  const campaign = campaignResult && !("expired" in campaignResult) ? campaignResult : null
   const campaignProduct = campaign?.products.find((item) => item.slug === product.slug) ?? null
   const isCampaignOffer = Boolean(campaignProduct)
 
