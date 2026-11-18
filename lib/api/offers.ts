@@ -7,6 +7,7 @@ export interface PublicOfferProduct {
   basePrice: number
   offerPrice: number
   discountPercent: number | null
+  discountAmount: number | null
   freeDelivery: boolean
   giftDescription: string | null
   image: string | null
