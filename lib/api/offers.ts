@@ -33,7 +33,20 @@ export interface PublicOfferCampaign {
   products: PublicOfferProduct[]
 }
 
-export async function fetchOfferCampaign(slug: string, offerSetId?: string): Promise<PublicOfferCampaign | null> {
+export interface PublicExpiredOfferCampaign {
+  expired: true
+  campaign: {
+    title: string
+    slug: string
+    description: string | null
+    endsAt: string | null
+    maxQualifyingOrders: number | null
+  }
+}
+
+export type PublicOfferCampaignResult = PublicOfferCampaign | PublicExpiredOfferCampaign
+
+export async function fetchOfferCampaign(slug: string, offerSetId?: string): Promise<PublicOfferCampaignResult | null> {
   try {
     const response = await fetch(
       `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}${offerSetId ? `?set=${encodeURIComponent(offerSetId)}` : ""}`,
@@ -41,7 +54,7 @@ export async function fetchOfferCampaign(slug: string, offerSetId?: string): Pro
     )
     if (!response.ok) return null
     const json = await response.json()
-    return json?.success && json.data ? json.data as PublicOfferCampaign : null
+    return json?.success && json.data ? json.data as PublicOfferCampaignResult : null
   } catch (error) {
     console.error("[giftij] failed to load offer campaign", error)
     return null
