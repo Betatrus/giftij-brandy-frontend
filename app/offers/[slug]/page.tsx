@@ -47,7 +47,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
               <Link key={product.slug} href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`} className="gb-product-card">
                 <div className="gb-product-img-wrap">
                   {product.image ? <img src={product.image} alt={product.imageAlt} loading="lazy" /> : <div className="gb-product-img-placeholder" aria-hidden="true" />}
-                  {product.discountPercent !== null && <span className="gb-product-badge">-{product.discountPercent}%</span>}
+                  {product.offerPrice < product.basePrice && <span className="gb-product-badge">{product.discountPercent !== null ? `-${product.discountPercent}%` : `-${formatPrice(product.discountAmount ?? product.basePrice - product.offerPrice)}`}</span>}
                 </div>
                 <p className="gb-product-name">{product.name}</p>
                 <div className="gb-product-price-row"><span className="gb-product-price">{formatPrice(product.offerPrice)}</span>{product.offerPrice < product.basePrice && <span className="gb-product-price-old">{formatPrice(product.basePrice)}</span>}</div>
