@@ -7,11 +7,17 @@ export function CampaignAnnouncementPopup({
   description,
   imageUrl,
   announcementHtml,
+  campaignUrl = "/offers",
+  ctaLabel = "Shop the offer",
+  durationSeconds = 5,
 }: {
   title: string;
   description?: string | null;
   imageUrl?: string | null;
   announcementHtml?: string | null;
+  campaignUrl?: string;
+  ctaLabel?: string;
+  durationSeconds?: number;
 }) {
   const [visible, setVisible] = useState(true);
 
@@ -20,13 +26,13 @@ export function CampaignAnnouncementPopup({
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const timeout = window.setTimeout(() => setVisible(false), 5000);
+    const timeout = window.setTimeout(() => setVisible(false), Math.max(2, durationSeconds) * 1000);
 
     return () => {
       window.clearTimeout(timeout);
       document.body.style.overflow = previousOverflow;
     };
-  }, [visible]);
+  }, [visible, durationSeconds]);
 
   useEffect(() => {
     if (!visible) return;
@@ -105,11 +111,11 @@ export function CampaignAnnouncementPopup({
             This announcement closes automatically.
           </p>
           <a
-            href="#offer-products"
+            href={campaignUrl}
             onClick={() => setVisible(false)}
             className="inline-flex min-h-11 items-center justify-center bg-[#c9a84c] px-6 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#dfc77f]"
           >
-            Shop the offer
+            {ctaLabel}
           </a>
         </div>
       </section>

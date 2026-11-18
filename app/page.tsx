@@ -9,12 +9,17 @@ import { Reviews } from "@/components/home/reviews"
 import { ProductGrid } from "@/components/shop/product-grid"
 import { getVariantCards } from "@/lib/api/adapter"
 import { HOMEPAGE_PLACEMENT } from "@/lib/api/config"
+import { fetchActiveOfferAnnouncement } from "@/lib/api/offers"
+import { CampaignAnnouncementPopup } from "@/components/shop/campaign-announcement-popup"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export default async function HomePage() {
-  const allCards = await getVariantCards()
+  const [allCards, announcement] = await Promise.all([
+    getVariantCards(),
+    fetchActiveOfferAnnouncement(),
+  ])
 
   /*
    * Best Sellers is controlled exclusively by the Admin dashboard's
@@ -30,6 +35,16 @@ export default async function HomePage() {
   return (
     <>
       <SiteNav theme="dark" />
+      {announcement && (
+        <CampaignAnnouncementPopup
+          title={announcement.title}
+          description={announcement.description}
+          imageUrl={announcement.creativeImageUrl}
+          announcementHtml={announcement.announcementHtml}
+          campaignUrl={announcement.url}
+          ctaLabel={announcement.ctaText}
+        />
+      )}
       <Hero />
       <Marquee />
       <FeaturedCollection />
