@@ -48,8 +48,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
       <>
         <SiteNav theme="light" />
         <main className="min-h-[60vh] bg-[#fdfaf5] px-6 pb-20 pt-36 text-center">
-          <p className="font-serif italic text-[#a9822c]">Giftij Brandy offers</p>
-          <h1 className="mt-3 font-serif text-3xl text-[#1a1a1a] sm:text-5xl">This offer is unavailable</h1>
+          <p className="gb-serif italic text-[#a9822c]">Giftij Brandy offers</p>
+          <h1 className="mt-3 gb-serif text-3xl text-[#1a1a1a] sm:text-5xl">This offer is unavailable</h1>
           <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-[#766e62]">
             The link may have changed, or this campaign is not currently available.
           </p>
@@ -68,8 +68,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
         <main className="min-h-[70vh] bg-[#fdfaf5] px-6 pb-20 pt-32">
           <div className="mx-auto max-w-3xl text-center">
             <CampaignBreadcrumb />
-            <p className="font-serif italic text-[#a9822c]">Campaign ended</p>
-            <h1 className="mt-4 font-serif text-4xl leading-tight text-[#1a1a1a] sm:text-6xl">{offer.campaign.title}</h1>
+            <p className="gb-serif italic text-[#a9822c]">Campaign ended</p>
+            <h1 className="mt-4 gb-serif text-4xl leading-tight text-[#1a1a1a] sm:text-6xl">{offer.campaign.title}</h1>
             <div aria-hidden="true" className="mx-auto my-7 h-px w-20 bg-[#c9a84c]" />
             <p className="mx-auto max-w-xl text-base leading-8 text-[#766e62]">
               This offer is no longer available. Thank you for your interest in Giftij Brandy.
@@ -93,8 +93,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
       <>
         <SiteNav theme="light" />
         <main className="min-h-[60vh] bg-[#fdfaf5] px-6 pb-20 pt-36 text-center">
-          <p className="font-serif italic text-[#a9822c]">Giftij Brandy offers</p>
-          <h1 className="mt-3 font-serif text-3xl text-[#1a1a1a]">Products are being refreshed</h1>
+          <p className="gb-serif italic text-[#a9822c]">Giftij Brandy offers</p>
+          <h1 className="mt-3 gb-serif text-3xl text-[#1a1a1a]">Products are being refreshed</h1>
           <p className="mt-4 text-sm leading-7 text-[#766e62]">Please explore the shop while this offer is updated.</p>
           <Link href="/shop" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a]">Explore the shop</Link>
         </main>
@@ -103,8 +103,6 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
   }
 
   const { campaign, offerSet, offerSets, products } = offer
-  const hasCreative = Boolean(campaign.creativeImageUrl || campaign.announcementHtml)
-
   return (
     <>
       <SiteNav theme="light" />
@@ -127,8 +125,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
           <div className="relative mx-auto grid min-h-[360px] max-w-[1320px] items-center gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.7fr)] lg:px-16">
             <div className="max-w-3xl">
               <CampaignBreadcrumb />
-              <p className="font-serif italic text-[#e8d5a3]">A limited Giftij Brandy edit</p>
-              <h1 className="mt-4 font-serif text-4xl font-medium leading-[1.08] sm:text-6xl lg:text-7xl">{campaign.title}</h1>
+              <p className="gb-serif italic text-[#e8d5a3]">A limited Giftij Brandy edit</p>
+              <h1 className="mt-4 gb-serif text-4xl font-medium leading-[1.08] sm:text-6xl lg:text-7xl">{campaign.title}</h1>
               {campaign.description && (
                 <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">{campaign.description}</p>
               )}
@@ -178,8 +176,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
 
           <div className="mb-9 flex flex-wrap items-end justify-between gap-5">
             <div>
-              <p className="font-serif italic text-[#a9822c]">Selected for this campaign</p>
-              <h2 className="mt-2 font-serif text-3xl text-[#1a1a1a] sm:text-4xl">{offerSet.title}</h2>
+              <p className="gb-serif italic text-[#a9822c]">Selected for this campaign</p>
+              <h2 className="mt-2 gb-serif text-3xl text-[#1a1a1a] sm:text-4xl">{offerSet.title}</h2>
               {offerSet.description && <p className="mt-3 max-w-2xl text-sm leading-7 text-[#766e62]">{offerSet.description}</p>}
             </div>
             <div className="text-sm text-[#766e62]">
@@ -217,7 +215,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
                     </span>
                   )}
                 </div>
-                <p className="font-serif text-lg leading-snug text-[#1a1a1a] transition group-hover:text-[#9b7930] sm:text-xl">{product.name}</p>
+                <p className="gb-serif text-lg leading-snug text-[#1a1a1a] transition group-hover:text-[#9b7930] sm:text-xl">{product.name}</p>
                 <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <span className="text-sm font-semibold text-[#1a1a1a] sm:text-base">{formatPrice(product.offerPrice)}</span>
                   {product.offerPrice < product.basePrice && <span className="text-xs text-[#8a8175] line-through">{formatPrice(product.basePrice)}</span>}
