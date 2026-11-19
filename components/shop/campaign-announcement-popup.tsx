@@ -63,14 +63,8 @@ export function CampaignAnnouncementPopup({
   useEffect(() => {
     if (!visible) return;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const timeout = window.setTimeout(() => setVisible(false), Math.max(2, durationSeconds) * 1000);
-
-    return () => {
-      window.clearTimeout(timeout);
-      document.body.style.overflow = previousOverflow;
-    };
+    return () => window.clearTimeout(timeout);
   }, [visible, durationSeconds]);
 
   useEffect(() => {
@@ -87,18 +81,10 @@ export function CampaignAnnouncementPopup({
   if (!visible) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[5000] flex items-center justify-center bg-[#120e08]/75 p-4 backdrop-blur-sm"
-      role="presentation"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) setVisible(false);
-      }}
-    >
+    <div className="pointer-events-none fixed inset-x-0 top-4 z-[5000] flex justify-center px-3 sm:top-6">
       <section
-        role="dialog"
-        aria-modal="true"
         aria-label={`${title} campaign announcement`}
-        className="relative w-full max-w-2xl overflow-hidden border border-[#c9a84c]/50 bg-[#fdfaf5] shadow-[0_28px_90px_rgba(0,0,0,0.38)]"
+        className="pointer-events-auto relative w-full max-w-xl overflow-hidden border border-[#c9a84c]/50 bg-[#fdfaf5] shadow-[0_16px_48px_rgba(0,0,0,0.24)]"
       >
         <button
           type="button"
@@ -114,7 +100,7 @@ export function CampaignAnnouncementPopup({
           <img
             src={imageUrl}
             alt={title}
-            className="max-h-[68vh] w-full object-cover"
+            className="max-h-[38vh] w-full object-cover"
           />
         ) : announcementHtml ? (
           <iframe
@@ -122,10 +108,10 @@ export function CampaignAnnouncementPopup({
             srcDoc={styleCampaignAnnouncementHtml(routeEmbeddedCampaignLinks(announcementHtml, campaignUrl))}
             sandbox="allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer"
-            className="h-[min(68vh,560px)] w-full border-0 bg-white"
+            className="h-[min(38vh,360px)] w-full border-0 bg-white"
           />
         ) : (
-          <div className="relative overflow-hidden px-7 pb-8 pt-16 text-center sm:px-14 sm:pb-12 sm:pt-20">
+          <div className="relative overflow-hidden px-7 pb-6 pt-14 text-center sm:px-10 sm:pb-8 sm:pt-16">
             <div aria-hidden="true" className="pointer-events-none absolute inset-4 border border-[#c9a84c]/35" />
             <p className="relative text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9b7930]">
               Giftij Brandy · A special edit
@@ -145,7 +131,7 @@ export function CampaignAnnouncementPopup({
           </div>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#c9a84c]/25 px-5 py-4 sm:px-7">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#c9a84c]/25 px-4 py-3 sm:px-6">
           <p className="text-xs tracking-wide text-[#766e62]">
             This announcement closes automatically.
           </p>
