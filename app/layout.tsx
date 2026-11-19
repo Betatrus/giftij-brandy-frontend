@@ -8,16 +8,16 @@ import "@/styles/storefront.css"
 
 const playfair = localFont({
   src: [
-    { path: "./fonts/playfair-display-latin.woff2", weight: "400 900", style: "normal" },
-    { path: "./fonts/playfair-display-italic-latin.woff2", weight: "400 900", style: "italic" },
+    { path: "./fonts/playfair-400.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/playfair-italic-400.ttf", weight: "400", style: "italic" },
   ],
   variable: "--font-playfair",
   display: "swap",
 })
 
 const jost = localFont({
-  src: "./fonts/jost-latin.woff2",
-  weight: "300 700",
+  src: "./fonts/jost-400.ttf",
+  weight: "400",
   variable: "--font-jost",
   display: "swap",
 })
