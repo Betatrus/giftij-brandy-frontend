@@ -32,13 +32,13 @@ function styleCampaignAnnouncement(html: string) {
   const styles = `<style>
     :root { color-scheme: light; }
     html, body { margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: transparent !important; }
-    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #243b32 !important; font-family: Arial, Helvetica, sans-serif !important; border: 0 !important; box-shadow: none !important; }
+    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #1a1a1a !important; font-family: Arial, Helvetica, sans-serif !important; border: 0 !important; box-shadow: none !important; }
     body * { box-sizing: border-box; }
     body > div, main, section, article { border: 0 !important; box-shadow: none !important; max-width: 100% !important; }
-    h1, h2, h3 { margin: 0 0 18px !important; color: #243b32 !important; font-family: Georgia, 'Times New Roman', serif !important; font-size: clamp(25px, 4vw, 42px) !important; font-weight: 400 !important; line-height: 1.18 !important; letter-spacing: -0.025em !important; }
-    p { margin: 0 0 14px !important; color: #59675f !important; font-family: Arial, Helvetica, sans-serif !important; font-size: clamp(14px, 1.5vw, 17px) !important; line-height: 1.75 !important; }
+    h1, h2, h3 { margin: 0 0 18px !important; color: #1a1a1a !important; font-family: Georgia, 'Times New Roman', serif !important; font-size: clamp(25px, 4vw, 42px) !important; font-weight: 400 !important; line-height: 1.18 !important; letter-spacing: -0.025em !important; }
+    p { margin: 0 0 14px !important; color: #625b50 !important; font-family: Arial, Helvetica, sans-serif !important; font-size: clamp(14px, 1.5vw, 17px) !important; line-height: 1.75 !important; }
     img { display: block; max-width: 100% !important; height: auto !important; border: 0 !important; }
-    a { color: #243b32 !important; }
+    a { color: #9b7930 !important; }
     @media (max-width: 600px) { body { padding: 22px !important; } }
   </style>`;
   const headEnd = html.toLowerCase().indexOf("</head>");
