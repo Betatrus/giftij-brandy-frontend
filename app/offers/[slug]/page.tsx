@@ -28,6 +28,24 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   }
 }
 
+function styleCampaignAnnouncement(html: string) {
+  const styles = `<style>
+    :root { color-scheme: light; }
+    html, body { margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: transparent !important; }
+    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #243b32 !important; font-family: Arial, Helvetica, sans-serif !important; border: 0 !important; box-shadow: none !important; }
+    body * { box-sizing: border-box; }
+    body > div, main, section, article { border: 0 !important; box-shadow: none !important; max-width: 100% !important; }
+    h1, h2, h3 { margin: 0 0 18px !important; color: #243b32 !important; font-family: Georgia, 'Times New Roman', serif !important; font-size: clamp(25px, 4vw, 42px) !important; font-weight: 400 !important; line-height: 1.18 !important; letter-spacing: -0.025em !important; }
+    p { margin: 0 0 14px !important; color: #59675f !important; font-family: Arial, Helvetica, sans-serif !important; font-size: clamp(14px, 1.5vw, 17px) !important; line-height: 1.75 !important; }
+    img { display: block; max-width: 100% !important; height: auto !important; border: 0 !important; }
+    a { color: #243b32 !important; }
+    @media (max-width: 600px) { body { padding: 22px !important; } }
+  </style>`;
+  return /<\\/head>/i.test(html)
+    ? html.replace(/<\\/head>/i, ${JSON.stringify("</head>")}.replace("</head>", styles + "</head>"))
+    : styles + html;
+}
+
 function CampaignBreadcrumb() {
   return (
     <nav aria-label="Breadcrumb" className="mb-7 flex items-center gap-3 text-xs tracking-wide text-[#766e62]">
@@ -125,7 +143,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
           <div className="relative mx-auto grid min-h-[360px] max-w-[1320px] items-center gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.7fr)] lg:px-16">
             <div className="max-w-3xl">
               <CampaignBreadcrumb />
-              <p className="gb-serif italic text-[#e8d5a3]">A limited Giftij Brandy edit</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#e8d5a3]">Offer</p>
               <h1 className="mt-4 gb-serif text-4xl font-medium leading-[1.08] sm:text-6xl lg:text-7xl">{campaign.title}</h1>
               {campaign.description && (
                 <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">{campaign.description}</p>
@@ -145,16 +163,16 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
 
         <section className="mx-auto max-w-[1320px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
           {campaign.announcementHtml && (
-            <div className="mb-12 overflow-hidden border border-[#e8e0d8] bg-white shadow-sm">
+            <section aria-label="Campaign details" className="mb-14 overflow-hidden rounded-[1.75rem] bg-[#f1ece2]">
               <iframe
-                title={`${campaign.title} campaign announcement`}
-                srcDoc={campaign.announcementHtml}
+                title={`${campaign.title} campaign details`}
+                srcDoc={styleCampaignAnnouncement(campaign.announcementHtml)}
                 sandbox=""
                 referrerPolicy="no-referrer"
                 loading="lazy"
-                className="min-h-[260px] w-full border-0 sm:min-h-[340px]"
+                className="min-h-[220px] w-full border-0 sm:min-h-[280px]"
               />
-            </div>
+            </section>
           )}
 
           {offerSets.length > 1 && (
