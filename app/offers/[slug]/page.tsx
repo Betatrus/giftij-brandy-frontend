@@ -3,7 +3,6 @@ import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { formatPrice } from "@/lib/format"
 import { fetchOfferCampaign } from "@/lib/api/offers"
-import { CampaignAnnouncementPopup } from "@/components/shop/campaign-announcement-popup"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -26,23 +25,6 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     title: offer ? `${offer.campaign.title} — Giftij Brandy` : "Offers — Giftij Brandy",
     description: offer?.campaign.description ?? "Explore curated Giftij Brandy offers.",
   }
-}
-
-function styleCampaignAnnouncement(html: string) {
-  const styles = `<style>
-    :root { color-scheme: light; }
-    html, body { margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: transparent !important; }
-    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #1a1a1a !important; font-family: Arial, Helvetica, sans-serif !important; border: 0 !important; box-shadow: none !important; }
-    body * { box-sizing: border-box; }
-    body > div, main, section, article { border: 0 !important; box-shadow: none !important; max-width: 100% !important; }
-    h1, h2, h3 { margin: 0 0 18px !important; color: #1a1a1a !important; font-family: Georgia, 'Times New Roman', serif !important; font-size: clamp(25px, 4vw, 42px) !important; font-weight: 400 !important; line-height: 1.18 !important; letter-spacing: -0.025em !important; }
-    p { margin: 0 0 14px !important; color: #625b50 !important; font-family: Arial, Helvetica, sans-serif !important; font-size: clamp(14px, 1.5vw, 17px) !important; line-height: 1.75 !important; }
-    img { display: block; max-width: 100% !important; height: auto !important; border: 0 !important; }
-    a { color: #9b7930 !important; }
-    @media (max-width: 600px) { body { padding: 22px !important; } }
-  </style>`;
-  const headEnd = html.toLowerCase().indexOf("</head>");
-  return headEnd >= 0 ? html.slice(0, headEnd) + styles + html.slice(headEnd) : styles + html;
 }
 
 function CampaignBreadcrumb() {
@@ -123,57 +105,25 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
   return (
     <>
       <SiteNav theme="light" />
-      <CampaignAnnouncementPopup
-        title={campaign.title}
-        description={campaign.description}
-        imageUrl={campaign.creativeImageUrl}
-        announcementHtml={campaign.announcementHtml}
-      />
 
       <main className="min-h-screen bg-[#fdfaf5]">
-        <section className="relative overflow-hidden border-b border-[#c9a84c]/20 bg-[#1a1a1a] text-white">
-          {campaign.creativeImageUrl && (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={campaign.creativeImageUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-35" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#17130d]/95 via-[#17130d]/75 to-[#17130d]/30" />
-            </>
-          )}
-          <div className="relative mx-auto grid min-h-[360px] max-w-[1320px] items-center gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.7fr)] lg:px-16">
-            <div className="max-w-3xl">
-              <CampaignBreadcrumb />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#e8d5a3]">Offer</p>
-              <h1 className="mt-4 gb-serif text-4xl font-medium leading-[1.08] sm:text-6xl lg:text-7xl">{campaign.title}</h1>
-              {campaign.description && (
-                <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">{campaign.description}</p>
-              )}
-              <a href="#offer-products" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#e8d5a3]">
-                {campaign.ctaText}
-              </a>
-            </div>
-            {campaign.creativeImageUrl && (
-              <div className="hidden justify-self-end lg:block">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={campaign.creativeImageUrl} alt={campaign.title} className="max-h-[330px] w-full max-w-[390px] object-cover shadow-2xl ring-1 ring-white/20" />
-              </div>
+        <section className="border-b border-[#d9cba9] bg-[#fdfaf5]">
+          <div className="mx-auto max-w-[1320px] px-6 pb-10 pt-14 sm:px-10 sm:pb-14 sm:pt-20 lg:px-16">
+            <CampaignBreadcrumb />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#9b7930]">Campaign offer</p>
+            <h1 className="mt-3 max-w-4xl gb-serif text-4xl font-medium leading-[1.1] text-[#1a1a1a] sm:text-6xl">{campaign.title}</h1>
+            {campaign.description && (
+              <p className="mt-5 max-w-3xl whitespace-pre-line text-base leading-8 text-[#625b50] sm:text-lg">{campaign.description}</p>
+            )}
+            {campaign.endsAt && (
+              <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9b7930]">
+                Offer ends {new Date(campaign.endsAt).toLocaleString("en-NG", { dateStyle: "long", timeStyle: "short" })}
+              </p>
             )}
           </div>
         </section>
 
         <section className="mx-auto max-w-[1320px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
-          {campaign.announcementHtml && (
-            <section aria-label="Campaign details" className="mb-14 overflow-hidden rounded-[1.75rem] bg-[#f1ece2]">
-              <iframe
-                title={`${campaign.title} campaign details`}
-                srcDoc={styleCampaignAnnouncement(campaign.announcementHtml)}
-                sandbox=""
-                referrerPolicy="no-referrer"
-                loading="lazy"
-                className="min-h-[220px] w-full border-0 sm:min-h-[280px]"
-              />
-            </section>
-          )}
-
           {offerSets.length > 1 && (
             <nav aria-label="Campaign offer sets" className="mb-12 flex flex-wrap gap-2 border-b border-[#e8e0d8] pb-6">
               {offerSets.map((setOption) => (
