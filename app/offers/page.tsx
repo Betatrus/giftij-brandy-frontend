@@ -18,7 +18,7 @@ export default async function OffersDirectoryPage() {
   return (
     <>
       <SiteNav theme="dark" />
-      <main className="min-h-screen bg-[#fbf8f2] text-[#243b32]">
+      <main className="min-h-screen bg-[#fbf8f2] text-[#1a1a1a]">
         <section className="mx-auto max-w-7xl px-5 py-12 sm:py-16 lg:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
             <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#a47d30]">
@@ -27,7 +27,7 @@ export default async function OffersDirectoryPage() {
             <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
               Current Offers
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#6b756f] sm:text-base">
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#625b50] sm:text-base">
               Explore our active campaigns and discover the offers currently available.
               Select a campaign to see its products and benefits.
             </p>
@@ -38,7 +38,7 @@ export default async function OffersDirectoryPage() {
               {campaigns.map((campaign) => (
                 <article
                   key={campaign.id}
-                  className="group overflow-hidden rounded-2xl border border-[#e8e0d2] bg-white shadow-[0_5px_24px_rgba(35,50,42,.05)] transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(35,50,42,.10)]"
+                  className="group overflow-hidden rounded-2xl border border-[#d8cdbb] bg-[#fffdf8] shadow-[0_5px_24px_rgba(0,0,0,.06)] transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,.12)]"
                 >
                   <Link href={`/offers/${encodeURIComponent(campaign.slug)}`} className="block h-full">
                     <div className="relative aspect-[16/10] overflow-hidden bg-[#eee8dc]">
@@ -59,7 +59,7 @@ export default async function OffersDirectoryPage() {
                       <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a47d30]">
                         Active campaign
                       </p>
-                      <h2 className="mt-2 font-display text-2xl leading-snug text-[#243b32]">
+                      <h2 className="mt-2 font-display text-2xl leading-snug text-[#1a1a1a]">
                         {campaign.title}
                       </h2>
                       {campaign.description && (
