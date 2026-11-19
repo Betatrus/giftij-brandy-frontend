@@ -94,3 +94,33 @@ export async function fetchActiveOfferAnnouncement(): Promise<PublicActiveOfferA
     return null
   }
 }
+
+
+export interface PublicOfferDirectoryCampaign {
+  id: string
+  title: string
+  slug: string
+  description: string | null
+  creativeImageUrl: string | null
+  ctaText: string
+  startsAt: string | null
+  endsAt: string | null
+  url: string
+}
+
+export async function fetchActiveOfferCampaigns(): Promise<PublicOfferDirectoryCampaign[]> {
+  try {
+    const response = await fetch(`${SERVER_API_BASE}/offers`, {
+      headers: { "X-Storefront-Key": getStorefrontApiSecret() },
+      cache: "no-store",
+    })
+    if (!response.ok) return []
+    const json = await response.json()
+    return json?.success && Array.isArray(json.data)
+      ? json.data as PublicOfferDirectoryCampaign[]
+      : []
+  } catch (error) {
+    console.error("[giftij] failed to load offer directory", error)
+    return []
+  }
+}

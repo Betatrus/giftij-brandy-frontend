@@ -61,7 +61,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
     )
   }
 
-  if ("expired" in offer && offer.expired) {
+  if ("expired" in offer) {
     return (
       <>
         <SiteNav theme="light" />

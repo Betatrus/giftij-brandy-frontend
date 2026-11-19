@@ -41,7 +41,7 @@ export default async function HomePage() {
           description={announcement.description}
           imageUrl={announcement.creativeImageUrl}
           announcementHtml={announcement.announcementHtml}
-          campaignUrl={announcement.url}
+          campaignUrl={`/offers/${announcement.slug}`}
           ctaLabel={announcement.ctaText}
         />
       )}

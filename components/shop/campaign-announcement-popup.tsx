@@ -2,6 +2,30 @@
 
 import { useEffect, useState } from "react";
 
+function routeEmbeddedCampaignLinks(html: string, campaignUrl: string) {
+  return html.replace(/<a\b[^>]*>/gi, (anchor) => {
+    const hrefMatch = anchor.match(/\bhref\s*=\s*(["'])(.*?)\1/i)
+    if (!hrefMatch) return anchor
+
+    let pathname = ""
+    try {
+      pathname = new URL(hrefMatch[2], "https://www.giftijbrandy.com").pathname
+    } catch {
+      return anchor
+    }
+
+    if (pathname.replace(/\/+$/, "") !== "/offers") return anchor
+
+    let updated = anchor.replace(hrefMatch[0], `href="${campaignUrl}"`)
+    if (/\btarget\s*=/i.test(updated)) {
+      updated = updated.replace(/\btarget\s*=\s*(["']).*?\1/i, 'target="_top"')
+    } else {
+      updated = updated.replace(/>$/, ' target="_top">')
+    }
+    return updated
+  })
+}
+
 export function CampaignAnnouncementPopup({
   title,
   description,
@@ -80,8 +104,8 @@ export function CampaignAnnouncementPopup({
         ) : announcementHtml ? (
           <iframe
             title={`${title} announcement creative`}
-            srcDoc={announcementHtml}
-            sandbox=""
+            srcDoc={routeEmbeddedCampaignLinks(announcementHtml, campaignUrl)}
+            sandbox="allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer"
             className="h-[min(68vh,560px)] w-full border-0 bg-white"
           />
