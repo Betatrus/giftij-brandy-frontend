@@ -187,11 +187,17 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
                   <span className="text-sm font-semibold text-[#1a1a1a] sm:text-base">{formatPrice(product.offerPrice)}</span>
                   {product.offerPrice < product.basePrice && <span className="text-xs text-[#8a8175] line-through">{formatPrice(product.basePrice)}</span>}
                 </div>
-                {(product.freeDelivery || product.giftDescription) && (
-                  <p className="mt-2 text-xs leading-5 text-[#8a713c]">
-                    {[product.freeDelivery ? "Complimentary delivery" : null, product.giftDescription].filter(Boolean).join(" · ")}
-                  </p>
-                )}
+                <p className="mt-2 min-h-10 text-xs font-medium leading-5 text-[#8a713c]">
+                  {[
+                    product.discountPercent !== null && product.discountPercent > 0
+                      ? `${Number(product.discountPercent)}% discount sale`
+                      : product.discountAmount !== null && product.discountAmount > 0
+                        ? `Save ${formatPrice(product.discountAmount)}`
+                        : null,
+                    product.freeDelivery ? "Free delivery" : null,
+                    product.giftDescription || null,
+                  ].filter(Boolean).join(" · ") || "Limited campaign offer"}
+                </p>
                 <span className="mt-4 inline-flex min-h-11 items-center justify-center border border-[#1a1a1a] px-4 text-[10px] font-bold uppercase tracking-[0.13em] text-[#1a1a1a] transition group-hover:border-[#c9a84c] group-hover:bg-[#c9a84c]">
                   {campaign.ctaText}
                 </span>
