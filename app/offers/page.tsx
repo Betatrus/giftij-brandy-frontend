@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteNav } from "@/components/layout/site-nav"
 import { SiteFooter } from "@/components/layout/site-footer"
+import { formatPrice } from "@/lib/format"
 import { fetchActiveOfferCampaigns } from "@/lib/api/offers"
 
 export const dynamic = "force-dynamic"
@@ -9,7 +10,7 @@ export const revalidate = 0
 
 export const metadata: Metadata = {
   title: "Current Offers | Giftij Brandy",
-  description: "Explore all currently active Giftij Brandy campaigns and special offers.",
+  description: "Shop products across all current Giftij Brandy campaigns and discover their special offers.",
 }
 
 export default async function OffersDirectoryPage() {
@@ -19,75 +20,56 @@ export default async function OffersDirectoryPage() {
     <>
       <SiteNav theme="dark" />
       <main className="min-h-screen bg-[#fbf8f2] text-[#1a1a1a]">
-        <section className="mx-auto max-w-7xl px-5 py-12 sm:py-16 lg:py-20">
-          <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
-            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#a47d30]">
-              Giftij Brandy
-            </p>
-            <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
-              Current Offers
-            </h1>
+        <section className="mx-auto max-w-7xl px-5 py-12 sm:py-16 lg:px-8">
+          <header className="mb-12 text-center sm:mb-16">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#a47d30]">Giftij Brandy</p>
+            <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">Offers</h1>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#625b50] sm:text-base">
-              Explore our active campaigns and discover the offers currently available.
-              Select a campaign to see its products and benefits.
+              Discover the products featured across our current campaigns and the special benefits available with each one.
             </p>
-          </div>
+          </header>
 
           {campaigns.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {campaigns.map((campaign) => (
-                <article
-                  key={campaign.id}
-                  className="group overflow-hidden rounded-2xl border border-[#d8cdbb] bg-[#fffdf8] shadow-[0_5px_24px_rgba(0,0,0,.06)] transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,.12)]"
-                >
-                  <Link href={`/offers/${encodeURIComponent(campaign.slug)}`} className="block h-full">
-                    <div className="relative aspect-[16/10] overflow-hidden bg-[#eee8dc]">
-                      {campaign.creativeImageUrl ? (
+            <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+              {campaigns.flatMap((campaign) => campaign.products.map((product) => (
+                <article key={campaign.id + ":" + product.slug} className="group min-w-0">
+                  <Link href={campaign.url} className="block">
+                    <div className="relative mb-4 aspect-[3/4] overflow-hidden bg-[#eee8dc]">
+                      {product.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={campaign.creativeImageUrl}
-                          alt={campaign.title}
-                          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                        />
+                        <img src={product.image} alt={product.imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]" />
                       ) : (
-                        <div className="flex h-full items-center justify-center bg-[#173f35] px-6 text-center text-[#f8f1df]">
-                          <span className="font-display text-2xl">{campaign.title}</span>
-                        </div>
+                        <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.16em] text-[#a39a8c]">Giftij Brandy</div>
+                      )}
+                      {product.offerPrice < product.basePrice && (
+                        <span className="absolute left-2 top-2 bg-[#c9a84c] px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-[#1a1a1a] sm:left-3 sm:top-3 sm:px-3 sm:py-2 sm:text-[10px]">
+                          {product.discountPercent !== null ? product.discountPercent + "% off" : "Special offer"}
+                        </span>
                       )}
                     </div>
-                    <div className="flex min-h-44 flex-col p-5 sm:p-6">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a47d30]">
-                        Active campaign
-                      </p>
-                      <h2 className="mt-2 font-display text-2xl leading-snug text-[#1a1a1a]">
-                        {campaign.title}
-                      </h2>
-                      {campaign.description && (
-                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#6b756f]">
-                          {campaign.description}
-                        </p>
-                      )}
-                      <span className="mt-auto inline-flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#9b762e]">
-                        {campaign.ctaText || "Shop this campaign"}
-                        <span aria-hidden="true">→</span>
-                      </span>
+                    <h2 className="font-display text-base leading-snug text-[#1a1a1a] transition group-hover:text-[#9b7930] sm:text-lg">{product.name}</h2>
+                    <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                      <span className="text-sm font-semibold text-[#1a1a1a]">{formatPrice(product.offerPrice)}</span>
+                      {product.offerPrice < product.basePrice && <span className="text-xs text-[#8a8175] line-through">{formatPrice(product.basePrice)}</span>}
                     </div>
+                    <div className="mt-3 space-y-1.5">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9b7930]">{campaign.title}</p>
+                      {product.freeDelivery && <p className="text-xs leading-5 text-[#625b50]">Complimentary delivery</p>}
+                      {product.giftDescription && <p className="text-xs leading-5 text-[#625b50]">{product.giftDescription}</p>}
+                      {campaign.description && <p className="text-xs leading-5 text-[#625b50]">{campaign.description}</p>}
+                    </div>
+                    <span className="mt-4 inline-flex min-h-10 items-center border-b border-[#c9a84c] text-[10px] font-bold uppercase tracking-[0.13em] text-[#1a1a1a]">
+                      View campaign <span className="ml-2 text-[#9b7930]" aria-hidden="true">→</span>
+                    </span>
                   </Link>
                 </article>
-              ))}
+              )))}
             </div>
           ) : (
-            <div className="mx-auto max-w-2xl rounded-2xl border border-dashed border-[#d8cfbd] bg-white/70 px-6 py-12 text-center">
+            <div className="py-16 text-center">
               <h2 className="font-display text-2xl">No active offers right now</h2>
-              <p className="mt-3 text-sm leading-6 text-[#6b756f]">
-                Please check back soon, or explore the latest collections in our shop.
-              </p>
-              <Link
-                href="/shop"
-                className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-[#173f35] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#245647]"
-              >
-                Explore the shop
-              </Link>
+              <p className="mt-3 text-sm leading-6 text-[#625b50]">Please check back soon, or explore the latest collections in our shop.</p>
+              <Link href="/shop" className="mt-6 inline-flex min-h-11 items-center justify-center bg-[#1a1a1a] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#c9a84c] hover:text-[#1a1a1a]">Explore the shop</Link>
             </div>
           )}
         </section>
