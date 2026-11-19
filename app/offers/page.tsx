@@ -56,11 +56,9 @@ export default async function OffersDirectoryPage() {
                       {[
                         product.discountPercent !== null && product.discountPercent > 0
                           ? `${Number(product.discountPercent)}% discount`
-                          : product.offerPrice < product.basePrice && product.basePrice > 0
-                            ? `${Math.round((1 - product.offerPrice / product.basePrice) * 100)}% discount`
-                            : product.discountAmount !== null && product.discountAmount > 0
-                              ? `Save ${formatPrice(product.discountAmount)}`
-                              : null,
+                          : product.discountAmount !== null && product.discountAmount > 0
+                            ? `Save ${formatPrice(product.discountAmount)}`
+                            : null,
                         product.freeDelivery ? "Free delivery" : null,
                         product.giftDescription || null,
                       ].filter(Boolean).join(" · ") || "Limited campaign offer"}
