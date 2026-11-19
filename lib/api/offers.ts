@@ -1,4 +1,5 @@
 import "server-only"
+import { cache } from "react"
 import { SERVER_API_BASE, getStorefrontApiSecret } from "@/lib/api/server-config"
 
 export interface PublicOfferProduct {
@@ -46,7 +47,7 @@ export interface PublicExpiredOfferCampaign {
 
 export type PublicOfferCampaignResult = PublicOfferCampaign | PublicExpiredOfferCampaign
 
-export async function fetchOfferCampaign(slug: string, offerSetId?: string): Promise<PublicOfferCampaignResult | null> {
+export const fetchOfferCampaign = cache(async (slug: string, offerSetId?: string): Promise<PublicOfferCampaignResult | null> => {
   try {
     const response = await fetch(
       `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}${offerSetId ? `?set=${encodeURIComponent(offerSetId)}` : ""}`,
@@ -59,7 +60,7 @@ export async function fetchOfferCampaign(slug: string, offerSetId?: string): Pro
     console.error("[giftij] failed to load offer campaign", error)
     return null
   }
-}
+})
 
 
 export interface PublicActiveOfferAnnouncement {
@@ -106,6 +107,7 @@ export interface PublicOfferDirectoryCampaign {
   startsAt: string | null
   endsAt: string | null
   url: string
+  products: PublicOfferProduct[]
 }
 
 export async function fetchActiveOfferCampaigns(): Promise<PublicOfferDirectoryCampaign[]> {
