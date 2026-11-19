@@ -41,9 +41,7 @@ function styleCampaignAnnouncement(html: string) {
     a { color: #243b32 !important; }
     @media (max-width: 600px) { body { padding: 22px !important; } }
   </style>`;
-  return /<\\/head>/i.test(html)
-    ? html.replace(/<\\/head>/i, ${JSON.stringify("</head>")}.replace("</head>", styles + "</head>"))
-    : styles + html;
+  return html.replace(/<\\/head>/i, styles + "</head>");
 }
 
 function CampaignBreadcrumb() {
