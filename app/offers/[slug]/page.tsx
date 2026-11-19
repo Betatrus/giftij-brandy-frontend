@@ -107,18 +107,33 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
       <SiteNav theme="light" />
 
       <main className="min-h-screen bg-[#fdfaf5]">
-        <section className="border-b border-[#d9cba9] bg-[#fdfaf5]">
-          <div className="mx-auto max-w-[1320px] px-6 pb-10 pt-14 sm:px-10 sm:pb-14 sm:pt-20 lg:px-16">
-            <CampaignBreadcrumb />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#9b7930]">Campaign offer</p>
-            <h1 className="mt-3 max-w-4xl gb-serif text-4xl font-medium leading-[1.1] text-[#1a1a1a] sm:text-6xl">{campaign.title}</h1>
-            {campaign.description && (
-              <p className="mt-5 max-w-3xl whitespace-pre-line text-base leading-8 text-[#625b50] sm:text-lg">{campaign.description}</p>
-            )}
-            {campaign.endsAt && (
-              <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9b7930]">
-                Offer ends {new Date(campaign.endsAt).toLocaleString("en-NG", { dateStyle: "long", timeStyle: "short" })}
-              </p>
+        <section className="relative overflow-hidden border-b border-[#c9a84c]/20 bg-[#1a1a1a] text-white">
+          {campaign.creativeImageUrl && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={campaign.creativeImageUrl} alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-cover opacity-35" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#17130d]/95 via-[#17130d]/75 to-[#17130d]/30" />
+            </>
+          )}
+          <div className="relative mx-auto grid min-h-[360px] max-w-[1320px] items-center gap-10 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.7fr)] lg:px-16">
+            <div className="max-w-3xl">
+              <CampaignBreadcrumb />
+              <p className="gb-serif italic text-[#e8d5a3]">A limited Giftij Brandy edit</p>
+              <h1 className="mt-4 gb-serif text-4xl font-medium leading-[1.08] text-white sm:text-6xl lg:text-7xl">{campaign.title}</h1>
+              {campaign.description && (
+                <div className="mt-6 max-w-2xl border-l border-[#c9a84c] pl-5 sm:pl-7">
+                  <p className="whitespace-pre-line text-base leading-8 text-white/85 sm:text-lg">{campaign.description}</p>
+                </div>
+              )}
+              <a href="#offer-products" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#e8d5a3]">
+                {campaign.ctaText}
+              </a>
+            </div>
+            {campaign.creativeImageUrl && (
+              <div className="hidden justify-self-end lg:block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={campaign.creativeImageUrl} alt={campaign.title} fetchPriority="high" className="max-h-[330px] w-full max-w-[390px] object-cover shadow-2xl ring-1 ring-white/20" />
+              </div>
             )}
           </div>
         </section>
