@@ -52,7 +52,7 @@ export const fetchOfferCampaign = cache(async (slug: string, offerSetId?: string
   try {
     const response = await fetch(
       `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}${offerSetId ? `?set=${encodeURIComponent(offerSetId)}` : ""}`,
-      { headers: { "X-Storefront-Key": getStorefrontApiSecret() }, cache: "no-store" },
+      { headers: { "X-Storefront-Key": getStorefrontApiSecret() }, next: { revalidate: 15 } },
     )
     if (!response.ok) return null
     const json = await response.json()
@@ -83,7 +83,7 @@ export async function fetchActiveOfferAnnouncement(): Promise<PublicActiveOfferA
       `${SERVER_API_BASE}/offers/active`,
       {
         headers: { "X-Storefront-Key": getStorefrontApiSecret() },
-        cache: "no-store",
+        next: { revalidate: 15 },
       },
     )
     if (!response.ok) return null
@@ -115,7 +115,7 @@ export async function fetchActiveOfferCampaigns(): Promise<PublicOfferDirectoryC
   try {
     const response = await fetch(`${SERVER_API_BASE}/offers`, {
       headers: { "X-Storefront-Key": getStorefrontApiSecret() },
-      cache: "no-store",
+      next: { revalidate: 15 },
     })
     if (!response.ok) return []
     const json = await response.json()
