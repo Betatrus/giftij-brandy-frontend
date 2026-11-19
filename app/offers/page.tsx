@@ -33,7 +33,7 @@ export default async function OffersDirectoryPage() {
             <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
               {campaigns.flatMap((campaign) => campaign.products.map((product) => (
                 <article key={campaign.id + ":" + product.slug} className="group min-w-0">
-                  <Link href={campaign.url} className="block">
+                  <Link href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(product.offerSetId)}`} className="block">
                     <div className="relative mb-4 aspect-[3/4] overflow-hidden bg-[#eee8dc]">
                       {product.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -55,16 +55,18 @@ export default async function OffersDirectoryPage() {
                     <p className="mt-2 min-h-10 text-xs font-medium leading-5 text-[#8a713c]">
                       {[
                         product.discountPercent !== null && product.discountPercent > 0
-                          ? `${Number(product.discountPercent)}% discount sale`
-                          : product.discountAmount !== null && product.discountAmount > 0
-                            ? `Save ${formatPrice(product.discountAmount)}`
-                            : null,
+                          ? `${Number(product.discountPercent)}% discount`
+                          : product.offerPrice < product.basePrice && product.basePrice > 0
+                            ? `${Math.round((1 - product.offerPrice / product.basePrice) * 100)}% discount`
+                            : product.discountAmount !== null && product.discountAmount > 0
+                              ? `Save ${formatPrice(product.discountAmount)}`
+                              : null,
                         product.freeDelivery ? "Free delivery" : null,
                         product.giftDescription || null,
                       ].filter(Boolean).join(" · ") || "Limited campaign offer"}
                     </p>
                     <span className="mt-4 inline-flex min-h-10 items-center border-b border-[#c9a84c] text-[10px] font-bold uppercase tracking-[0.13em] text-[#1a1a1a]">
-                      View campaign <span className="ml-2 text-[#9b7930]" aria-hidden="true">→</span>
+                      Shop this offer <span className="ml-2 text-[#9b7930]" aria-hidden="true">→</span>
                     </span>
                   </Link>
                 </article>
