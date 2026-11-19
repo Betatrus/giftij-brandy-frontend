@@ -26,6 +26,21 @@ function routeEmbeddedCampaignLinks(html: string, campaignUrl: string) {
   })
 }
 
+function styleCampaignAnnouncementHtml(html: string) {
+  const styles = `<style>
+    :root { color-scheme: light; }
+    html, body { margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: #fdfaf5 !important; }
+    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #1a1a1a !important; font-family: Arial, Helvetica, sans-serif !important; }
+    body * { box-sizing: border-box; }
+    h1, h2, h3 { color: #1a1a1a !important; font-family: Georgia, 'Times New Roman', serif !important; }
+    p, li { color: #625b50 !important; line-height: 1.75 !important; }
+    a, strong, b { color: #9b7930 !important; }
+    img { display: block; max-width: 100% !important; height: auto !important; }
+  </style>`;
+  const headEnd = html.toLowerCase().indexOf("</head>");
+  return headEnd >= 0 ? html.slice(0, headEnd) + styles + html.slice(headEnd) : styles + html;
+}
+
 export function CampaignAnnouncementPopup({
   title,
   description,
@@ -104,7 +119,7 @@ export function CampaignAnnouncementPopup({
         ) : announcementHtml ? (
           <iframe
             title={`${title} announcement creative`}
-            srcDoc={routeEmbeddedCampaignLinks(announcementHtml, campaignUrl)}
+            srcDoc={styleCampaignAnnouncementHtml(routeEmbeddedCampaignLinks(announcementHtml, campaignUrl))}
             sandbox="allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer"
             className="h-[min(68vh,560px)] w-full border-0 bg-white"
