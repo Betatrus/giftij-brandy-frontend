@@ -41,7 +41,8 @@ function styleCampaignAnnouncement(html: string) {
     a { color: #243b32 !important; }
     @media (max-width: 600px) { body { padding: 22px !important; } }
   </style>`;
-  return html.replace(/<\\/head>/i, styles + "</head>");
+  const headEnd = html.toLowerCase().indexOf("</head>");
+  return headEnd >= 0 ? html.slice(0, headEnd) + styles + html.slice(headEnd) : styles + html;
 }
 
 function CampaignBreadcrumb() {
