@@ -25,7 +25,7 @@ export default async function OffersDirectoryPage() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#a47d30]">Giftij Brandy</p>
             <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">Offers</h1>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#625b50] sm:text-base">
-              Discover the products featured across our current campaigns and the special benefits available with each one.
+              See Giftij Brandy limited offers for today. Rush now and shop your favourites.
             </p>
           </header>
 
@@ -52,12 +52,17 @@ export default async function OffersDirectoryPage() {
                       <span className="text-sm font-semibold text-[#1a1a1a]">{formatPrice(product.offerPrice)}</span>
                       {product.offerPrice < product.basePrice && <span className="text-xs text-[#8a8175] line-through">{formatPrice(product.basePrice)}</span>}
                     </div>
-                    <div className="mt-3 space-y-1.5">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9b7930]">{campaign.title}</p>
-                      {product.freeDelivery && <p className="text-xs leading-5 text-[#625b50]">Complimentary delivery</p>}
-                      {product.giftDescription && <p className="text-xs leading-5 text-[#625b50]">{product.giftDescription}</p>}
-                      {campaign.description && <p className="text-xs leading-5 text-[#625b50]">{campaign.description}</p>}
-                    </div>
+                    <p className="mt-2 min-h-10 text-xs font-medium leading-5 text-[#8a713c]">
+                      {[
+                        product.discountPercent !== null && product.discountPercent > 0
+                          ? `${Number(product.discountPercent)}% discount sale`
+                          : product.discountAmount !== null && product.discountAmount > 0
+                            ? `Save ${formatPrice(product.discountAmount)}`
+                            : null,
+                        product.freeDelivery ? "Free delivery" : null,
+                        product.giftDescription || null,
+                      ].filter(Boolean).join(" · ") || "Limited campaign offer"}
+                    </p>
                     <span className="mt-4 inline-flex min-h-10 items-center border-b border-[#c9a84c] text-[10px] font-bold uppercase tracking-[0.13em] text-[#1a1a1a]">
                       View campaign <span className="ml-2 text-[#9b7930]" aria-hidden="true">→</span>
                     </span>
