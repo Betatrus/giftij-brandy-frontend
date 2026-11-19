@@ -5,6 +5,7 @@ import { SERVER_API_BASE, getStorefrontApiSecret } from "@/lib/api/server-config
 export interface PublicOfferProduct {
   slug: string
   name: string
+  offerSetId: string
   basePrice: number
   offerPrice: number
   discountPercent: number | null
