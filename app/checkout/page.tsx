@@ -484,19 +484,19 @@ export default function CheckoutPage() {
                 <strong>{formatPrice(totalPrice)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
-                <span>Paystack processing fee</span>
-                <strong style={{ textAlign: "right" }}>Calculated by Paystack</strong>
+                <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(local payments)</span></span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(Math.min(Math.round(totalPrice * 0.015 + (totalPrice >= 2500 ? 100 : 0)), 2000))}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
-                <span>Total payable</span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice)} + Paystack fee</strong>
+                <span>Amount to pay</span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice)}</strong>
               </div>
-              <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 15, lineHeight: 1.85, color: "#4b4741" }}>
+              <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
-                  Paystack calculates and displays the applicable processing fee before you confirm payment.
+                  The fee above is an estimate using Paystack&apos;s standard Nigerian local-payment pricing: 1.5% plus ₦100 where applicable, with the ₦100 component waived below ₦2,500 and the fee capped at ₦2,000.
                 </p>
                 <p style={{ margin: "0 0 12px" }}>
-                  Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
+                  This estimate is shown for transparency only. Giftij Brandy does not add it to your order or include it in the payment request. The amount sent to Paystack remains your product subtotal. International cards and other payment methods may have different fees.
                 </p>
                 <p style={{ margin: 0 }}>
                   Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
