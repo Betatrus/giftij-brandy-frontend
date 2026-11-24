@@ -23,6 +23,28 @@ function buildWhatsAppUrl(phone: string, message?: string) {
   return `https://wa.me/${digits}${query}`
 }
 
+/**
+ * Paystack's published NGN local-fee schedule:
+ * 1.5%, plus ₦100 from ₦2,500 upward, capped at ₦2,000.
+ * The gross-up accounts for Paystack charging its percentage on the
+ * additional fee amount as well. Values are calculated in kobo.
+ */
+function estimatePaystackLocalFeeKobo(productSubtotalKobo: number) {
+  if (!Number.isFinite(productSubtotalKobo) || productSubtotalKobo <= 0) return 0
+
+  const percentageRate = 0.015
+  const flatFeeKobo = productSubtotalKobo >= 250_000 ? 10_000 : 0
+  const feeCapKobo = 200_000
+  const feeBeforeGrossUp = productSubtotalKobo * percentageRate + flatFeeKobo
+
+  if (feeBeforeGrossUp > feeCapKobo) return feeCapKobo
+
+  const grossAmountKobo =
+    Math.round((productSubtotalKobo + flatFeeKobo) / (1 - percentageRate)) + 1
+
+  return Math.min(Math.max(grossAmountKobo - productSubtotalKobo, 0), feeCapKobo)
+}
+
 export default function CheckoutPage() {
   const { items, totalPrice, totalCount } = useCart()
 
@@ -484,19 +506,19 @@ export default function CheckoutPage() {
                 <strong>{formatPrice(totalPrice)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
-                <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(local payments)</span></span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(Math.min(Math.round(totalPrice * 0.015 + (totalPrice >= 2500 ? 100 : 0)), 2000))}</strong>
+                <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(Nigerian local payments)</span></span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
-                <span>Amount to pay</span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice + Math.min(Math.round(totalPrice * 0.015 + (totalPrice >= 2500 ? 100 : 0)), 2000))}</strong>
+                <span>Estimated total</span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice + estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
-                  Paystack calculates and displays the applicable processing fee before you confirm payment.
+                  This is an estimate for Nigerian local payments. Paystack confirms the actual processing fee during payment.
                 </p>
                 <p style={{ margin: "0 0 12px" }}>
-                  Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
+                  International cards and some payment methods may attract different fees, so the final amount shown by Paystack can differ from this estimate.
                 </p>
                 <p style={{ margin: 0 }}>
                   Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
