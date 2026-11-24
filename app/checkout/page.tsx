@@ -489,7 +489,7 @@ export default function CheckoutPage() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
                 <span>Amount to pay</span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice)}</strong>
+                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice + Math.min(Math.round(totalPrice * 0.015 + (totalPrice >= 2500 ? 100 : 0)), 2000))}</strong>
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
