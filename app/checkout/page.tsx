@@ -493,10 +493,10 @@ export default function CheckoutPage() {
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
-                  The fee above is an estimate using Paystack&apos;s standard Nigerian local-payment pricing: 1.5% plus ₦100 where applicable, with the ₦100 component waived below ₦2,500 and the fee capped at ₦2,000.
+                  Paystack calculates and displays the applicable processing fee before you confirm payment.
                 </p>
                 <p style={{ margin: "0 0 12px" }}>
-                  This estimate is shown for transparency only. Giftij Brandy does not add it to your order or include it in the payment request. The amount sent to Paystack remains your product subtotal. International cards and other payment methods may have different fees.
+                  Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
                 </p>
                 <p style={{ margin: 0 }}>
                   Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.
