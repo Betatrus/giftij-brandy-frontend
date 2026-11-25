@@ -8,6 +8,8 @@ import { formatPrice } from "@/lib/format"
 import {
   initializeCheckout,
   CheckoutApiError,
+  getCheckoutFeeEstimate,
+  type CheckoutFeeEstimate,
   type CheckoutUnavailableItem,
   type ShippingAddress,
 } from "@/lib/api/checkout"
@@ -23,27 +25,6 @@ function buildWhatsAppUrl(phone: string, message?: string) {
   return `https://wa.me/${digits}${query}`
 }
 
-/**
- * Paystack's published NGN local-fee schedule:
- * 1.5%, plus ₦100 from ₦2,500 upward, capped at ₦2,000.
- * The gross-up accounts for Paystack charging its percentage on the
- * additional fee amount as well. Values are calculated in kobo.
- */
-function estimatePaystackLocalFeeKobo(productSubtotalKobo: number) {
-  if (!Number.isFinite(productSubtotalKobo) || productSubtotalKobo <= 0) return 0
-
-  const percentageRate = 0.015
-  const flatFeeKobo = productSubtotalKobo >= 250_000 ? 10_000 : 0
-  const feeCapKobo = 200_000
-  const feeBeforeGrossUp = productSubtotalKobo * percentageRate + flatFeeKobo
-
-  if (feeBeforeGrossUp > feeCapKobo) return feeCapKobo
-
-  const grossAmountKobo =
-    Math.round((productSubtotalKobo + flatFeeKobo) / (1 - percentageRate)) + 1
-
-  return Math.min(Math.max(grossAmountKobo - productSubtotalKobo, 0), feeCapKobo)
-}
 
 export default function CheckoutPage() {
   const { items, totalPrice, totalCount } = useCart()
@@ -62,6 +43,7 @@ export default function CheckoutPage() {
   })
 
   const [submitting, setSubmitting] = useState(false)
+  const [feeEstimate, setFeeEstimate] = useState<CheckoutFeeEstimate | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [errorCode, setErrorCode] = useState<string | null>(null)
 
@@ -111,6 +93,25 @@ export default function CheckoutPage() {
       window.removeEventListener("keydown", handleEscape)
     }
   }, [isOutOfStock])
+
+  useEffect(() => {
+    let active = true
+    if (items.length === 0) {
+      setFeeEstimate(null)
+      return () => { active = false }
+    }
+
+    setFeeEstimate(null)
+    getCheckoutFeeEstimate(items)
+      .then((estimate) => {
+        if (active) setFeeEstimate(estimate)
+      })
+      .catch(() => {
+        if (active) setFeeEstimate(null)
+      })
+
+    return () => { active = false }
+  }, [items])
 
   const isComplete = Boolean(
     form.email.trim() &&
@@ -507,11 +508,11 @@ export default function CheckoutPage() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
                 <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(Nigerian local payments)</span></span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
+                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.feeEstimateKobo / 100) : "Calculating…"}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
                 <span>Estimated total</span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice + estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
+                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.estimatedTotalKobo / 100) : "Calculating…"}</strong>
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>

@@ -132,3 +132,24 @@ export async function getOrderStatus(
 
   return json.data as OrderStatusResult
 }
+export interface CheckoutFeeEstimate {
+  currency: "NGN"
+  estimated: true
+  subtotalKobo: number
+  feeEstimateKobo: number
+  estimatedTotalKobo: number
+}
+
+export async function getCheckoutFeeEstimate(
+  items: CartItem[],
+): Promise<CheckoutFeeEstimate> {
+  return postJson<CheckoutFeeEstimate>("/api/checkout/fee-estimate", {
+    cart: items.map((item) => ({
+      productSlug: item.productSlug,
+      sku: item.sku ?? undefined,
+      quantity: item.quantity,
+      offerCampaignSlug: item.offerCampaignSlug,
+      offerSetId: item.offerSetId,
+    })),
+  })
+}
