@@ -44,6 +44,7 @@ export default function CheckoutPage() {
 
   const [submitting, setSubmitting] = useState(false)
   const [feeEstimate, setFeeEstimate] = useState<CheckoutFeeEstimate | null>(null)
+  const [feeEstimateUnavailable, setFeeEstimateUnavailable] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [errorCode, setErrorCode] = useState<string | null>(null)
 
@@ -98,16 +99,21 @@ export default function CheckoutPage() {
     let active = true
     if (items.length === 0) {
       setFeeEstimate(null)
+      setFeeEstimateUnavailable(false)
       return () => { active = false }
     }
 
     setFeeEstimate(null)
+    setFeeEstimateUnavailable(false)
     getCheckoutFeeEstimate(items)
       .then((estimate) => {
         if (active) setFeeEstimate(estimate)
       })
       .catch(() => {
-        if (active) setFeeEstimate(null)
+        if (active) {
+          setFeeEstimate(null)
+          setFeeEstimateUnavailable(true)
+        }
       })
 
     return () => { active = false }
@@ -504,15 +510,15 @@ export default function CheckoutPage() {
               </p>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 12, fontSize: 15 }}>
                 <span>Product subtotal</span>
-                <strong>{formatPrice(totalPrice)}</strong>
+                <strong>{formatPrice(feeEstimate ? feeEstimate.subtotalKobo / 100 : totalPrice)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
                 <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(Nigerian local payments)</span></span>
-                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.feeEstimateKobo / 100) : "Calculating…"}</strong>
+                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.feeEstimateKobo / 100) : feeEstimateUnavailable ? "Unavailable" : "Calculating…"}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
                 <span>Estimated total</span>
-                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.estimatedTotalKobo / 100) : "Calculating…"}</strong>
+                <strong style={{ textAlign: "right" }}>{feeEstimate ? formatPrice(feeEstimate.estimatedTotalKobo / 100) : feeEstimateUnavailable ? "Paystack will confirm" : "Calculating…"}</strong>
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
