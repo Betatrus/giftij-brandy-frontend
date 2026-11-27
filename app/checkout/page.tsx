@@ -61,6 +61,10 @@ export default function CheckoutPage() {
     country: "Nigeria",
   })
 
+  const [checkoutLockLoading, setCheckoutLockLoading] = useState(true)
+  const [checkoutLocked, setCheckoutLocked] = useState(false)
+  const [checkoutLockMessage, setCheckoutLockMessage] = useState("")
+
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [errorCode, setErrorCode] = useState<string | null>(null)
@@ -91,6 +95,30 @@ export default function CheckoutPage() {
     setUnavailableItems([])
     setCustomerCareWhatsApp(null)
   }
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/storefront-lock", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Checkout status unavailable")
+        return response.json()
+      })
+      .then((payload) => {
+        if (!active) return
+        setCheckoutLocked(Boolean(payload?.checkoutLocked))
+        setCheckoutLockMessage(typeof payload?.message === "string" ? payload.message : "")
+      })
+      .catch(() => {
+        if (!active) return
+        // Fail closed in the checkout UI if the authoritative lock status cannot be read.
+        setCheckoutLocked(true)
+        setCheckoutLockMessage("Checkout is temporarily unavailable. Please try again shortly.")
+      })
+      .finally(() => {
+        if (active) setCheckoutLockLoading(false)
+      })
+    return () => { active = false }
+  }, [])
 
   useEffect(() => {
     if (!isOutOfStock) return
@@ -192,7 +220,17 @@ export default function CheckoutPage() {
       </section>
 
       <main className="gb-shop-main">
-        {items.length === 0 ? (
+        {checkoutLockLoading ? (
+          <div className="gb-empty-state" role="status">
+            <p>Checking checkout availability...</p>
+          </div>
+        ) : checkoutLocked ? (
+          <section className="gb-empty-state" aria-live="polite">
+            <p style={{ fontFamily: "Georgia, serif", fontSize: 24, marginBottom: 12 }}>Checkout is temporarily unavailable</p>
+            <p>{checkoutLockMessage || "Our store is preparing for launch. Please check back soon."}</p>
+            <Link href="/shop" className="gb-btn" style={{ marginTop: 20 }}>Continue Browsing</Link>
+          </section>
+        ) : items.length === 0 ? (
           <div className="gb-empty-state">
             <p>Your cart is empty.</p>
 
