@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 function routeEmbeddedCampaignLinks(html: string, campaignUrl: string) {
-  return html.replace(/<a\\b[^>]*>/gi, (anchor) => {
-    const hrefMatch = anchor.match(/\\bhref\\s*=\\s*(["'])(.*?)\\1/i)
+  return html.replace(/<a\b[^>]*>/gi, (anchor) => {
+    const hrefMatch = anchor.match(/\bhref\s*=\s*(["'])(.*?)\1/i)
     if (!hrefMatch) return anchor
 
     let pathname = ""
@@ -14,11 +14,11 @@ function routeEmbeddedCampaignLinks(html: string, campaignUrl: string) {
       return anchor
     }
 
-    if (pathname.replace(/\\/+$/, "") !== "/offers") return anchor
+    if (pathname.replace(/\/+$/, "") !== "/offers") return anchor
 
     let updated = anchor.replace(hrefMatch[0], `href="${campaignUrl}"`)
-    if (/\\btarget\\s*=/i.test(updated)) {
-      updated = updated.replace(/\\btarget\\s*=\\s*(["']).*?\\1/i, 'target="_top"')
+    if (/\btarget\s*=/i.test(updated)) {
+      updated = updated.replace(/\btarget\s*=\s*(["']).*?\1/i, 'target="_top"')
     } else {
       updated = updated.replace(/>$/, ' target="_top">')
     }
