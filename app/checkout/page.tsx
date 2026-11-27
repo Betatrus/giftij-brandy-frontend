@@ -393,7 +393,13 @@ export default function CheckoutPage() {
                   className="gb-form-label"
                   htmlFor="co-phone"
                 >
-                  Phone (WhatsApp)
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+                    <svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true" style={{ color: "#25D366", flex: "0 0 auto" }}>
+                      <path fill="currentColor" d="M16 2.7A13.1 13.1 0 0 0 4.7 22.4L3 29l6.8-1.8A13.1 13.1 0 1 0 16 2.7Zm0 23.8c-2 0-4-.5-5.7-1.6l-.4-.2-4 .1 1.1-3.8-.3-.4A10.4 10.4 0 1 1 16 26.5Z"/>
+                      <path fill="currentColor" d="M22 18.8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-2.6-1.6 9.7 9.7 0 0 1-1.8-2.2c-.2-.3 0-.5.1-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6s-.7-1.8-1-2.5c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4a11.5 11.5 0 0 0 4.4 4c.6.3 1.1.5 1.5.6.6.2 1.2.2 1.7.1.5-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5s-.3-.3-.6-.5Z"/>
+                    </svg>
+                    WhatsApp Number
+                  </span>
                 </label>
 
                 <input
@@ -401,6 +407,7 @@ export default function CheckoutPage() {
                   type="tel"
                   className="gb-form-input"
                   placeholder="09023021320"
+                  autoComplete="tel"
                   value={form.phone}
                   onChange={(e) =>
                     update(
@@ -409,6 +416,9 @@ export default function CheckoutPage() {
                     )
                   }
                 />
+                <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "#77736B" }}>
+                  Please enter the number linked to your WhatsApp account so our team can contact you about your order.
+                </p>
               </div>
 
               <div className="gb-form-group">
