@@ -107,7 +107,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
     )
   }
 
-  const { campaign, offerSet, offerSets, products } = offer
+  const { campaign, offerSet, products } = offer
   return (
     <>
       <SiteNav theme="light" />
@@ -145,44 +145,6 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
         </section>
 
         <section className="mx-auto max-w-[1320px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
-          {offerSets.length > 1 && (
-            <nav aria-label="Campaign offer sets" className="mb-12 flex flex-wrap gap-2 border-b border-[#e8e0d8] pb-6">
-              {offerSets.map((setOption) => (
-                <Link
-                  key={setOption.id}
-                  href={setOption.id === campaign.defaultOfferSetId
-                    ? `/offers/${encodeURIComponent(campaign.slug)}`
-                    : `/offers/${encodeURIComponent(campaign.slug)}?set=${encodeURIComponent(setOption.id)}`}
-                  aria-current={setOption.id === offerSet.id ? "page" : undefined}
-                  className={`inline-flex min-h-10 items-center border px-5 text-xs font-semibold uppercase tracking-[0.12em] transition ${setOption.id === offerSet.id ? "border-[#1a1a1a] bg-[#1a1a1a] text-white" : "border-[#d8cdbb] bg-transparent text-[#625b50] hover:border-[#c9a84c]"}`}
-                >
-                  {setOption.title}
-                </Link>
-              ))}
-            </nav>
-          )}
-
-          <div className="mb-9 flex flex-wrap items-end justify-between gap-5">
-            <div>
-              <p className="gb-serif italic text-[#a9822c]">Selected for this campaign</p>
-              <h2 className="mt-2 gb-serif text-3xl text-[#1a1a1a] sm:text-4xl">{offerSet.title}</h2>
-              {offerSet.description && <p className="mt-3 max-w-2xl text-sm leading-7 text-[#766e62]">{offerSet.description}</p>}
-            </div>
-            <div className="text-sm text-[#766e62]">
-              <span>{products.length} {products.length === 1 ? "piece" : "pieces"} in this edit</span>
-              {campaign.endsAt && (
-                <span className="mt-2 block text-xs uppercase tracking-[0.1em] text-[#9b7930]">
-                  Ends {new Date(campaign.endsAt).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" })}
-                </span>
-              )}
-              {campaign.maxQualifyingOrders !== null && (
-                <span className="mt-1 block text-xs text-[#766e62]">
-                  Limited to {campaign.maxQualifyingOrders} qualifying orders
-                </span>
-              )}
-            </div>
-          </div>
-
           <div id="offer-products" className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
             {products.map((product) => (
               <Link
