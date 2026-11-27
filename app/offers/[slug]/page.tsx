@@ -88,13 +88,16 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
   }
 
   if (offer.products.length === 0) {
+    const campaign = offer.campaign
     return (
       <>
         <SiteNav theme="light" />
         <main className="min-h-[60vh] bg-[#fdfaf5] px-6 pb-20 pt-36 text-center">
-          <p className="gb-serif italic text-[#a9822c]">Giftij Brandy offers</p>
-          <h1 className="mt-3 gb-serif text-3xl text-[#1a1a1a]">Products are being refreshed</h1>
-          <p className="mt-4 text-sm leading-7 text-[#766e62]">Please explore the shop while this offer is updated.</p>
+          <CampaignBreadcrumb />
+          <p className="gb-serif italic text-[#a9822c]">Giftij Brandy campaign</p>
+          <h1 className="mt-3 gb-serif text-3xl text-[#1a1a1a] sm:text-5xl">{campaign.title}</h1>
+          {campaign.description && <p className="mx-auto mt-4 max-w-xl whitespace-pre-line text-sm leading-7 text-[#766e62]">{campaign.description}</p>}
+          <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-[#766e62]">This campaign is active. Its offer selections are currently unavailable. Please check back soon.</p>
           <Link href="/shop" className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#c9a84c] px-8 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a]">Explore the shop</Link>
         </main>
       </>

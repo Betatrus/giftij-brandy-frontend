@@ -28,10 +28,10 @@ export interface PublicOfferCampaign {
     endsAt: string | null
     maxQualifyingOrders: number | null
     qualifyingOrdersCount: number
-    defaultOfferSetId: string
+    defaultOfferSetId: string | null
   }
   offerSets: { id: string; title: string; description: string | null }[]
-  offerSet: { id: string; title: string; description: string | null }
+  offerSet: { id: string; title: string; description: string | null } | null
   products: PublicOfferProduct[]
 }
 
