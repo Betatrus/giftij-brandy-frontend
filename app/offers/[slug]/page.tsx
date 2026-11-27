@@ -107,7 +107,7 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
     )
   }
 
-  const { campaign, offerSet, products } = offer
+  const { campaign, products } = offer
   return (
     <>
       <SiteNav theme="light" />
