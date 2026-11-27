@@ -148,8 +148,8 @@ export default async function OfferPage({ params, searchParams }: PageProps) {
           <div id="offer-products" className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
             {products.map((product) => (
               <Link
-                key={product.slug}
-                href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(offerSet.id)}`}
+                key={`${product.slug}-${product.offerSetId}`}
+                href={`/product/${encodeURIComponent(product.slug)}?offer=${encodeURIComponent(campaign.slug)}&set=${encodeURIComponent(product.offerSetId)}`}
                 className="group flex h-full flex-col text-inherit no-underline"
               >
                 <div className="relative mb-4 aspect-[3/4] overflow-hidden bg-[#f0eae0]">
