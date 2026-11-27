@@ -4,6 +4,9 @@ import { SiteNav } from "@/components/layout/site-nav"
 import { formatPrice } from "@/lib/format"
 import { fetchOfferCampaign } from "@/lib/api/offers"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 interface PageProps {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ set?: string }>
