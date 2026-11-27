@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import localFont from "next/font/local"
 import { CartProvider } from "@/lib/cart/cart-context"
 import { CartAddedPopup } from "@/components/cart/cart-added-popup"
+import { StorefrontLockNotice } from "@/components/storefront/storefront-lock-notice"
 import "./globals.css"
 import "@/styles/storefront.css"
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartAddedPopup />
+          <StorefrontLockNotice />
         </CartProvider>
 
         {process.env.NODE_ENV === "production" && (
