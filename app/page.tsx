@@ -41,7 +41,7 @@ export default async function HomePage() {
           description={announcement.description}
           imageUrl={announcement.creativeImageUrl}
           announcementHtml={announcement.announcementHtml}
-          campaignUrl={`/offers/${encodeURIComponent(announcement.slug)}`}
+          campaignUrl="/shop"
           durationSeconds={12}
           ctaLabel={announcement.ctaText}
         />
