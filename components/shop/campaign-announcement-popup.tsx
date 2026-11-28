@@ -30,12 +30,12 @@ function styleCampaignAnnouncementHtml(html: string) {
   const styles = `<style>
     :root { color-scheme: light; }
     html, body { margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: #fdfaf5 !important; }
-    body { box-sizing: border-box !important; padding: clamp(22px, 4vw, 48px) !important; color: #1a1a1a !important; font-family: Arial, Helvetica, sans-serif !important; }
+    body { box-sizing: border-box !important; padding: clamp(16px, 3vw, 32px) !important; color: #1a1a1a !important; font-family: Arial, Helvetica, sans-serif !important; }
     body * { box-sizing: border-box; }
     h1, h2, h3 { color: #1a1a1a !important; font-family: Georgia, 'Times New Roman', serif !important; }
-    p, li { color: #625b50 !important; line-height: 1.75 !important; }
+    p, li { color: #625b50 !important; line-height: 1.65 !important; }
     a, strong, b { color: #9b7930 !important; }
-    img { display: block; max-width: 100% !important; height: auto !important; }
+    img { display: block; max-width: 100% !important; height: auto !important; object-fit: contain !important; }
   </style>`;
   const headEnd = html.toLowerCase().indexOf("</head>");
   return headEnd >= 0 ? html.slice(0, headEnd) + styles + html.slice(headEnd) : styles + html;
@@ -81,16 +81,16 @@ export function CampaignAnnouncementPopup({
   if (!visible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-4 z-[5000] flex justify-center px-3 sm:top-6">
+    <div className="pointer-events-none fixed inset-x-0 top-3 z-[5000] flex justify-center px-3 sm:top-5">
       <section
         aria-label={`${title} campaign announcement`}
-        className="pointer-events-auto relative w-full max-w-xl overflow-hidden border border-[#c9a84c]/50 bg-[#fdfaf5] shadow-[0_16px_48px_rgba(0,0,0,0.24)]"
+        className="pointer-events-auto relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-xl flex-col overflow-y-auto overscroll-contain border border-[#c9a84c]/50 bg-[#fdfaf5] shadow-[0_16px_48px_rgba(0,0,0,0.24)]"
       >
         <button
           type="button"
           aria-label="Close campaign announcement"
           onClick={() => setVisible(false)}
-          className="absolute right-3 top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/65 text-2xl leading-none text-white shadow-lg transition hover:bg-black"
+          className="absolute right-3 top-3 z-20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/40 bg-black/65 text-2xl leading-none text-white shadow-lg transition hover:bg-black"
         >
           ×
         </button>
@@ -100,7 +100,7 @@ export function CampaignAnnouncementPopup({
           <img
             src={imageUrl}
             alt={title}
-            className="max-h-[38vh] w-full object-cover"
+            className="block h-auto max-h-[68dvh] w-full shrink-0 bg-[#1a1a1a] object-contain object-center"
           />
         ) : announcementHtml ? (
           <iframe
@@ -108,7 +108,7 @@ export function CampaignAnnouncementPopup({
             srcDoc={styleCampaignAnnouncementHtml(routeEmbeddedCampaignLinks(announcementHtml, campaignUrl))}
             sandbox="allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer"
-            className="h-[min(38vh,360px)] w-full border-0 bg-white"
+            className="h-[min(68dvh,680px)] w-full shrink-0 border-0 bg-white"
           />
         ) : (
           <div className="relative overflow-hidden px-7 pb-6 pt-14 text-center sm:px-10 sm:pb-8 sm:pt-16">
@@ -131,14 +131,14 @@ export function CampaignAnnouncementPopup({
           </div>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#c9a84c]/25 px-4 py-3 sm:px-6">
-          <p className="text-xs tracking-wide text-[#766e62]">
-            This announcement closes automatically.
+        <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-[#c9a84c]/25 px-4 py-3 sm:px-6">
+          <p className="max-w-full text-xs leading-5 tracking-wide text-[#766e62]">
+            Offer is ending soon. Click on Shop the Offer to get our offer.
           </p>
           <a
             href={campaignUrl}
             onClick={() => setVisible(false)}
-            className="inline-flex min-h-11 items-center justify-center bg-[#c9a84c] px-6 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#dfc77f]"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center bg-[#c9a84c] px-6 text-xs font-bold uppercase tracking-[0.16em] text-[#1a1a1a] transition hover:bg-[#dfc77f]"
           >
             {ctaLabel}
           </a>

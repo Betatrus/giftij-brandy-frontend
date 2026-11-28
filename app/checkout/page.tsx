@@ -23,6 +23,28 @@ function buildWhatsAppUrl(phone: string, message?: string) {
   return `https://wa.me/${digits}${query}`
 }
 
+/**
+ * Paystack's published NGN local-fee schedule:
+ * 1.5%, plus ₦100 from ₦2,500 upward, capped at ₦2,000.
+ * The gross-up accounts for Paystack charging its percentage on the
+ * additional fee amount as well. Values are calculated in kobo.
+ */
+function estimatePaystackLocalFeeKobo(productSubtotalKobo: number) {
+  if (!Number.isFinite(productSubtotalKobo) || productSubtotalKobo <= 0) return 0
+
+  const percentageRate = 0.015
+  const flatFeeKobo = productSubtotalKobo >= 250_000 ? 10_000 : 0
+  const feeCapKobo = 200_000
+  const feeBeforeGrossUp = productSubtotalKobo * percentageRate + flatFeeKobo
+
+  if (feeBeforeGrossUp > feeCapKobo) return feeCapKobo
+
+  const grossAmountKobo =
+    Math.round((productSubtotalKobo + flatFeeKobo) / (1 - percentageRate)) + 1
+
+  return Math.min(Math.max(grossAmountKobo - productSubtotalKobo, 0), feeCapKobo)
+}
+
 export default function CheckoutPage() {
   const { items, totalPrice, totalCount } = useCart()
 
@@ -38,6 +60,10 @@ export default function CheckoutPage() {
     state: "",
     country: "Nigeria",
   })
+
+  const [checkoutLockLoading, setCheckoutLockLoading] = useState(true)
+  const [checkoutLocked, setCheckoutLocked] = useState(false)
+  const [checkoutLockMessage, setCheckoutLockMessage] = useState("")
 
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -69,6 +95,30 @@ export default function CheckoutPage() {
     setUnavailableItems([])
     setCustomerCareWhatsApp(null)
   }
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/storefront-lock", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Checkout status unavailable")
+        return response.json()
+      })
+      .then((payload) => {
+        if (!active) return
+        setCheckoutLocked(Boolean(payload?.checkoutLocked))
+        setCheckoutLockMessage(typeof payload?.message === "string" ? payload.message : "")
+      })
+      .catch(() => {
+        if (!active) return
+        // Fail closed in the checkout UI if the authoritative lock status cannot be read.
+        setCheckoutLocked(true)
+        setCheckoutLockMessage("Checkout is temporarily unavailable. Please try again shortly.")
+      })
+      .finally(() => {
+        if (active) setCheckoutLockLoading(false)
+      })
+    return () => { active = false }
+  }, [])
 
   useEffect(() => {
     if (!isOutOfStock) return
@@ -170,7 +220,17 @@ export default function CheckoutPage() {
       </section>
 
       <main className="gb-shop-main">
-        {items.length === 0 ? (
+        {checkoutLockLoading ? (
+          <div className="gb-empty-state" role="status">
+            <p>Checking checkout availability...</p>
+          </div>
+        ) : checkoutLocked ? (
+          <section className="gb-empty-state" aria-live="polite">
+            <p style={{ fontFamily: "Georgia, serif", fontSize: 24, marginBottom: 12 }}>Checkout is temporarily unavailable</p>
+            <p>{checkoutLockMessage || "Our store is preparing for launch. Please check back soon."}</p>
+            <Link href="/shop" className="gb-btn" style={{ marginTop: 20 }}>Continue Browsing</Link>
+          </section>
+        ) : items.length === 0 ? (
           <div className="gb-empty-state">
             <p>Your cart is empty.</p>
 
@@ -333,7 +393,13 @@ export default function CheckoutPage() {
                   className="gb-form-label"
                   htmlFor="co-phone"
                 >
-                  Phone (WhatsApp)
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+                    <svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true" style={{ color: "#25D366", flex: "0 0 auto" }}>
+                      <path fill="currentColor" d="M16 2.7A13.1 13.1 0 0 0 4.7 22.4L3 29l6.8-1.8A13.1 13.1 0 1 0 16 2.7Zm0 23.8c-2 0-4-.5-5.7-1.6l-.4-.2-4 .1 1.1-3.8-.3-.4A10.4 10.4 0 1 1 16 26.5Z"/>
+                      <path fill="currentColor" d="M22 18.8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-2.6-1.6 9.7 9.7 0 0 1-1.8-2.2c-.2-.3 0-.5.1-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6s-.7-1.8-1-2.5c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4a11.5 11.5 0 0 0 4.4 4c.6.3 1.1.5 1.5.6.6.2 1.2.2 1.7.1.5-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5s-.3-.3-.6-.5Z"/>
+                    </svg>
+                    WhatsApp Number
+                  </span>
                 </label>
 
                 <input
@@ -341,6 +407,7 @@ export default function CheckoutPage() {
                   type="tel"
                   className="gb-form-input"
                   placeholder="09023021320"
+                  autoComplete="tel"
                   value={form.phone}
                   onChange={(e) =>
                     update(
@@ -349,6 +416,9 @@ export default function CheckoutPage() {
                     )
                   }
                 />
+                <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "#77736B" }}>
+                  Please enter the number linked to your WhatsApp account so our team can contact you about your order.
+                </p>
               </div>
 
               <div className="gb-form-group">
@@ -484,19 +554,19 @@ export default function CheckoutPage() {
                 <strong>{formatPrice(totalPrice)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 14, fontSize: 15 }}>
-                <span>Paystack processing fee</span>
-                <strong style={{ textAlign: "right" }}>Calculated by Paystack</strong>
+                <span>Estimated Paystack fee <span style={{ fontSize: 12, color: "#777" }}>(Nigerian local payments)</span></span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, paddingTop: 14, borderTop: "1px solid rgba(32, 32, 32, 0.14)", fontWeight: 700, fontSize: 16 }}>
-                <span>Total payable</span>
-                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice)} + Paystack fee</strong>
+                <span>Estimated total</span>
+                <strong style={{ textAlign: "right" }}>{formatPrice(totalPrice + estimatePaystackLocalFeeKobo(Math.round(totalPrice * 100)) / 100)}</strong>
               </div>
-              <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 15, lineHeight: 1.85, color: "#4b4741" }}>
+              <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(32, 32, 32, 0.08)", fontSize: 14, lineHeight: 1.8, color: "#4b4741" }}>
                 <p style={{ margin: "0 0 12px" }}>
-                  Paystack calculates and displays the applicable processing fee before you confirm payment.
+                  This is an estimate for Nigerian local payments. Paystack confirms the actual processing fee during payment.
                 </p>
                 <p style={{ margin: "0 0 12px" }}>
-                  Nigerian local payments follow Paystack&apos;s local pricing; international card payments may attract different fees depending on the card and payment method.
+                  International cards and some payment methods may attract different fees, so the final amount shown by Paystack can differ from this estimate.
                 </p>
                 <p style={{ margin: 0 }}>
                   Once you place your order and continue to payment, we&apos;ll reserve your bag for <strong>10 minutes</strong> while you complete checkout.

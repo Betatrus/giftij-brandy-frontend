@@ -42,7 +42,7 @@ export default async function HomePage() {
           imageUrl={announcement.creativeImageUrl}
           announcementHtml={announcement.announcementHtml}
           campaignUrl={`/offers/${encodeURIComponent(announcement.slug)}`}
-          durationSeconds={5}
+          durationSeconds={12}
           ctaLabel={announcement.ctaText}
         />
       )}

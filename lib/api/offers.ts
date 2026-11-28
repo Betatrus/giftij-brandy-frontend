@@ -28,10 +28,10 @@ export interface PublicOfferCampaign {
     endsAt: string | null
     maxQualifyingOrders: number | null
     qualifyingOrdersCount: number
-    defaultOfferSetId: string
+    defaultOfferSetId: string | null
   }
   offerSets: { id: string; title: string; description: string | null }[]
-  offerSet: { id: string; title: string; description: string | null }
+  offerSet: { id: string; title: string; description: string | null } | null
   products: PublicOfferProduct[]
 }
 
@@ -52,7 +52,7 @@ export const fetchOfferCampaign = cache(async (slug: string, offerSetId?: string
   try {
     const response = await fetch(
       `${SERVER_API_BASE}/offers/${encodeURIComponent(slug)}${offerSetId ? `?set=${encodeURIComponent(offerSetId)}` : ""}`,
-      { headers: { "X-Storefront-Key": getStorefrontApiSecret() }, next: { revalidate: 15 } },
+      { headers: { "X-Storefront-Key": getStorefrontApiSecret() }, cache: "no-store" },
     )
     if (!response.ok) return null
     const json = await response.json()

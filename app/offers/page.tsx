@@ -74,7 +74,7 @@ export default async function OffersDirectoryPage() {
             <div className="py-16 text-center">
               <h2 className="font-display text-2xl">No active offers right now</h2>
               <p className="mt-3 text-sm leading-6 text-[#625b50]">Please check back soon, or explore the latest collections in our shop.</p>
-              <Link href="/shop" className="mt-6 inline-flex min-h-11 items-center justify-center bg-[#1a1a1a] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#c9a84c] hover:text-[#1a1a1a]">Explore the shop</Link>
+              <Link href="/shop" className="mt-6 inline-flex min-h-11 items-center justify-center bg-[#c9a84c] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-[#1a1a1a] transition hover:bg-[#dfc77f]">Explore the shop</Link>
             </div>
           )}
         </section>
